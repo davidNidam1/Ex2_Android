@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Ex2-Android</string>
+    <string name="app_name">Facybook</string>
+    <string name="signup_invitation">Create New Account</string>
+    <string name="log_in">Log In</string>
+    <string name="password_hint">Password</string>
+    <string name="username_hint">Username</string>
+    <string name="logo_description">apps logo</string>
+    <string name="forgot_password_question">Forgot password?</string>
 </resources>
