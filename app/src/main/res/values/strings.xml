@@ -21,4 +21,10 @@
     <string name="post_caption">Morning Coffee:)</string>
     <string name="like_btn_description">like_btn</string>
     <string name="share_btn_description">share_btn</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="verify_password">Verify Password</string>
+    <string name="nickname">Nickname</string>
+    <string name="upload_picture">Upload Picture</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

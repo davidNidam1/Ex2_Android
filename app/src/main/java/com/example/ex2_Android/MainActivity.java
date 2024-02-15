@@ -1,4 +1,4 @@
-package com.example.exc2_Android;
+package com.example.ex2_Android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import com.example.ex2_android.R;
 
-import com.example.exc2_Android.feed.feed;
-import com.example.exc2_Android.sign_up.sign_up;
+import com.example.ex2_Android.feed.feed;
+import com.example.ex2_Android.sign_up.sign_up;
 
 public class MainActivity extends AppCompatActivity {
 

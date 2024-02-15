@@ -13,13 +13,13 @@
         android:theme="@style/Theme.Ex2Android"
         tools:targetApi="31">
         <activity
-            android:name="com.example.exc2_Android.feed.feed"
+            android:name="com.example.ex2_Android.feed.feed"
             android:exported="false" />
         <activity
-            android:name="com.example.exc2_Android.sign_up.sign_up"
+            android:name="com.example.ex2_Android.sign_up.sign_up"
             android:exported="false" />
         <activity
-            android:name="com.example.exc2_Android.MainActivity"
+            android:name="com.example.ex2_Android.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.exc2_Android.sign_up;
+package com.example.ex2_Android.sign_up;
 
 import androidx.appcompat.app.AppCompatActivity;
 
