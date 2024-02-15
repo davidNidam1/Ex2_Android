@@ -6,4 +6,19 @@
     <string name="username_hint">Username</string>
     <string name="logo_description">apps logo</string>
     <string name="forgot_password_question">Forgot password?</string>
+    <string name="user_profile_picture">profile picture</string>
+    <string name="user_name_feed">User Name</string>
+    <string name="post_text">Post Text</string>
+    <string name="time_posted">Time Posted</string>
+    <string name="user_name">User Name</string>
+    <string name="number_likes">100 Likes</string>
+    <string name="number_comments">50 Comments</string>
+    <string name="comment_btn">comment</string>
+    <string name="share_btn">Share</string>
+    <string name="like_btn">Like</string>
+    <string name="post_description">this presents the posted picture</string>
+    <string name="time_published">3 hours ago</string>
+    <string name="post_caption">Morning Coffee:)</string>
+    <string name="like_btn_description">like_btn</string>
+    <string name="share_btn_description">share_btn</string>
 </resources>

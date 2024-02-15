@@ -37,7 +37,7 @@
             app:drawableTopCompat="@drawable/app_logo" />
 
         <EditText
-            android:id="@+id/editTextUsername"
+            android:id="@+id/Username"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="16dp"
@@ -49,7 +49,7 @@
 
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/Password"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="16dp"
@@ -60,7 +60,7 @@
             android:padding="7dp" />
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/btnLogIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -81,14 +81,12 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#FF4CAF50"
-        android:shadowColor="#EDE7E7"
         android:text="@string/signup_invitation"
         android:textColor="#FFFCFC"
-        android:textColorHighlight="#4CAF50"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
