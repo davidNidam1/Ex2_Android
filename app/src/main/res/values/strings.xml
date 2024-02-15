@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">facybook</string>
+    <string name="add_picture">Add Picture</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
