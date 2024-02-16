@@ -1,24 +1,23 @@
 package com.example.ex2_Android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ex2_android.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ex2_Android.feed.feed;
 import com.example.ex2_Android.sign_up.sign_up;
+import com.example.ex2_android.R;
 
 public class MainActivity extends AppCompatActivity {
+    EditText Username;
+    EditText Password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EditText Username;
-        EditText Password;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -45,5 +44,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Clear the username and password fields when the activity resumes
+        Username.setText("");
+        Password.setText("");
     }
 }

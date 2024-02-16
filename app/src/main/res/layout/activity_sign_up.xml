@@ -35,83 +35,83 @@
     <!-- Username Field -->
     <EditText
         android:id="@+id/edit_text_username"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/white_box_background"
         android:hint="@string/username"
         android:inputType="text"
-        android:background="@drawable/white_box_background"
-        app:layout_constraintStart_toStartOf="parent"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_name"
-        android:layout_marginTop="16dp"
-        android:padding="10dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_name" />
 
     <!-- Password Field -->
     <EditText
         android:id="@+id/edit_text_password"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_username"
         android:layout_marginTop="16dp"
         android:background="@drawable/white_box_background"
-        android:padding="10dp"/>
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_username" />
 
     <!-- Password Verification Field -->
     <EditText
         android:id="@+id/edit_text_password_verify"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/white_box_background"
         android:hint="@string/verify_password"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_password"
-        android:background="@drawable/white_box_background"
         android:padding="10dp"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_password" />
 
     <!-- Nickname Field -->
     <EditText
         android:id="@+id/edit_text_nickname"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/white_box_background"
         android:hint="@string/nickname"
         android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_password_verify"
-        android:background="@drawable/white_box_background"
         android:padding="10dp"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_password_verify" />
 
     <!-- Picture Upload Button -->
     <Button
         android:id="@+id/button_upload_picture"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/upload_picture"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_nickname"
         android:layout_marginTop="16dp"
         android:backgroundTint="#FD223DD5"
-        android:shadowColor="#EDE7E7"/>
+        android:shadowColor="#EDE7E7"
+        android:text="@string/upload_picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_nickname" />
 
     <!-- Sign Up Button -->
     <Button
         android:id="@+id/button_sign_up"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
         android:backgroundTint="#FF4CAF50"
         android:text="@string/sign_up"
+        android:textColor="#FF000000"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_upload_picture" />

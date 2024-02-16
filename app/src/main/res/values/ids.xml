@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="user_profile_name" type="id" />
+    <item name="swipe_refresh_layout" type="id" />
+    <item name="lstPosts" type="id" />
+    <item name="linearLayout" type="id" />
+    <item name="textAppName" type="id" />
+    <item name="Username" type="id" />
+    <item name="Password" type="id" />
+    <item name="btnLogIn" type="id" />
+    <item name="textViewSignUp" type="id" />
+    <item name="btnSignUp" type="id" />
+    <item name="time_published" type="id" />
+    <item name="user_profile_picture" type="id" />
+    <item name="post_content" type="id" />
+    <item name="post_picture" type="id" />
+    <item name="search_box" type="id" />
+    <item name="light_mode_switch" type="id" />
+    <item name="toolbar" type="id" />
+    <item name="btn_plus" type="id" />
+    <item name="btn_menu" type="id" />
+    <item name="linearLayout2" type="id" />
+</resources>

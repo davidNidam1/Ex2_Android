@@ -27,4 +27,9 @@
     <string name="nickname">Nickname</string>
     <string name="upload_picture">Upload Picture</string>
     <string name="sign_up">Sign Up</string>
+    <string name="search_box_hint">Search</string>
+    <string name="light_mode_switch">Light Mode</string>
+    <string name="menu_button">menu for feed</string>
+    <string name="plus_button">add post to feed</string>
+    <string name="edit_btn_description">edit post</string>
 </resources>

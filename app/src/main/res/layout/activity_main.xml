@@ -2,11 +2,13 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E9081698"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="20dp"
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -86,7 +88,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FF4CAF50"
         android:text="@string/signup_invitation"
-        android:textColor="#FFFCFC"
+        android:textColor="#FF000000"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
