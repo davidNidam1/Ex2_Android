@@ -19,7 +19,7 @@ public class Post {
     private int pic;
 
     public Post() {
-        this.pic = R.drawable.user_icon;
+        this.pic = R.drawable.user_post;
     }
 
     public Post(String username, String content, int pic) {

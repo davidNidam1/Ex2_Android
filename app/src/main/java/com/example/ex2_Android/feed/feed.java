@@ -26,13 +26,12 @@ public class feed extends AppCompatActivity {
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
         List<Post> posts = new ArrayList<>();
-        posts.add(new Post("Alice", "Hello World", R.drawable.user_icon));
-        posts.add(new Post("Alice", "Hello World", R.drawable.user_icon));
-        posts.add(new Post("Alice", "Hello World", R.drawable.user_icon));
-        posts.add(new Post("Alice", "Hello World", R.drawable.user_icon));
-        posts.add(new Post("Alice", "Hello World", R.drawable.user_icon));
-        posts.add(new Post("Alice", "Hello World", R.drawable.user_icon));
+        posts.add(new Post("Alice", "Hello World", R.drawable.user_post));
+        posts.add(new Post("Alice", "Hello World", R.drawable.user_post));
+        posts.add(new Post("Alice", "Hello World", R.drawable.user_post));
+        posts.add(new Post("Alice", "Hello World", R.drawable.user_post));
+        posts.add(new Post("Alice", "Hello World", R.drawable.user_post));
+        posts.add(new Post("Alice", "Hello World", R.drawable.user_post));
         adapter.setPosts(posts);
     }
-
 }
