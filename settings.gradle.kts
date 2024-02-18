@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "facybook"
+rootProject.name = "Ex2-Android"
 include(":app")
- 
+

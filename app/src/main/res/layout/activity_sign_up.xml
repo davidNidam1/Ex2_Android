@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E9081698"
+    android:padding="20dp">
+
+    <!-- App Name and Logo -->
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/app_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/white"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/app_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:padding="7dp"/>
+
+    <!-- Username Field -->
+    <EditText
+        android:id="@+id/edit_text_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:background="@drawable/white_box_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_name"
+        android:layout_marginTop="16dp"
+        android:padding="10dp" />
+
+    <!-- Password Field -->
+    <EditText
+        android:id="@+id/edit_text_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_username"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/white_box_background"
+        android:padding="10dp"/>
+
+    <!-- Password Verification Field -->
+    <EditText
+        android:id="@+id/edit_text_password_verify"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/verify_password"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_password"
+        android:background="@drawable/white_box_background"
+        android:padding="10dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Nickname Field -->
+    <EditText
+        android:id="@+id/edit_text_nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/nickname"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_password_verify"
+        android:background="@drawable/white_box_background"
+        android:padding="10dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Picture Upload Button -->
+    <Button
+        android:id="@+id/button_upload_picture"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_nickname"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FD223DD5"
+        android:shadowColor="#EDE7E7"/>
+
+    <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/button_sign_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#FF4CAF50"
+        android:text="@string/sign_up"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_upload_picture" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
