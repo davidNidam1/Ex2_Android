@@ -1,42 +1,99 @@
 package com.example.ex2_Android.enteties;
 
+import android.graphics.drawable.Drawable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.ex2_android.R;
+import java.util.List;
 
 @Entity
 public class Post {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private String id;
     private String username;
     private String timePublished;
     private String content;
-
     private int likes;
+    private List<Comment> comments;
 
-    private int pic;
+    private String profilePath;
 
-    public Post() {
-        this.pic = R.drawable.user_post;
-    }
+    private String postPath;
+    private Drawable profilePic;
 
-    public Post(String username, String content, int pic) {
+    private Drawable postPic;
+
+    private boolean isLiked;
+
+    public Post(String username, String content, Drawable profilePic, Drawable postPic,
+                int likes, String id) {
         this.username = username;
         this.content = content;
-        this.pic = pic;
+        this.profilePic = profilePic;
+        this.postPic = postPic;
+        this.isLiked = false;
+        this.likes = likes;
+        this.id = id;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public String getLikesString() {
+        return likes + " " + "likes";
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+    public String getProfilePath() {
+        return profilePath;
+    }
+
+    public void setProfilePath(String profilePath) {
+        this.profilePath = profilePath;
+    }
+
+    public String getPostPath() {
+        return postPath;
+    }
+
+    public void setPostPath(String postPath) {
+        this.postPath = postPath;
     }
 
     public int getLikes() {
         return likes;
     }
 
-    public int getPic() {
-        return pic;
+    public Drawable getProfilePic() {
+        return profilePic;
     }
 
-    public int getId() {
+    public void setProfilePic(Drawable profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public Drawable getPostPic() {
+        return postPic;
+    }
+
+    public void setPostPic(Drawable postPic) {
+        this.postPic = postPic;
+    }
+
+    public String getId() {
         return id;
     }
 
@@ -52,7 +109,7 @@ public class Post {
         return content;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -72,8 +129,5 @@ public class Post {
         this.likes = likes;
     }
 
-    public void setPic(int pic) {
-        this.pic = pic;
-    }
 }
 

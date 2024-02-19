@@ -35,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
         btnLogIn.setOnClickListener(v -> {
             String username = Username.getText().toString();
             String password = Password.getText().toString();
-            if (username.equals("user") || password.equals("password")) {
-                Intent i =  new Intent(this, feed.class);
-                startActivity(i);
-            } else {
+            if (!username.equals("user") || !password.equals("password")) {
                 Toast.makeText(MainActivity.this,
                         "Incorrect username or password", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent i =  new Intent(this, feed.class);
+                startActivity(i);
             }
 
         });

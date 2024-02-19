@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Ex2Android"
         tools:targetApi="31">
         <activity
+            android:name="com.example.ex2_Android.feed.comments"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ex2_Android.feed.menu"
+            android:exported="false" />
+        <activity
             android:name="com.example.ex2_Android.feed.feed"
             android:exported="false" />
         <activity

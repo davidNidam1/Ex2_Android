@@ -32,4 +32,18 @@
     <string name="menu_button">menu for feed</string>
     <string name="plus_button">add post to feed</string>
     <string name="edit_btn_description">edit post</string>
+    <string name="menu_caption">Menu</string>
+    <string name="settings"> settings btn </string>
+    <string name="search"> search btn </string>
+    <string name="profile_picture" />
+    <string name="friends">Friends</string>
+    <string name="marketplace">Marketplace</string>
+    <string name="video">Video</string>
+    <string name="groups">Groups</string>
+    <string name="saved">Saved</string>
+    <string name="memories">Memories</string>
+    <string name="view_profile">View profile</string>
+    <string name="add_comment">Add comment</string>
+    <string name="delete_btn_description">delete comment</string>
+    <string name="edit_comment_btn">edit comment</string>
 </resources>
