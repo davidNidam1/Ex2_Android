@@ -3,14 +3,17 @@ package com.example.ex2_Android.feed;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ex2_Android.adapters.PostsListAdapter;
+import com.example.ex2_Android.enteties.DrawableUtils;
 import com.example.ex2_Android.enteties.Post;
 import com.example.ex2_android.R;
 
@@ -25,18 +28,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class feed extends AppCompatActivity {
+    private static final int REQUEST_CREATE_POST = 1001 ;
+    private static final int REQUEST_EDIT_POST = 200 ;
+    private ShareFragment shareFragment;
+    private List<Post> posts;
+    private PostsListAdapter postsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
+        shareFragment = new ShareFragment();
+        posts = new ArrayList<>();
+
+        setupRecyclerView();
+        setupButtons();
+        addExistingPosts();
+    }
+
+    private void setupRecyclerView() {
         RecyclerView lstPosts = findViewById(R.id.lstPosts);
-        final PostsListAdapter postsAdapter = new PostsListAdapter(this);
+        postsAdapter = new PostsListAdapter(this, shareFragment);
         lstPosts.setAdapter(postsAdapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        List<Post> posts = new ArrayList<>();
+    private void setupButtons() {
+        ImageButton btnMenu = findViewById(R.id.btn_menu);
+        btnMenu.setOnClickListener(v -> {
+            Intent i = new Intent(feed.this, menu.class);
+            startActivity(i);
+        });
+
+
+        ImageButton btnAddPost = findViewById(R.id.btn_plus);
+        btnAddPost.setOnClickListener(v -> {
+            Intent i = new Intent(feed.this, CreateNewPost.class);
+            startActivityForResult(i, REQUEST_CREATE_POST);
+        });
+    }
+
+    private void addExistingPosts() {
         try {
             // Read JSON file from assets folder
             InputStream inputStream = getAssets().open("posts.json");
@@ -55,9 +88,10 @@ public class feed extends AppCompatActivity {
                 String username = postObject.getString("username");
                 String postContent = postObject.getString("post_content");
                 int likes = postObject.getInt("likes");
+                String time = postObject.getString("time");
                 String id = postObject.getString("id");
 
-                 //Load user profile picture from assets
+                // Load user profile picture from assets
                 AssetManager assetManager = getAssets();
                 String userProfileFileName = postObject.getString("user_profile");
                 InputStream userProfileStream = assetManager.open(userProfileFileName);
@@ -72,20 +106,40 @@ public class feed extends AppCompatActivity {
 
                 // Add the post to the list
                 posts.add(new Post(username, postContent, userProfileDrawable, postPictureDrawable,
-                        likes, id));
+                        likes, id, time));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
+        // Update the RecyclerView
         postsAdapter.setPosts(posts);
-
-        ImageButton btnMenu = findViewById(R.id.btn_menu);
-        btnMenu.setOnClickListener(v -> {
-            Intent i =  new Intent(feed.this, menu.class);
-                startActivity(i);
-        });
-
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CREATE_POST && resultCode == RESULT_OK && data != null) {
+            // Retrieve data from the CreateNewPost activity
+            String postContent = data.getStringExtra("post_content");
+            String mediaUriString = data.getStringExtra("media_uri");
+            Drawable profilePic = getDrawable(R.drawable.user_ico);
 
+            // Convert mediaUriString to Uri
+            Uri mediaUri = null;
+            if (mediaUriString != null && !mediaUriString.isEmpty()) {
+                mediaUri = Uri.parse(mediaUriString);
+            }
+            Drawable postPic = DrawableUtils.createDrawableFromUri(this, mediaUri);
+
+            // Create a new Post object with the retrieved data
+            Post newPost = new Post("nickName", postContent, profilePic, postPic,
+                    0, "100", "right now");
+
+            // Add the new post to the adapter
+            postsAdapter.add(newPost);
+            postsAdapter.reload();
+        }
+    }
 }
+
+

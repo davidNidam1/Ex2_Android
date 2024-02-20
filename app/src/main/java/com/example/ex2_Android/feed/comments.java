@@ -3,6 +3,8 @@ package com.example.ex2_Android.feed;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -77,5 +79,20 @@ public class comments extends AppCompatActivity {
         }
 
         adapter.setComments(comments);
+
+        ImageButton sendBtn = findViewById(R.id.sendButton);
+        sendBtn.setOnClickListener(v -> {
+            EditText comment = findViewById(R.id.commentEditText);
+            String commentText = comment.getText().toString();
+            Drawable profilePic = getDrawable(R.drawable.user_ico);
+            Comment e = new Comment(profilePic, commentText, "nickName");
+            if (!commentText.isEmpty()) {
+                List<Comment> commentsL = adapter.getComments();
+                commentsL.add(e);
+                adapter.setComments(commentsL);
+                adapter.reload();
+            }
+        });
+
     }
 }

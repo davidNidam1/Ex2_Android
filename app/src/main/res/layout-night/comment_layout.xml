@@ -48,26 +48,6 @@
                 android:textColor="@color/black"
                 android:padding="5dp"/>
 
-            <EditText
-                android:id="@+id/comment_text_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:padding="5dp"
-                android:visibility="gone"
-                android:autofillHints="textMultiLine"
-                android:inputType="textMultiLine" />
-
-            <ImageButton
-                android:id="@+id/sendButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/send_ico"
-                android:background="@color/white"
-                android:contentDescription="@string/send_button_description"
-                android:visibility="gone"/>
-
         </LinearLayout>
 
         <LinearLayout

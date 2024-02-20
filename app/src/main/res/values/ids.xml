@@ -45,4 +45,12 @@
     <item name="linear_layout_buttons" type="id" />
     <item name="editCommentBtn" type="id" />
     <item name="deleteCommentBtn" type="id" />
+    <item name="btnMessenger" type="id" />
+    <item name="btnWhatsApp" type="id" />
+    <item name="btnGroup" type="id" />
+    <item name="btnYourStory" type="id" />
+    <item name="btnCopyLink" type="id" />
+    <item name="fragment_container" type="id" />
+    <item name="sendButton" type="id" />
+    <item name="post_content_edit" type="id" />
 </resources>

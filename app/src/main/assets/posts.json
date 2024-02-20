@@ -6,6 +6,7 @@
       "post_content": "morning coffee:)",
       "picture": "user_post1.webp",
       "likes": 30,
+      "time": "3 weeks ago",
       "id": 1,
       "comments": [
         {
@@ -26,6 +27,7 @@
       "post_content": "our wedding day!",
       "picture": "user_post2.webp",
       "likes": 100,
+      "time": "3 weeks ago",
       "id": 2,
       "comments": [
         {
@@ -41,6 +43,7 @@
       "post_content": "it's starting to feel like christmas",
       "picture": "user_post3.webp",
       "likes": 300,
+      "time": "3 weeks ago",
       "id": 3,
       "comments": [
         {
@@ -61,6 +64,7 @@
       "post_content": "after 60 years they're still able to surprise me!",
       "picture": "user_post4.webp",
       "likes": 30,
+      "time": "3 weeks ago",
       "id": 4,
       "comments": [
         {
@@ -81,6 +85,7 @@
       "post_content": "a great trip to the shuk!",
       "picture": "user_post5.webp",
       "likes": 120,
+      "time": "3 weeks ago",
       "id": 5,
       "comments": [
         {
@@ -101,6 +106,7 @@
       "post_content": "what a beautiful sunset",
       "picture": "user_post6.webp",
       "likes": 40,
+      "time": "3 weeks ago",
       "id": 6,
       "comments": [
         {
@@ -121,6 +127,7 @@
       "post_content": "haha look who took over the rally",
       "picture": "user_post7.webp",
       "likes": 10,
+      "time": "3 weeks ago",
       "id": 7,
       "comments": [
         {
@@ -141,6 +148,7 @@
       "post_content": "get your dental appointment today!",
       "picture": "user_post8.webp",
       "likes": 10,
+      "time": "3 weeks ago",
       "id": 8,
       "comments": [
         {
@@ -161,6 +169,7 @@
       "post_content": "our beautiful Chrissy",
       "picture": "user_post9.webp",
       "likes": 10,
+      "time": "3 weeks ago",
       "id": 9,
       "comments": [
         {
@@ -181,6 +190,7 @@
       "post_content": "no caption just action;)",
       "picture": "user_post10.webp",
       "likes": 400,
+      "time": "3 weeks ago",
       "id": 10,
       "comments": [
         {

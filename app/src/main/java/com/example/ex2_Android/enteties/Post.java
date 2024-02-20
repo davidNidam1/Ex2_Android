@@ -1,6 +1,9 @@
 package com.example.ex2_Android.enteties;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -28,7 +31,7 @@ public class Post {
     private boolean isLiked;
 
     public Post(String username, String content, Drawable profilePic, Drawable postPic,
-                int likes, String id) {
+                int likes, String id, String timePublished) {
         this.username = username;
         this.content = content;
         this.profilePic = profilePic;
@@ -36,6 +39,7 @@ public class Post {
         this.isLiked = false;
         this.likes = likes;
         this.id = id;
+        this.timePublished = timePublished;
     }
 
     public List<Comment> getComments() {
@@ -88,6 +92,10 @@ public class Post {
     public Drawable getPostPic() {
         return postPic;
     }
+
+    public Uri getPostPicUri(Context context)
+    { Bitmap bitmap = DrawableUtils.drawableToBitmap(postPic);
+        return DrawableUtils.bitmapToUri(context, bitmap);}
 
     public void setPostPic(Drawable postPic) {
         this.postPic = postPic;

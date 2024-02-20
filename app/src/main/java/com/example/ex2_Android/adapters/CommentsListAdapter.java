@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +52,14 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             holder.author.setText(current.getUsername());
             holder.content.setText(current.getContent());
             holder.profilePicture.setImageDrawable(current.getProfilePic());
+
+            ImageButton deleteBtn = holder.itemView.findViewById(R.id.deleteCommentBtn);
+            final int adapterPosition = holder.getAdapterPosition();
+            deleteBtn.setOnClickListener(v -> {
+                remove(adapterPosition);
+                reload();
+            });
+
         }
     }
 
@@ -68,5 +77,16 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public void reload() {
+        notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        if (position != -1) {
+            comments.remove(position); // Remove the post from the list
+            notifyItemRemoved(position); // Notify adapter about the item removal
+        }
     }
 }

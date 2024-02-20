@@ -46,4 +46,16 @@
     <string name="add_comment">Add comment</string>
     <string name="delete_btn_description">delete comment</string>
     <string name="edit_comment_btn">edit comment</string>
+    <string name="messenger">Messenger</string>
+    <string name="group">Group</string>
+    <string name="your_story">Your Story</string>
+    <string name="copy_link">Copy Link</string>
+    <string name="attach_media_btn">Attach Media</string>
+    <string name="post_btn">Post</string>
+    <string name="what_s_on_your_mind_caption">What\'s on your mind?</string>
+    <string name="preview_of_picture_despription">preview of picture</string>
+    <string name="send_button_description">sent button for comments</string>
+    <string name="post_content_edit">edit text of post</string>
+    <string name="save_changes">Save changes</string>
+    <string name="edit_comment_description">edit comment</string>
 </resources>

@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent i =  new Intent(this, feed.class);
                 startActivity(i);
             }
-
         });
     }
 
