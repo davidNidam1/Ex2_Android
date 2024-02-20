@@ -44,12 +44,7 @@ public class sign_up extends AppCompatActivity {
         nicknameEditText = findViewById(R.id.edit_text_nickname);
 
         Button signUpButton = findViewById(R.id.button_sign_up);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signUp();
-            }
-        });
+        signUpButton.setOnClickListener(v -> signUp());
 
         Button uploadPictureButton = findViewById(R.id.button_upload_picture);
         uploadPictureButton.setOnClickListener(v -> openGallery());

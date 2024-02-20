@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Ex2-Android"
 include(":app")
+
