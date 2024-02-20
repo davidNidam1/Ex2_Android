@@ -31,7 +31,7 @@ First, create a react directory and than:
 
 2. **Open Command Prompt**: Navigate to the directory where you downloaded the repository using the Command Prompt.
 
-3. **Run App**: Type the command `npm start` to start the development server.
+3. **Run App**: press App > run app.
 
 4. **Test the App**: You can test the app using an emulator or by connecting a real Android phone to your computer. It's recommended to connect a real phone for the best experience.
 
