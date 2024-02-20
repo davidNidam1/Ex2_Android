@@ -1,8 +1,8 @@
 package com.example.facybook;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ex2_android.R;
 
