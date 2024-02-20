@@ -1,0 +1,209 @@
+{
+  "posts": [
+    {
+      "username": "Anna123",
+      "user_profile": "user_profile1.webp",
+      "post_content": "morning coffee:)",
+      "picture": "user_post1.webp",
+      "likes": 30,
+      "time": "3 weeks ago",
+      "id": 1,
+      "comments": [
+        {
+          "username": "conrad33",
+          "user_profile": "user_profile2.webp",
+          "comment_content": "looks great"
+        },
+        {
+          "username": "emilia242",
+          "user_profile": "user_profile3.webp",
+          "comment_content": "I wish i could join you!"
+        }
+      ]
+    },
+    {
+      "username": "conrad33",
+      "user_profile": "user_profile2.webp",
+      "post_content": "our wedding day!",
+      "picture": "user_post2.webp",
+      "likes": 100,
+      "time": "3 weeks ago",
+      "id": 2,
+      "comments": [
+        {
+          "username": "Anna123",
+          "user_profile": "user_profile1.webp",
+          "comment_content": "beautiful couple!"
+        }
+      ]
+    },
+    {
+      "username": "emilia242",
+      "user_profile": "user_profile3.webp",
+      "post_content": "it's starting to feel like christmas",
+      "picture": "user_post3.webp",
+      "likes": 300,
+      "time": "3 weeks ago",
+      "id": 3,
+      "comments": [
+        {
+          "username": "Anna123",
+          "user_profile": "user_profile1.webp",
+          "comment_content": "I already got you a present:)"
+        },
+        {
+          "username": "conrad33",
+          "user_profile": "user_profile2.webp",
+          "comment_content": "my favorite time of the year"
+        }
+      ]
+    },
+    {
+      "username": "ValeriaSimon",
+      "user_profile": "user_profile4.webp",
+      "post_content": "after 60 years they're still able to surprise me!",
+      "picture": "user_post4.webp",
+      "likes": 30,
+      "time": "3 weeks ago",
+      "id": 4,
+      "comments": [
+        {
+          "username": "conrad33",
+          "user_profile": "user_profile2.webp",
+          "comment_content": "happy birthday mom!"
+        },
+        {
+          "username": "Anna123",
+          "user_profile": "user_profile1.webp",
+          "comment_content": "so good to see you happy mrs.Simon!"
+        }
+      ]
+    },
+    {
+      "username": "Dana99",
+      "user_profile": "user_profile5.webp",
+      "post_content": "a great trip to the shuk!",
+      "picture": "user_post5.webp",
+      "likes": 120,
+      "time": "3 weeks ago",
+      "id": 5,
+      "comments": [
+        {
+          "username": "Li243",
+          "user_profile": "user_profile6.webp",
+          "comment_content": "I must know where it is!"
+        },
+        {
+          "username": "Cole007",
+          "user_profile": "user_profile8.webp",
+          "comment_content": "love you babe"
+        }
+      ]
+    },
+    {
+      "username": "Li243",
+      "user_profile": "user_profile6.webp",
+      "post_content": "what a beautiful sunset",
+      "picture": "user_post6.webp",
+      "likes": 40,
+      "time": "3 weeks ago",
+      "id": 6,
+      "comments": [
+        {
+          "username": "Dana99",
+          "user_profile": "user_profile5.webp",
+          "comment_content": "Wow!"
+        },
+        {
+          "username": "SelenaMarcia89",
+          "user_profile": "user_profile9.webp",
+          "comment_content": "marvellous!"
+        }
+      ]
+    },
+    {
+      "username": "Michella666",
+      "user_profile": "user_profile7.webp",
+      "post_content": "haha look who took over the rally",
+      "picture": "user_post7.webp",
+      "likes": 10,
+      "time": "3 weeks ago",
+      "id": 7,
+      "comments": [
+        {
+          "username": "emilia242",
+          "user_profile": "user_profile3.webp",
+          "comment_content": "You're so bad!!"
+        },
+        {
+          "username": "Dana99",
+          "user_profile": "user_profile5.webp",
+          "comment_content": "Way to go sister!"
+        }
+      ]
+    },
+    {
+      "username": "Cole007",
+      "user_profile": "user_profile8.webp",
+      "post_content": "get your dental appointment today!",
+      "picture": "user_post8.webp",
+      "likes": 10,
+      "time": "3 weeks ago",
+      "id": 8,
+      "comments": [
+        {
+          "username": "ValeriaSimon",
+          "user_profile": "user_profile4.webp",
+          "comment_content": "I'm so proud of you! My son's a dentist!"
+        },
+        {
+          "username": "Dana99",
+          "user_profile": "user_profile5.webp",
+          "comment_content": "So proud of you babe"
+        }
+      ]
+    },
+    {
+      "username": "SelenaMarcia89",
+      "user_profile": "user_profile9.webp",
+      "post_content": "our beautiful Chrissy",
+      "picture": "user_post9.webp",
+      "likes": 10,
+      "time": "3 weeks ago",
+      "id": 9,
+      "comments": [
+        {
+          "username": "Li243",
+          "user_profile": "user_profile6.webp",
+          "comment_content": "Adorable!"
+        },
+        {
+          "username": "ValeriaSimon",
+          "user_profile": "user_profile4.webp",
+          "comment_content": "You've raised a lovely daughter"
+        }
+      ]
+    },
+    {
+      "username": "Katty69",
+      "user_profile": "user_profile10.webp",
+      "post_content": "no caption just action;)",
+      "picture": "user_post10.webp",
+      "likes": 400,
+      "time": "3 weeks ago",
+      "id": 10,
+      "comments": [
+        {
+          "username": "Michella666",
+          "user_profile": "user_profile7.webp",
+          "comment_content": "slayyyy"
+        },
+        {
+          "username": "Dana99",
+          "user_profile": "user_profile5.webp",
+          "comment_content": "gorgeous"
+        }
+      ]
+    }
+  ]
+}
