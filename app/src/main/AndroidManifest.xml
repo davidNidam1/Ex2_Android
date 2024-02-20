@@ -25,7 +25,7 @@
             android:name="com.example.ex2_Android.feed.feed"
             android:exported="false" />
         <activity
-            android:name="com.example.ex2_Android.sign_up.sign_up"
+            android:name="com.example.ex2_Android.SignUp.SignUp"
             android:exported="false" />
         <activity
             android:name="com.example.ex2_Android.MainActivity"

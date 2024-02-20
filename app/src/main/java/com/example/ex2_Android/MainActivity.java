@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ex2_Android.SignUp.SignUp;
 import com.example.ex2_Android.feed.feed;
-import com.example.ex2_Android.sign_up.sign_up;
 import com.example.ex2_android.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(v -> {
-            Intent i =  new Intent(this, sign_up.class);
+            Intent i =  new Intent(this, SignUp.class);
             startActivity(i);
         });
 

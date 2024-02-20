@@ -36,7 +36,7 @@
     <EditText
         android:id="@+id/edit_text_username"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/white_box_background"
         android:hint="@string/username"
@@ -44,13 +44,14 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_name" />
+        app:layout_constraintTop_toBottomOf="@id/app_name"
+        android:autofillHints="text" />
 
     <!-- Password Field -->
     <EditText
         android:id="@+id/edit_text_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/white_box_background"
         android:hint="@string/password"
@@ -58,13 +59,14 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_username" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_username"
+        android:autofillHints="password"/>
 
     <!-- Password Verification Field -->
     <EditText
         android:id="@+id/edit_text_password_verify"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/white_box_background"
         android:hint="@string/verify_password"
@@ -72,13 +74,14 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_password" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_password"
+        android:autofillHints="password"/>
 
     <!-- Nickname Field -->
     <EditText
         android:id="@+id/edit_text_nickname"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/white_box_background"
         android:hint="@string/nickname"
@@ -86,7 +89,8 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_password_verify" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_password_verify"
+        android:autofillHints="text"/>
 
     <!-- Picture Upload Button -->
     <Button
