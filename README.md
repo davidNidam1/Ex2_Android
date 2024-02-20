@@ -1,8 +1,33 @@
+# Facybook Android App
+
+Welcome to the Facybook Android app repository! Facybook is a social networking application inspired by Facebook, developed for this task. This README file provides details about the tasks and functionalities implemented in the Android version of the app.
+
+## Task Details
+
+In this task, we were required to develop a static Android application using Java. The app mimics the basic functionalities of a social networking platform, including user registration, authentication, and a feed displaying posts.
+
+### Screens Implemented
+
+- **Login Screen**: A simple login screen where users can enter their username and password or navigate to the registration screen.
+
+- **Registration Screen**: Includes fields for username, password, verify password, and nickname.
+
+- **Feed Screen**: Displays a scrolling list of posts retrieved from a JSON file. Users can like, share, and comment on posts. Additionally, there is a toggle button to switch between dark and light mode.
+
+## Functionalities Implemented
+
+- User registration and authentication.
+- Displaying a feed of posts with options to like, share, and comment.
+- Dark and light mode toggle.
+- Basic form validation for registration and login screens.
+
+
 ## Getting Started
 
 To get started with the Facybook Android app, follow these steps:
+First, create a react directory and than:
 
-1. **Download**: Clone this repository to a local directory on your machine.
+1. **Download**: Clone this repository to a local directory (the one created) on your machine.
 
 2. **Open Command Prompt**: Navigate to the directory where you downloaded the repository using the Command Prompt.
 
