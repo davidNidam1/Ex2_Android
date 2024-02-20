@@ -18,7 +18,7 @@ In this task, we were required to develop a static Android application using Jav
 
 - User registration and authentication.
 - Displaying a feed of posts with options to like, share, and comment.
-- Dark and light mode toggle.
+- Dark and light mode toggle - change the phones state to "night mode" and the feed will change too!
 - Basic form validation for registration and login screens.
 
 
