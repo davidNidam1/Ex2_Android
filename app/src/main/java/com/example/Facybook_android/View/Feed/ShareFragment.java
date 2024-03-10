@@ -1,4 +1,4 @@
-package com.example.Facybook_android.feed;
+package com.example.Facybook_android.View.Feed;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

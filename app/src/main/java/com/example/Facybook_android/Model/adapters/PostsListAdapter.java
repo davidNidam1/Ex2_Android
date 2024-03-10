@@ -1,4 +1,4 @@
-package com.example.Facybook_android.adapters;
+package com.example.Facybook_android.Model.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.Facybook_android.enteties.Post;
-import com.example.Facybook_android.feed.ShareFragment;
-import com.example.Facybook_android.feed.comments;
+import com.example.Facybook_android.Model.entities.Post;
+import com.example.Facybook_android.View.Feed.ShareFragment;
+import com.example.Facybook_android.View.Feed.comments;
 import com.example.ex2_android.R;
 
 import java.util.List;
@@ -79,7 +79,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
            final int adapterPosition = holder.getAdapterPosition();
            commentButton.setOnClickListener(view -> {
                if (adapterPosition != RecyclerView.NO_POSITION && posts != null && adapterPosition < posts.size()) {
-                   String postId = posts.get(adapterPosition).getId();
+                   int postId = posts.get(adapterPosition).getId();
                    Intent intent = new Intent(view.getContext(), comments.class);
                    intent.putExtra("postId", postId);
                    view.getContext().startActivity(intent);

@@ -1,4 +1,4 @@
-package com.example.Facybook_android.enteties;
+package com.example.Facybook_android.Model.entities;
 
 import android.graphics.drawable.Drawable;
 

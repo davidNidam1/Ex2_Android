@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.example.Facybook_android.viewModels.CircularImageView
+        <com.example.Facybook_android.ViewModels.CircularImageView
             android:id="@+id/user_profile"
             android:layout_width="48dp"
             android:layout_height="48dp"

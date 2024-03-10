@@ -1,4 +1,4 @@
-package com.example.Facybook_android.feed;
+package com.example.Facybook_android.View.Feed;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,10 +7,12 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.Facybook_android.Model.Feed.FeedModel;
 import com.example.ex2_android.R;
 
 public class CreateNewPost extends AppCompatActivity {
@@ -22,6 +24,7 @@ public class CreateNewPost extends AppCompatActivity {
     private Button buttonAttachMedia;
     private Button buttonPost;
     private Uri mediaUri;
+    private final FeedModel model = new FeedModel();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,14 +40,16 @@ public class CreateNewPost extends AppCompatActivity {
 
         buttonPost.setOnClickListener(v -> {
             String postContent = editTextPostContent.getText().toString();
+
             // Send back data to the feed activity
             Intent resultIntent = new Intent();
             resultIntent.putExtra("post_content", postContent);
-            if (mediaUri != null) {
+
+            if (model.getNewPost(this, mediaUri)) {
                 resultIntent.putExtra("media_uri", mediaUri.toString());
+                setResult(RESULT_OK, resultIntent);
+                finish();
             }
-            setResult(RESULT_OK, resultIntent);
-            finish();
         });
     }
 

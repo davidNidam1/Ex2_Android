@@ -1,4 +1,4 @@
-package com.example.Facybook_android.enteties;
+package com.example.Facybook_android.Model.entities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +14,7 @@ import java.util.List;
 public class Post {
 
     @PrimaryKey(autoGenerate = true)
-    private String id;
+    private int id;
     private String username;
     private String timePublished;
     private String content;
@@ -31,7 +31,7 @@ public class Post {
     private boolean isLiked;
 
     public Post(String username, String content, Drawable profilePic, Drawable postPic,
-                int likes, String id, String timePublished) {
+                int likes, int id, String timePublished) {
         this.username = username;
         this.content = content;
         this.profilePic = profilePic;
@@ -101,7 +101,7 @@ public class Post {
         this.postPic = postPic;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -117,7 +117,7 @@ public class Post {
         return content;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

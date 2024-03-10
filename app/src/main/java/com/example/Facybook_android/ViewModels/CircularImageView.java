@@ -1,4 +1,4 @@
-package com.example.Facybook_android.viewModels;
+package com.example.Facybook_android.ViewModels;
 
 import android.content.Context;
 import android.graphics.Canvas;

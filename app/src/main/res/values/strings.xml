@@ -58,4 +58,8 @@
     <string name="post_content_edit">edit text of post</string>
     <string name="save_changes">Save changes</string>
     <string name="edit_comment_description">edit comment</string>
+    <string name="background_picture_for_user_page_description">backgroung picture for user page</string>
+    <string name="friends_num">Friends: 1000</string>
+    <string name="friend_request_btn">Friend Request</string>
+    <string name="send_message_btn">Send Message</string>
 </resources>

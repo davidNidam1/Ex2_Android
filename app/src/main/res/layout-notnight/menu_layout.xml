@@ -107,7 +107,7 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <com.example.Facybook_android.viewModels.CircularImageView
+            <com.example.Facybook_android.ViewModels.CircularImageView
                 android:id="@+id/user_profile"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

@@ -1,4 +1,4 @@
-package com.example.Facybook_android;
+package com.example.Facybook_android.View.LogIn;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +8,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.Facybook_android.SignUp.SignUp;
-import com.example.Facybook_android.feed.feed;
+import com.example.Facybook_android.Model.SignUp.SignUpModel;
+import com.example.Facybook_android.View.SignUp.SignUp;
+import com.example.Facybook_android.View.Feed.Feed;
 import com.example.ex2_android.R;
+import com.example.Facybook_android.Model.LogIn.LogInModel;
 
 public class MainActivity extends AppCompatActivity {
     EditText Username;
     EditText Password;
+    private final LogInModel model = new LogInModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnLogIn = findViewById(R.id.btnLogIn);
         btnLogIn.setOnClickListener(v -> {
-            String username = Username.getText().toString();
-            String password = Password.getText().toString();
-            if (!username.equals("user") || !password.equals("password")) {
-                Toast.makeText(MainActivity.this,
-                        "Incorrect username or password", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent i =  new Intent(this, feed.class);
+            if (model.logIn(Username, Password, this)) {
+                Intent i =  new Intent(this, Feed.class);
                 startActivity(i);
             }
         });
