@@ -17,6 +17,10 @@ public interface PostDao {
     @Query("SELECT * FROM post WHERE id = :id")
     Post get(int id);
 
+    // Method to delete all entries from the database
+    @Query("DELETE FROM post")
+    void deleteAll();
+
     @Insert
     void insert(Post... posts);
 
@@ -25,4 +29,5 @@ public interface PostDao {
 
     @Delete
     void delete(Post... posts);
+
 }

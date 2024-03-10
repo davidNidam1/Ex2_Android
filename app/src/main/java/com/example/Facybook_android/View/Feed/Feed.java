@@ -37,23 +37,23 @@ public class Feed extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
 
 
-//        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
-//                .allowMainThreadQueries()
-//                .build();
-//
-//        postDao = db.postDao();
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
+                .allowMainThreadQueries()
+                .build();
+
+        postDao = db.postDao();
 
         shareFragment = new ShareFragment();
         posts = new ArrayList<>();
 
         setupRecyclerView();
         setupButtons();
-        model.addExistingPosts(this, posts, postsAdapter);
+        model.addExistingPosts(this, posts, postsAdapter, postDao);
     }
 
     private void setupRecyclerView() {
         RecyclerView lstPosts = findViewById(R.id.lstPosts);
-        postsAdapter = new PostsListAdapter(this, shareFragment);
+        postsAdapter = new PostsListAdapter(this, shareFragment, postDao);
         lstPosts.setAdapter(postsAdapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -77,7 +77,7 @@ public class Feed extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CREATE_POST && resultCode == RESULT_OK && data != null) {
-            model.addPost(this, data, postsAdapter);
+            model.addPost(this, data, postsAdapter, postDao);
         }
     }
 }

@@ -20,25 +20,20 @@ public class Post {
     private String content;
     private int likes;
     private List<Comment> comments;
-
     private String profilePath;
-
     private String postPath;
     private Drawable profilePic;
-
     private Drawable postPic;
-
     private boolean isLiked;
 
     public Post(String username, String content, Drawable profilePic, Drawable postPic,
-                int likes, int id, String timePublished) {
+                int likes, String timePublished) {
         this.username = username;
         this.content = content;
         this.profilePic = profilePic;
         this.postPic = postPic;
         this.isLiked = false;
         this.likes = likes;
-        this.id = id;
         this.timePublished = timePublished;
     }
 
@@ -92,10 +87,6 @@ public class Post {
     public Drawable getPostPic() {
         return postPic;
     }
-
-    public Uri getPostPicUri(Context context)
-    { Bitmap bitmap = DrawableUtils.drawableToBitmap(postPic);
-        return DrawableUtils.bitmapToUri(context, bitmap);}
 
     public void setPostPic(Drawable postPic) {
         this.postPic = postPic;

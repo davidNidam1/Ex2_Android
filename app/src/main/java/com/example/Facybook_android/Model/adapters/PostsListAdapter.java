@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Facybook_android.Model.entities.Post;
+import com.example.Facybook_android.Model.interfaces.PostDao;
 import com.example.Facybook_android.View.Feed.ShareFragment;
 import com.example.Facybook_android.View.Feed.comments;
 import com.example.ex2_android.R;
@@ -25,6 +26,7 @@ import java.util.Objects;
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
 
     private final ShareFragment shareFragment;
+    private final PostDao postDao;
 
     static class PostViewHolder extends RecyclerView.ViewHolder {
         private final TextView author;
@@ -51,9 +53,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private List<Post> posts;
 
-    public PostsListAdapter(Context context, ShareFragment shareFragment) {
+    public PostsListAdapter(Context context, ShareFragment shareFragment, PostDao postDao) {
         mInflater = LayoutInflater.from(context);
         this.shareFragment = shareFragment;
+        this.postDao = postDao;
     }
 
     @NonNull
@@ -97,6 +100,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                current.setLikes(newLike);
                String likes = current.getLikesString();
 
+               postDao.delete(posts.get(adapterPosition));
+               postDao.insert(posts.get(adapterPosition));
+
                // Set the drawable resource based on the updated like status
                int drawableResource = current.isLiked() ? R.drawable.like_pressed__icon : R.drawable.like_unpressed__ico;
                likeButton.setImageResource(drawableResource);
@@ -128,6 +134,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
            ImageButton deleteBtn = holder.itemView.findViewById(R.id.deletePostBtn);
            deleteBtn.setOnClickListener(view -> {
+               postDao.delete(posts.get(adapterPosition));
                remove(adapterPosition);
                reload();
            });
