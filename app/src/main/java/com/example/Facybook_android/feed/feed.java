@@ -1,4 +1,4 @@
-package com.example.ex2_Android.feed;
+package com.example.Facybook_android.feed;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ex2_Android.adapters.PostsListAdapter;
-import com.example.ex2_Android.enteties.DrawableUtils;
-import com.example.ex2_Android.enteties.Post;
+import com.example.Facybook_android.adapters.PostsListAdapter;
+import com.example.Facybook_android.enteties.DrawableUtils;
+import com.example.Facybook_android.enteties.Post;
 import com.example.ex2_android.R;
 
 import org.json.JSONArray;

@@ -1,4 +1,4 @@
-package com.example.ex2_Android.adapters;
+package com.example.Facybook_android.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ex2_Android.enteties.Post;
-import com.example.ex2_Android.feed.ShareFragment;
-import com.example.ex2_Android.feed.comments;
+import com.example.Facybook_android.enteties.Post;
+import com.example.Facybook_android.feed.ShareFragment;
+import com.example.Facybook_android.feed.comments;
 import com.example.ex2_android.R;
 
 import java.util.List;

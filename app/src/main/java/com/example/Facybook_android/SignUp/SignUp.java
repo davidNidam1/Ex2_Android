@@ -1,4 +1,4 @@
-package com.example.ex2_Android.SignUp;
+package com.example.Facybook_android.SignUp;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ex2_Android.MainActivity;
+import com.example.Facybook_android.MainActivity;
 import com.example.ex2_android.R;
 
 public class SignUp extends AppCompatActivity {

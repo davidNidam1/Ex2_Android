@@ -1,4 +1,4 @@
-package com.example.ex2_Android.feed;
+package com.example.Facybook_android.feed;
 
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ex2_Android.adapters.CommentsListAdapter;
-import com.example.ex2_Android.enteties.Comment;
+import com.example.Facybook_android.adapters.CommentsListAdapter;
+import com.example.Facybook_android.enteties.Comment;
 import com.example.ex2_android.R;
 
 import org.json.JSONArray;

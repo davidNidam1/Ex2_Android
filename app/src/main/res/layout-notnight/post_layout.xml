@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toTopOf="@+id/post_content"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.example.ex2_Android.viewModels.CircularImageView
+        <com.example.Facybook_android.viewModels.CircularImageView
             android:id="@+id/user_profile_picture"
             android:layout_width="48dp"
             android:layout_height="48dp"

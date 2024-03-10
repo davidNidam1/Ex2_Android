@@ -13,22 +13,22 @@
         android:theme="@style/Theme.Ex2Android"
         tools:targetApi="31">
         <activity
-            android:name="com.example.ex2_Android.feed.CreateNewPost"
+            android:name="com.example.Facybook_android.feed.CreateNewPost"
             android:exported="false" />
         <activity
-            android:name="com.example.ex2_Android.feed.comments"
+            android:name="com.example.Facybook_android.feed.comments"
             android:exported="false" />
         <activity
-            android:name="com.example.ex2_Android.feed.menu"
+            android:name="com.example.Facybook_android.feed.menu"
             android:exported="false" />
         <activity
-            android:name="com.example.ex2_Android.feed.feed"
+            android:name="com.example.Facybook_android.feed.feed"
             android:exported="false" />
         <activity
-            android:name="com.example.ex2_Android.SignUp.SignUp"
+            android:name="com.example.Facybook_android.SignUp.SignUp"
             android:exported="false" />
         <activity
-            android:name="com.example.ex2_Android.MainActivity"
+            android:name="com.example.Facybook_android.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

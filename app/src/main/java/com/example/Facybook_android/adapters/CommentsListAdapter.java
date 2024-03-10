@@ -1,4 +1,4 @@
-package com.example.ex2_Android.adapters;
+package com.example.Facybook_android.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ex2_Android.enteties.Comment;
+import com.example.Facybook_android.enteties.Comment;
 import com.example.ex2_android.R;
 
 import java.util.List;

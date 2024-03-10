@@ -1,4 +1,4 @@
-package com.example.ex2_Android;
+package com.example.Facybook_android;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ex2_Android.SignUp.SignUp;
-import com.example.ex2_Android.feed.feed;
+import com.example.Facybook_android.SignUp.SignUp;
+import com.example.Facybook_android.feed.feed;
 import com.example.ex2_android.R;
 
 public class MainActivity extends AppCompatActivity {
