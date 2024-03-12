@@ -2,6 +2,7 @@ package com.example.Facybook_android.Model.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.Facybook_android.Model.entities.Utilities;
 import com.example.Facybook_android.Model.entities.Post;
 import com.example.Facybook_android.Model.interfaces.PostDao;
 import com.example.Facybook_android.View.Feed.ShareFragment;
@@ -73,9 +75,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
            holder.author.setText(current.getUsername());
            holder.content.setText(current.getContent());
            holder.profilePicture.setImageDrawable(current.getProfilePic());
-           holder.postPicture.setImageDrawable(current.getPostPic());
            holder.postLikes.setText(current.getLikesString());
            holder.timePublished.setText(current.getTimePublished());
+
+           Bitmap bitmap = Utilities.base64ToBitmap(current.getPostPath());
+           holder.postPicture.setImageBitmap(bitmap);
 
            // Find the commentBtn and set OnClickListener
            ImageButton commentButton = holder.itemView.findViewById(R.id.commentBtn);

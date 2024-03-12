@@ -17,6 +17,7 @@ import com.example.Facybook_android.Model.Feed.FeedModel;
 import com.example.Facybook_android.Model.interfaces.PostDao;
 import com.example.ex2_android.R;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class Feed extends AppCompatActivity {
 
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .build();
 
         postDao = db.postDao();
@@ -48,7 +50,9 @@ public class Feed extends AppCompatActivity {
 
         setupRecyclerView();
         setupButtons();
-        model.addExistingPosts(this, posts, postsAdapter, postDao);
+        if (!postDao.index().isEmpty()) {
+            postsAdapter.setPosts(postDao.index());
+        }
     }
 
     private void setupRecyclerView() {
@@ -77,7 +81,11 @@ public class Feed extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CREATE_POST && resultCode == RESULT_OK && data != null) {
-            model.addPost(this, data, postsAdapter, postDao);
+            try {
+                model.addPost(this, data, postsAdapter, postDao);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ import android.net.Uri;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.Facybook_android.Model.Converters;
+
 import java.util.List;
 
 @Entity
@@ -23,18 +25,17 @@ public class Post {
     private String profilePath;
     private String postPath;
     private Drawable profilePic;
-    private Drawable postPic;
     private boolean isLiked;
 
-    public Post(String username, String content, Drawable profilePic, Drawable postPic,
-                int likes, String timePublished) {
+    public Post(String username, String content, Drawable profilePic, int likes,
+                String timePublished, String postPath) {
         this.username = username;
         this.content = content;
         this.profilePic = profilePic;
-        this.postPic = postPic;
         this.isLiked = false;
         this.likes = likes;
         this.timePublished = timePublished;
+        this.postPath = postPath;
     }
 
     public List<Comment> getComments() {
@@ -80,17 +81,17 @@ public class Post {
         return profilePic;
     }
 
-    public void setProfilePic(Drawable profilePic) {
-        this.profilePic = profilePic;
-    }
+//    public void setProfilePic(Drawable profilePic) {
+//        this.profilePic = profilePic;
+//    }
 
-    public Drawable getPostPic() {
-        return postPic;
-    }
+//    public Drawable getPostPic() {
+//        return postPic;
+//    }
 
-    public void setPostPic(Drawable postPic) {
-        this.postPic = postPic;
-    }
+//    public void setPostPic(Drawable postPic) {
+//        this.postPic = postPic;
+//    }
 
     public int getId() {
         return id;
