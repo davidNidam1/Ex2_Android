@@ -24,34 +24,32 @@ public class comments extends AppCompatActivity {
     public static CommentDao commentDao;
     private final FeedModel model = new FeedModel();
     private EditText editTxt;
-    private  Comment comment;
     private RecyclerView lstComments;
     private CommentsListAdapter adapter;
+    private List<Comment> comments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comments_layout);
 
-        initialize();
+        int postId = getIntent().getIntExtra("postId", 0);
+
+        initialize(postId);
         setComments();
 
         ImageButton sendBtn = findViewById(R.id.sendButton);
-        sendBtn.setOnClickListener(v -> model.addComment(this, adapter, editTxt));
-
-
-//        String postId = getIntent().getStringExtra("postId");
-//        List<Comment> comments = new ArrayList<>();
+        sendBtn.setOnClickListener(v -> model.addComment(this, adapter, editTxt, postId));
     }
 
     private void setComments() {
 
-        if (!commentDao.index().isEmpty()) {
-            adapter.setCommentsL(commentDao.index());
+        if (!comments.isEmpty()) {
+            adapter.setCommentsL(comments);
         }
     }
 
-    private void initialize() {
+    private void initialize(int postId) {
 
         commentDao = Feed.db.commentDao();
         editTxt = findViewById(R.id.commentEditText);
@@ -61,6 +59,7 @@ public class comments extends AppCompatActivity {
         lstComments.setAdapter(adapter);
         lstComments.setLayoutManager(new LinearLayoutManager(this));
 
+        comments.addAll(commentDao.getCommentsForPost(postId));
     }
 
 

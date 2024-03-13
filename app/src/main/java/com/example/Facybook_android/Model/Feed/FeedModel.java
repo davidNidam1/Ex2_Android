@@ -71,13 +71,15 @@ public class FeedModel {
         return true;
     }
 
-    public void addComment(Context context, CommentsListAdapter adapter, EditText comment) {
+    public void addComment(Context context, CommentsListAdapter adapter, EditText comment,
+                           int postId) {
         String commentText = comment.getText().toString();
         Drawable profilePic = context.getDrawable(R.drawable.user_ico);
-        Comment e = new Comment(profilePic, commentText, "nickName");
+        Comment e = new Comment(profilePic, commentText, "nickName", postId);
         if (!commentText.isEmpty()) {
             comments.commentDao.insert(e);
-            adapter.setCommentsL(comments.commentDao.index());
+//            adapter.setCommentsL(comments.commentDao.index());
+            adapter.setCommentsL(comments.commentDao.getCommentsForPost(postId));
             adapter.reload();
         }
     }

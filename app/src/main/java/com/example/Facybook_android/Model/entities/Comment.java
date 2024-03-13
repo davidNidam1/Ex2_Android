@@ -7,17 +7,22 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Comment {
-
     @PrimaryKey(autoGenerate = true)
     private int id;
     private Drawable pic;
     private String content;
     private String userName;
+    private int postId;
 
-    public Comment(Drawable pic, String content, String userName) {
+    public Comment(Drawable pic, String content, String userName, int postId) {
         this.pic = pic;
         this.content = content;
         this.userName = userName;
+        this.postId = postId;
+    }
+
+    public int getPostId() {
+        return postId;
     }
 
     public Drawable getPic() {
@@ -53,10 +58,10 @@ public class Comment {
     }
 
     public int getId() {
-        return id;
+        return postId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.postId = id;
     }
 }

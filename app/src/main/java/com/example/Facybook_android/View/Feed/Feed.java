@@ -134,11 +134,6 @@ public class Feed extends AppCompatActivity {
     private void setupSwipeRefresh() {
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            // Reload the data from the database or any other data source
-            if (!postDao.index().isEmpty()) {
-                postsAdapter.setPosts(postDao.index());
-            }
-            // Notify the adapter that the data set has changed
             postsAdapter.reload();
             // Once the action is complete, call setRefreshing(false) to indicate that the refresh is complete
             swipeRefreshLayout.setRefreshing(false);
@@ -152,11 +147,18 @@ public class Feed extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (postsAdapter != null) {
                         for (Post post : postsAdapter.getPosts()) {
-                            // Calculate the time difference between current time and post creation time
-                            long currentTime = System.currentTimeMillis();
-                            CharSequence timePassed = DateUtils.getRelativeTimeSpanString(post.getCreationTime(), currentTime, DateUtils.SECOND_IN_MILLIS);
-                            post.setTimePublished(timePassed.toString());
-                            postDao.update(post);
+                            if (post != null) { // Add null check here
+                                // Calculate the time difference between current time and post creation time
+                                long currentTime = System.currentTimeMillis();
+                                CharSequence timePassed = DateUtils.getRelativeTimeSpanString(post.getCreationTime(), currentTime, DateUtils.SECOND_IN_MILLIS);
+                                post.setTimePublished(timePassed.toString());
+                                // Add null check for postDao.get(post.getId()) to avoid NullPointerException
+                                Post updatedPost = postDao.get(post.getId());
+                                if (updatedPost != null) {
+                                    post.setContent(updatedPost.getContent());
+                                    postDao.update(post);
+                                }
+                            }
                         }
                         // Notify the adapter that the data set has changed
                         postsAdapter.reload();
@@ -165,6 +167,7 @@ public class Feed extends AppCompatActivity {
             }
         };
     }
+
 
 }
 

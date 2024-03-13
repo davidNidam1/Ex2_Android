@@ -21,7 +21,7 @@ public class Post {
     private String timePublished;
     private String content;
     private int likes;
-    private List<Comment> comments;
+//    private List<Comment> comments;
     private String profilePath;
     private String postPath;
     private Drawable profilePic;
@@ -48,13 +48,13 @@ public class Post {
     public void setCreationTime(long creationTime) {
         this.creationTime = creationTime;
     }
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List<Comment> comments) {
+//        this.comments = comments;
+//    }
 
     public String getLikesString() {
         return likes + " " + "likes";
@@ -102,6 +102,7 @@ public class Post {
 //    public void setPostPic(Drawable postPic) {
 //        this.postPic = postPic;
 //    }
+
 
     public int getId() {
         return id;

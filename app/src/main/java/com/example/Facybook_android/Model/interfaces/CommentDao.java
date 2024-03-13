@@ -24,6 +24,10 @@ public interface CommentDao {
     @Query("DELETE FROM comment")
     void deleteAll();
 
+    // Method to get all comments for a specific post
+    @Query("SELECT * FROM comment WHERE postId = :postId")
+    List<Comment> getCommentsForPost(int postId);
+
     @Insert
     void insert(Comment... comment);
 

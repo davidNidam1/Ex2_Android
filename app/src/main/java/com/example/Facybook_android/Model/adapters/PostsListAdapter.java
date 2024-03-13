@@ -24,6 +24,7 @@ import com.example.Facybook_android.View.Feed.ShareFragment;
 import com.example.Facybook_android.View.Feed.comments;
 import com.example.ex2_android.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         private final ImageView profilePicture;
         private final ImageView postPicture;
 
+        private ImageButton likeButton;
+
         private PostViewHolder(View itemView) {
             super(itemView);
             author = itemView.findViewById(R.id.user_profile_name);
@@ -47,6 +50,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             postPicture = itemView.findViewById(R.id.post_picture);
             postLikes = itemView.findViewById(R.id.numberLikes);
             timePublished = itemView.findViewById(R.id.time_published);
+            likeButton = itemView.findViewById(R.id.likeBtn);
         }
     }
 
@@ -84,31 +88,31 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
            final int adapterPosition = holder.getAdapterPosition();
            commentButton.setOnClickListener(view -> {
                if (adapterPosition != RecyclerView.NO_POSITION && posts != null && adapterPosition < posts.size()) {
-//                   int postId = posts.get(adapterPosition).getId();
+                   int postId = posts.get(adapterPosition).getId();
                    Intent intent = new Intent(view.getContext(), comments.class);
-//                   intent.putExtra("postId", postId);
+                   intent.putExtra("postId", postId);
                    view.getContext().startActivity(intent);
                }
            });
 
            // Find the likeBtn and set OnClickListener
-           ImageButton likeButton = holder.itemView.findViewById(R.id.likeBtn);
            TextView likesText = holder.itemView.findViewById(R.id.numberLikes);
-           likeButton.setOnClickListener(view -> {
+
+           // Set the drawable resource based on the updated like status
+           int drawableResource = current.isLiked() ? R.drawable.like_pressed__icon : R.drawable.like_unpressed__ico;
+           holder.likeButton.setImageResource(drawableResource);
+
+            holder.likeButton.setOnClickListener(view -> {
                // Toggle the like status
                current.setLiked(!current.isLiked());
 
                int newLike = current.isLiked() ? current.getLikes() + 1: current.getLikes() - 1;
                current.setLikes(newLike);
                String likes = current.getLikesString();
-
-               Feed.postDao.update(posts.get(adapterPosition));
-
-               // Set the drawable resource based on the updated like status
-               int drawableResource = current.isLiked() ? R.drawable.like_pressed__icon : R.drawable.like_unpressed__ico;
-               likeButton.setImageResource(drawableResource);
                likesText.setText(likes);
 
+               Feed.postDao.update(posts.get(adapterPosition));
+               this.reload();
            });
 
            // Inside onBindViewHolder method of PostsListAdapter
@@ -171,6 +175,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
 
     public void add(Post post) {
+        if (posts == null) {
+            posts = new ArrayList<>(); // Initialize the list if it's null
+        }
         posts.add(0, post); // Add the new post at the beginning of the list
         notifyItemInserted(0); // Notify adapter about the item insertion
     }

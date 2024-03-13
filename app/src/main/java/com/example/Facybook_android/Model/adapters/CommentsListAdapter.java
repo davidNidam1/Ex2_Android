@@ -92,7 +92,7 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             editCmt.setVisibility(View.INVISIBLE);
             comment.setContent(editCmt.getText().toString());
             comments.commentDao.update(comment);
-            this.setCommentsL(comments.commentDao.index());
+            this.setCommentsL(comments.commentDao.getCommentsForPost(comment.getPostId()));
             this.reload();
         });
     }
