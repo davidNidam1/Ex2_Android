@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Facybook_android.Model.SignUp.SignUpModel;
+import com.example.Facybook_android.View.Feed.EditPost;
 import com.example.Facybook_android.View.SignUp.SignUp;
 import com.example.Facybook_android.View.Feed.Feed;
 import com.example.ex2_android.R;

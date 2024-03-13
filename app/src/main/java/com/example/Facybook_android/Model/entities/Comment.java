@@ -9,15 +9,23 @@ import androidx.room.PrimaryKey;
 public class Comment {
 
     @PrimaryKey(autoGenerate = true)
+    private int id;
     private Drawable pic;
     private String content;
     private String userName;
-
 
     public Comment(Drawable pic, String content, String userName) {
         this.pic = pic;
         this.content = content;
         this.userName = userName;
+    }
+
+    public Drawable getPic() {
+        return pic;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public Drawable getProfilePic() {
@@ -42,5 +50,13 @@ public class Comment {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

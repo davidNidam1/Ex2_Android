@@ -34,8 +34,12 @@ public class Utilities {
 
     // Method to decode Base64 string to Bitmap
     public static Bitmap base64ToBitmap(String base64String) {
-        byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        if (base64String != null) {
+            byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        }
+        return null; // or handle this case according to your application logic
     }
+
 
 }

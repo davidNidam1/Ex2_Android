@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Facybook_android.Model.entities.Utilities;
 import com.example.Facybook_android.Model.entities.Post;
 import com.example.Facybook_android.Model.interfaces.PostDao;
+import com.example.Facybook_android.View.Feed.EditPost;
+import com.example.Facybook_android.View.Feed.Feed;
 import com.example.Facybook_android.View.Feed.ShareFragment;
 import com.example.Facybook_android.View.Feed.comments;
 import com.example.ex2_android.R;
@@ -28,16 +30,13 @@ import java.util.Objects;
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
 
     private final ShareFragment shareFragment;
-    private final PostDao postDao;
 
     static class PostViewHolder extends RecyclerView.ViewHolder {
         private final TextView author;
         private final TextView content;
-
         private final TextView postLikes;
         private final TextView timePublished;
         private final ImageView profilePicture;
-
         private final ImageView postPicture;
 
         private PostViewHolder(View itemView) {
@@ -55,10 +54,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private List<Post> posts;
 
-    public PostsListAdapter(Context context, ShareFragment shareFragment, PostDao postDao) {
+    public PostsListAdapter(Context context, ShareFragment shareFragment) {
         mInflater = LayoutInflater.from(context);
         this.shareFragment = shareFragment;
-        this.postDao = postDao;
     }
 
     @NonNull
@@ -86,9 +84,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
            final int adapterPosition = holder.getAdapterPosition();
            commentButton.setOnClickListener(view -> {
                if (adapterPosition != RecyclerView.NO_POSITION && posts != null && adapterPosition < posts.size()) {
-                   int postId = posts.get(adapterPosition).getId();
+//                   int postId = posts.get(adapterPosition).getId();
                    Intent intent = new Intent(view.getContext(), comments.class);
-                   intent.putExtra("postId", postId);
+//                   intent.putExtra("postId", postId);
                    view.getContext().startActivity(intent);
                }
            });
@@ -104,8 +102,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                current.setLikes(newLike);
                String likes = current.getLikesString();
 
-               postDao.delete(posts.get(adapterPosition));
-               postDao.insert(posts.get(adapterPosition));
+               Feed.postDao.update(posts.get(adapterPosition));
 
                // Set the drawable resource based on the updated like status
                int drawableResource = current.isLiked() ? R.drawable.like_pressed__icon : R.drawable.like_unpressed__ico;
@@ -138,9 +135,17 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
            ImageButton deleteBtn = holder.itemView.findViewById(R.id.deletePostBtn);
            deleteBtn.setOnClickListener(view -> {
-               postDao.delete(posts.get(adapterPosition));
+               Feed.postDao.delete(posts.get(adapterPosition));
                remove(adapterPosition);
                reload();
+           });
+
+           ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);
+           editBtn.setOnClickListener(view -> {
+               Intent intent = new Intent(view.getContext(), EditPost.class);
+               intent.putExtra("id", posts.get(adapterPosition).getId());
+               view.getContext().startActivity(intent);
+               this.reload();
            });
        }
     }
@@ -177,13 +182,5 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
     }
 
-    public Post getPostById(String id) {
-        for (Post post : posts) {
-            if(Objects.equals(post.getId(), id)) {
-                return post;
-            }
-        }
-        return null;
-    }
 }
 

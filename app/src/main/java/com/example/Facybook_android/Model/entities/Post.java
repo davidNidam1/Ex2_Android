@@ -26,6 +26,7 @@ public class Post {
     private String postPath;
     private Drawable profilePic;
     private boolean isLiked;
+    private long creationTime;
 
     public Post(String username, String content, Drawable profilePic, int likes,
                 String timePublished, String postPath) {
@@ -36,8 +37,17 @@ public class Post {
         this.likes = likes;
         this.timePublished = timePublished;
         this.postPath = postPath;
+        this.creationTime = System.currentTimeMillis(); // Set the creation time to current time
     }
 
+    // Getter and setter methods for the creation time
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(long creationTime) {
+        this.creationTime = creationTime;
+    }
     public List<Comment> getComments() {
         return comments;
     }

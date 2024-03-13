@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.format.DateUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,18 +15,17 @@ import com.example.Facybook_android.Model.adapters.PostsListAdapter;
 import com.example.Facybook_android.Model.entities.Comment;
 import com.example.Facybook_android.Model.entities.Utilities;
 import com.example.Facybook_android.Model.entities.Post;
-import com.example.Facybook_android.Model.interfaces.PostDao;
+import com.example.Facybook_android.View.Feed.Feed;
+import com.example.Facybook_android.View.Feed.comments;
 import com.example.ex2_android.R;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 public class FeedModel {
 
-    public void addPost(Context context, @Nullable Intent data, PostsListAdapter postsAdapter,
-                        PostDao postDao) throws FileNotFoundException {
+    public void addPost(Context context, @Nullable Intent data, PostsListAdapter postsAdapter) throws FileNotFoundException {
         if (data == null) {
             return;
         }
@@ -41,12 +41,19 @@ public class FeedModel {
             mediaUri = Uri.parse(mediaUriString);
         }
         try {
+            assert mediaUri != null;
             InputStream inputStream = context.getContentResolver().openInputStream(mediaUri);
             String postPath = Utilities.inputStreamToBase64(inputStream);
-            // Create a new Post object with the retrieved data
+
+            // Calculate the time difference between current time and post creation time
+            long currentTime = System.currentTimeMillis();
+            CharSequence timePassed = DateUtils.getRelativeTimeSpanString(currentTime, currentTime, DateUtils.SECOND_IN_MILLIS);
+
+            // Create a new Post object with the retrieved data and calculated time
             Post newPost = new Post("nickName", postContent, profilePic,
-                    0, "right now", postPath);
-            postDao.insert(newPost);
+                    0, timePassed.toString(), postPath);
+            Feed.postDao.insert(newPost);
+
             // Add the new post to the adapter
             postsAdapter.add(newPost);
             postsAdapter.reload();
@@ -54,6 +61,7 @@ public class FeedModel {
             e.printStackTrace();
         }
     }
+
 
     public boolean getNewPost(Context context, Uri mediaUri) {
         if (mediaUri == null) {
@@ -68,13 +76,12 @@ public class FeedModel {
         Drawable profilePic = context.getDrawable(R.drawable.user_ico);
         Comment e = new Comment(profilePic, commentText, "nickName");
         if (!commentText.isEmpty()) {
-            List<Comment> commentsL = adapter.getComments();
-            commentsL.add(e);
-
-            adapter.setComments(commentsL);
+            comments.commentDao.insert(e);
+            adapter.setCommentsL(comments.commentDao.index());
             adapter.reload();
         }
     }
+
 }
 
 
