@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application FACYBOOK"
 include(":app")
- 
