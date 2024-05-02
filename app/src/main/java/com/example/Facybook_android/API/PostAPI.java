@@ -4,19 +4,22 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.Facybook_android.Model.entities.Post;
 import com.example.Facybook_android.Model.interfaces.PostDao;
+import com.example.Facybook_android.MyApplication;
+import com.example.ex2_android.R;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;1 public class PostAPI {
+import retrofit2.converter.gson.GsonConverterFactory;
+public class PostAPI {
 private MutableLiveData<List<Post>> postListData;
 private PostDao dao;
 Retrofit retrofit;
 WebServiceAPI webServiceAPI;
-
-        public PostAPI(MutableLiveData<List<Post>> postListData, PostDao dao) {
+    public PostAPI(MutableLiveData<List<Post>> postListData, PostDao dao) {
         this.postListData = postListData;
         this.dao = dao;
 
@@ -33,9 +36,9 @@ WebServiceAPI webServiceAPI;
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                      new Thread(() -> {
-                        dao.clear();
-                        dao.insertList(response.body());
-                        postListData.postValue(dao.get());
+                        dao.deleteAll();
+                        dao.insert(response.body());
+                        postListData.postValue(dao.index());
                         }).start();
                     }
             @Override

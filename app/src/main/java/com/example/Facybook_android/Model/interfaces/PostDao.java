@@ -24,6 +24,9 @@ public interface PostDao {
     @Insert
     void insert(Post... posts);
 
+    @Insert
+    void insert(List<Post> posts);
+
     @Update
     void update(Post... posts);
 
