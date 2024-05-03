@@ -5,10 +5,12 @@
     import android.graphics.drawable.Drawable;
     import android.net.Uri;
     import android.text.format.DateUtils;
+    import android.util.Log;
     import android.widget.EditText;
     import android.widget.Toast;
 
     import androidx.annotation.Nullable;
+    import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
     import com.Facybook_android.app.Model.adapters.CommentsListAdapter;
     import com.Facybook_android.app.Model.adapters.PostsListAdapter;
@@ -25,7 +27,7 @@
 
     public class FeedModel {
 
-        public void addPost(Context context, @Nullable Intent data, PostsListAdapter postsAdapter) throws FileNotFoundException {
+        public void addPost(Context context, @Nullable Intent data) throws FileNotFoundException {
             if (data == null) {
                 return;
             }
@@ -52,11 +54,10 @@
                 // Create a new Post object with the retrieved data and calculated time
                 Post newPost = new Post("nickName", postContent, profilePic,
                         0, timePassed.toString(), postPath);
-                Feed.postDao.insert(newPost);
+                assert postContent != null;
+                Log.e("postContent", postContent);
+                Feed.postsViewModel.add(newPost);
 
-                // Add the new post to the adapter
-                postsAdapter.add(newPost);
-                postsAdapter.reload();
             } catch (IOException e) {
                 e.printStackTrace();
             }

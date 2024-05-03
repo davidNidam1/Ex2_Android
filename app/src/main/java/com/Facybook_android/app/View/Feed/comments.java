@@ -7,10 +7,13 @@
     import androidx.appcompat.app.AppCompatActivity;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
+    import androidx.room.Room;
 
+    import com.Facybook_android.app.Context.MyApplication;
     import com.Facybook_android.app.Model.Feed.FeedModel;
     import com.Facybook_android.app.Model.adapters.CommentsListAdapter;
     import com.Facybook_android.app.Model.entities.Comment;
+    import com.Facybook_android.app.Repository.AppDB;
     import com.Facybook_android.app.Repository.interfaces.CommentDao;
     import com.Facybook_android.app.R;
 
@@ -48,7 +51,10 @@
 
         private void initialize(int postId) {
 
-            commentDao = Feed.db.commentDao();
+            AppDB db = Room.databaseBuilder(MyApplication.context,
+                    AppDB.class, "CommentsDB").build();
+
+            commentDao = db.commentDao();
             editTxt = findViewById(R.id.commentEditText);
             lstComments = findViewById(R.id.lstComments);
 

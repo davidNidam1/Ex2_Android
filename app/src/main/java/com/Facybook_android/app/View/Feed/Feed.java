@@ -3,10 +3,12 @@
     import android.content.Intent;
     import android.os.Bundle;
     import android.text.format.DateUtils;
+    import android.util.Log;
     import android.widget.ImageButton;
 
     import androidx.annotation.Nullable;
     import androidx.appcompat.app.AppCompatActivity;
+    import androidx.lifecycle.ViewModelProvider;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
     import androidx.room.Room;
@@ -18,6 +20,7 @@
     import com.Facybook_android.app.Model.Feed.FeedModel;
     import com.Facybook_android.app.Repository.interfaces.PostDao;
     import com.Facybook_android.app.R;
+    import com.Facybook_android.app.ViewModels.PostsViewModel;
 
     import java.io.FileNotFoundException;
     import java.util.ArrayList;
@@ -28,73 +31,45 @@
     public class Feed extends AppCompatActivity {
         private static final int REQUEST_CREATE_POST = 1001 ;
         private ShareFragment shareFragment;
-        private List<Post> posts;
         private PostsListAdapter postsAdapter;
+        private SwipeRefreshLayout swipeRefreshLayout;
         private FeedModel model = new FeedModel();
-        public static AppDB db;
-        public static PostDao postDao;
-
-        // Define the timer and timer task
-        private Timer timer;
-        private TimerTask timerTask;
+        public static PostsViewModel postsViewModel;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_feed);
 
-            // Initialize timer
-            timer = new Timer();
-
-            db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build();
-
-            postDao = db.postDao();
+            postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
 
             shareFragment = new ShareFragment();
-            posts = new ArrayList<>();
 
             setupRecyclerView();
             setupSwipeRefresh();
             setupButtons();
 
-            if (!postDao.index().isEmpty()) {
-                postsAdapter.setPosts(postDao.index());
-                initializeTimerTask();
-            }
+            observeViewModel();
+        }
 
+        private void observeViewModel() {
+            postsViewModel.get().observe(this, posts -> {
+                Log.e("observer", "Observing posts list. Number of posts: " + (posts != null ? posts.size() : "null"));
+                postsAdapter.setPosts(posts);
+                ((SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout)).setRefreshing(false);
+            });
         }
 
         @Override
         protected void onResume() {
             super.onResume();
-            // Start the timer when the activity resumes
-            if (!postDao.index().isEmpty()) {
-                timer = new Timer();
-                initializeTimerTask();
-                startTimer();
-            }
+            postsViewModel.startTimer();
         }
 
         @Override
         protected void onPause() {
             super.onPause();
-
-            // Stop the timer when the activity pauses
-            if (!postDao.index().isEmpty()) {
-                stopTimer();
-            }
-        }
-
-        private void startTimer() {
-            timer.schedule(timerTask, 0, 60 * 1000); // 60 seconds * 1000 milliseconds
-        }
-
-        private void stopTimer() {
-            // Stop the timer
-            timer.cancel();
+            postsViewModel.stopTimer();
         }
 
         private void setupRecyclerView() {
@@ -124,7 +99,8 @@
             super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == REQUEST_CREATE_POST && resultCode == RESULT_OK && data != null) {
                 try {
-                    model.addPost(this, data, postsAdapter);
+                    swipeRefreshLayout.setRefreshing(true);
+                    model.addPost(this, data);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -132,43 +108,9 @@
         }
 
         private void setupSwipeRefresh() {
-            SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-            swipeRefreshLayout.setOnRefreshListener(() -> {
-                postsAdapter.reload();
-                // Once the action is complete, call setRefreshing(false) to indicate that the refresh is complete
-                swipeRefreshLayout.setRefreshing(false);
-            });
+            swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+            swipeRefreshLayout.setOnRefreshListener(() -> postsViewModel.reload());
         }
-
-        private void initializeTimerTask() {
-            timerTask = new TimerTask() {
-                public void run() {
-                    // Update the posts timePublished field
-                    runOnUiThread(() -> {
-                        if (postsAdapter != null) {
-                            for (Post post : postsAdapter.getPosts()) {
-                                if (post != null) { // Add null check here
-                                    // Calculate the time difference between current time and post creation time
-                                    long currentTime = System.currentTimeMillis();
-                                    CharSequence timePassed = DateUtils.getRelativeTimeSpanString(post.getCreationTime(), currentTime, DateUtils.SECOND_IN_MILLIS);
-                                    post.setTimePublished(timePassed.toString());
-                                    // Add null check for postDao.get(post.getId()) to avoid NullPointerException
-                                    Post updatedPost = postDao.get(post.getId());
-                                    if (updatedPost != null) {
-                                        post.setContent(updatedPost.getContent());
-                                        postDao.update(post);
-                                    }
-                                }
-                            }
-                            // Notify the adapter that the data set has changed
-                            postsAdapter.reload();
-                        }
-                    });
-                }
-            };
-        }
-
-
     }
 
 

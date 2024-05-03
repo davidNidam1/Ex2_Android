@@ -109,8 +109,8 @@
                    String likes = current.getLikesString();
                    likesText.setText(likes);
 
-                   Feed.postDao.update(posts.get(adapterPosition));
-                   this.reload();
+                   Feed.postsViewModel.update(posts.get(adapterPosition));
+                   Feed.postsViewModel.reload();
                });
 
                // Inside onBindViewHolder method of PostsListAdapter
@@ -137,9 +137,8 @@
 
                ImageButton deleteBtn = holder.itemView.findViewById(R.id.deletePostBtn);
                deleteBtn.setOnClickListener(view -> {
-                   Feed.postDao.delete(posts.get(adapterPosition));
-                   remove(adapterPosition);
-                   reload();
+                   Feed.postsViewModel.delete(posts.get(adapterPosition));
+                   Feed.postsViewModel.reload();
                });
 
                ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);
@@ -164,27 +163,8 @@
             notifyDataSetChanged();
         }
 
-        public List<Post> getPosts() {
-            return posts;
-        }
-
         public void reload() {
             notifyDataSetChanged();
-        }
-
-        public void add(Post post) {
-            if (posts == null) {
-                posts = new ArrayList<>(); // Initialize the list if it's null
-            }
-            posts.add(0, post); // Add the new post at the beginning of the list
-            notifyItemInserted(0); // Notify adapter about the item insertion
-        }
-
-        public void remove(int position) {
-            if (position != -1) {
-                posts.remove(position); // Remove the post from the list
-                notifyItemRemoved(position); // Notify adapter about the item removal
-            }
         }
 
     }

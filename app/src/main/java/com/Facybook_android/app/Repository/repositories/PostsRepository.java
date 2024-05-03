@@ -22,7 +22,9 @@
                             AppDB.class, "PostsDB").build();
             dao = db.postDao();
             postListData = new PostListData();
+            api = new PostAPI(postListData, dao);
         }
+
         class PostListData extends MutableLiveData<List<Post>> {
             public PostListData() {
                 super();
@@ -41,9 +43,11 @@
         public LiveData<List<Post>> getAll() {
             return postListData;
         }
-    //    public void add
-    //            (final Post post) { api.add(post);}
-    //    public void delete (final Post post) { api.delete(post); }
-    //    public void reload() { api.get();}
+        public void add(final Post post) { api.add(post);}
+        public void delete (final Post post) { api.delete(post); }
+        public void reload() { api.get(); }
+        public void update(Post post) { api.update(post); }
+        public Post getPost(int id) { return api.getPost(id); }
+
 
     }

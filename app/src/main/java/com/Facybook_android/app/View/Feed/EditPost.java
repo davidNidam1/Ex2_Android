@@ -26,7 +26,7 @@
 
             if(getIntent().getExtras() != null) {
                 int id = getIntent().getIntExtra("id", 0);
-                post = Feed.postDao.get(id);
+                post = Feed.postsViewModel.getPost(id);
                 editTxt.setText(post.getContent());
                 postPic.setImageBitmap(Utilities.base64ToBitmap(post.getPostPath()));
             }
@@ -35,7 +35,7 @@
             saveBtn.setOnClickListener(v -> {
                 if (post != null) {
                     post.setContent(editTxt.getText().toString());
-                    Feed.postDao.update(post);
+                    Feed.postsViewModel.update(post);
                     finish();
                 }
             });
