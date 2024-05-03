@@ -62,4 +62,5 @@
     <string name="friends_num">Friends: 1000</string>
     <string name="friend_request_btn">Friend Request</string>
     <string name="send_message_btn">Send Message</string>
+    <string name="BaseUrl">http://localhost:8080/</string>
 </resources>

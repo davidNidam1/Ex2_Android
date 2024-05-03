@@ -106,7 +106,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_nickname" />
 
-    <com.example.Facybook_android.ViewModels.CircularImageView
+    <com.Facybook_android.app.ViewModels.CircularImageView
         android:id="@+id/user_profile_picture"
         android:layout_width="48dp"
         android:layout_height="48dp"

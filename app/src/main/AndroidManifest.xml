@@ -15,25 +15,25 @@
         android:theme="@style/Theme.Ex2Android"
         tools:targetApi="31">
         <activity
-            android:name="com.example.Facybook_android.View.Feed.EditPost"
+            android:name="com.Facybook_android.app.View.Feed.EditPost"
             android:exported="false" />
         <activity
-            android:name="com.example.Facybook_android.View.Feed.CreateNewPost"
+            android:name="com.Facybook_android.app.View.Feed.CreateNewPost"
             android:exported="false" />
         <activity
-            android:name="com.example.Facybook_android.View.Feed.comments"
+            android:name="com.Facybook_android.app.View.Feed.comments"
             android:exported="false" />
         <activity
-            android:name="com.example.Facybook_android.View.Feed.menu"
+            android:name="com.Facybook_android.app.View.Feed.menu"
             android:exported="false" />
         <activity
-            android:name="com.example.Facybook_android.View.Feed.Feed"
+            android:name="com.Facybook_android.app.View.Feed.Feed"
             android:exported="false" />
         <activity
-            android:name="com.example.Facybook_android.View.SignUp.SignUp"
+            android:name="com.Facybook_android.app.View.SignUp.SignUp"
             android:exported="false" />
         <activity
-            android:name="com.example.Facybook_android.View.LogIn.MainActivity"
+            android:name="com.Facybook_android.app.View.LogIn.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

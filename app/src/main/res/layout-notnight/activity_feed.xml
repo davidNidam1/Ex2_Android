@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.Facybook_android.View.Feed.Feed"
+    tools:context="com.Facybook_android.app.View.Feed.Feed"
     tools:ignore="MissingDefaultResource">
 
     <androidx.appcompat.widget.Toolbar

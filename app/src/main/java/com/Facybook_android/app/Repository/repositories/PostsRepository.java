@@ -1,0 +1,49 @@
+    package com.Facybook_android.app.Repository.repositories;
+
+    import androidx.lifecycle.LiveData;
+    import androidx.lifecycle.MutableLiveData;
+    import androidx.room.Room;
+
+    import com.Facybook_android.app.API.PostAPI;
+    import com.Facybook_android.app.Context.MyApplication;
+    import com.Facybook_android.app.Model.entities.Post;
+    import com.Facybook_android.app.Repository.AppDB;
+    import com.Facybook_android.app.Repository.interfaces.PostDao;
+
+    import java.util.LinkedList;
+    import java.util.List;
+
+    public class PostsRepository {
+        private PostDao dao;
+        private PostListData postListData;
+        private PostAPI api;
+        public PostsRepository() {
+            AppDB db = Room.databaseBuilder(MyApplication.context,
+                            AppDB.class, "PostsDB").build();
+            dao = db.postDao();
+            postListData = new PostListData();
+        }
+        class PostListData extends MutableLiveData<List<Post>> {
+            public PostListData() {
+                super();
+                setValue(new LinkedList<>());
+            }
+
+            @Override
+            protected void onActive() {
+                super.onActive();
+                new Thread(() -> {
+                    postListData.postValue(dao.index());
+                }).start();
+            }
+
+        }
+        public LiveData<List<Post>> getAll() {
+            return postListData;
+        }
+    //    public void add
+    //            (final Post post) { api.add(post);}
+    //    public void delete (final Post post) { api.delete(post); }
+    //    public void reload() { api.get();}
+
+    }
