@@ -15,9 +15,25 @@
     import com.google.gson.reflect.TypeToken;
 
     import java.io.ByteArrayOutputStream;
+    import java.lang.reflect.Type;
     import java.util.List;
 
     public class Converters {
+
+        private static Gson gson = new Gson();
+
+        @TypeConverter
+        public static List<String> fromStringToStringList(String value) {
+            Type listType = new TypeToken<List<String>>() {}.getType();
+            return gson.fromJson(value, listType);
+        }
+
+        @TypeConverter
+        public static String fromStringListToString(List<String> list) {
+            return gson.toJson(list);
+        }
+
+
         @TypeConverter
         public static List<Comment> fromString(String value) {
             return new Gson().fromJson(value, new TypeToken<List<Comment>>() {}.getType());

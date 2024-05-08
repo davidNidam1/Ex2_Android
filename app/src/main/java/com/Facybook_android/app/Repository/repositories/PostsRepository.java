@@ -47,7 +47,7 @@
         public void delete (final Post post) { api.delete(post); }
         public void reload() { api.get(); }
         public void update(Post post) { api.update(post); }
-        public Post getPost(int id) { return api.getPost(id); }
+        public Post getPost(int id) { return dao.get(id); }
 
 
     }

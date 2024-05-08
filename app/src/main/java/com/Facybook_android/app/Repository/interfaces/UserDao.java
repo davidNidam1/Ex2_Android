@@ -1,36 +1,27 @@
-    //package com.example.Facybook_android.Model.interfaces;
-    //
-    //import androidx.room.Dao;
-    //import androidx.room.Delete;
-    //import androidx.room.Insert;
-    //import androidx.room.Query;
-    //import androidx.room.Update;
-    //
-    //import com.example.Facybook_android.Model.entities.User;
-    //
-    //import java.util.List;
-    //
-    //@Dao
-    //public interface UserDao {
-    //    @Query("SELECT COUNT(*) FROM user WHERE userName = :username AND password = :password")
-    //    int findUserByUsernameAndPassword(String username, String password);
-    //    @Query("SELECT * FROM user")
-    //    List<User> index();
-    //
-    //    @Query("SELECT * FROM user WHERE id = :id")
-    //    User get(int id);
-    //
-    //    // Method to delete all entries from the database
-    //    @Query("DELETE FROM user")
-    //    void deleteAll();
-    //
-    //    @Insert
-    //    void insert(User... users);
-    //
-    //    @Update
-    //    void update(User... users);
-    //
-    //    @Delete
-    //    void delete(User... users);
-    //
-    //}
+    package com.Facybook_android.app.Repository.interfaces;
+
+    import androidx.room.Dao;
+    import androidx.room.Delete;
+    import androidx.room.Insert;
+    import androidx.room.Query;
+
+    import com.Facybook_android.app.Model.entities.Post;
+    import com.Facybook_android.app.Model.entities.User;
+
+    import java.util.List;
+
+    @Dao
+    public interface UserDao {
+//        @Query("SELECT * FROM user WHERE name = :name")
+//        User get(String name);
+        @Query("SELECT * FROM user")
+        User index();
+//        @Query("DELETE FROM user")
+//        void deleteAll();
+        @Insert
+        void insert(User... users);
+        @Delete
+        void delete(User... users);
+        @Query("DELETE FROM user")
+        void deleteAll();
+    }

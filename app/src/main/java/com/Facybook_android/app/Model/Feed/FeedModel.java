@@ -1,5 +1,7 @@
     package com.Facybook_android.app.Model.Feed;
 
+    import static com.Facybook_android.app.View.LogIn.MainActivity.usersViewModel;
+
     import android.content.Context;
     import android.content.Intent;
     import android.graphics.drawable.Drawable;
@@ -20,6 +22,7 @@
     import com.Facybook_android.app.View.Feed.Feed;
     import com.Facybook_android.app.View.Feed.comments;
     import com.Facybook_android.app.R;
+    import com.Facybook_android.app.View.LogIn.MainActivity;
 
     import java.io.FileNotFoundException;
     import java.io.IOException;
@@ -35,7 +38,7 @@
             // Retrieve data from the CreateNewPost activity
             String postContent = data.getStringExtra("post_content");
             String mediaUriString = data.getStringExtra("media_uri");
-            Drawable profilePic = context.getDrawable(R.drawable.user_ico);
+            String profilePic = usersViewModel.get().getValue().getProfilePicture();
 
             // Convert mediaUriString to Uri
             Uri mediaUri = null;

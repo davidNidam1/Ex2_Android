@@ -8,6 +8,7 @@
 
     import androidx.annotation.Nullable;
     import androidx.appcompat.app.AppCompatActivity;
+    import androidx.lifecycle.ViewModel;
     import androidx.lifecycle.ViewModelProvider;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@
     import com.Facybook_android.app.Repository.interfaces.PostDao;
     import com.Facybook_android.app.R;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
+    import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     import java.io.FileNotFoundException;
     import java.util.ArrayList;

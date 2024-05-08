@@ -109,15 +109,16 @@
 
             <com.Facybook_android.app.ViewModels.CircularImageView
                 android:id="@+id/user_profile"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:contentDescription="@string/profile_picture"
-                android:src="@drawable/user_ico"
                 android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -126,18 +127,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/nickname"
+                    android:layout_marginTop="12dp"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/time_published"
+                    android:id="@+id/view_profile_link"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_marginStart="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/view_profile"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground" />
             </LinearLayout>
         </LinearLayout>
 

@@ -10,11 +10,13 @@
 
     import androidx.annotation.Nullable;
     import androidx.appcompat.app.AppCompatActivity;
+    import androidx.lifecycle.ViewModelProvider;
 
     //import com.example.Facybook_android.Model.interfaces.UserDao;
     import com.Facybook_android.app.View.LogIn.MainActivity;
     import com.Facybook_android.app.R;
     import com.Facybook_android.app.Model.SignUp.SignUpModel;
+    import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     public class SignUp extends AppCompatActivity {
 
@@ -24,14 +26,11 @@
         private Uri mediaUri;
         private boolean pictureUploaded = false;
         private final SignUpModel model = new SignUpModel();
-    //    public static UserDao userDao;
 
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_sign_up);
-
-    //        userDao = Feed.db.userDao();
 
             // Initialize Views
             usernameEditText = findViewById(R.id.edit_text_username);
@@ -49,9 +48,9 @@
             // Set OnClickListener for sign up button
             signUpButton.setOnClickListener(v -> {
                 // If all validations pass, transfer the user to the login activity
-                if (model.validateSignUp(usernameEditText, passwordEditText, verifyPasswordEditText, nicknameEditText,
-                        pictureUploaded, mediaUri, this)) {
-                    Intent intent = new Intent(com.Facybook_android.app.View.SignUp.SignUp.this, MainActivity.class);
+                if (model.validateSignUp(usernameEditText, passwordEditText, verifyPasswordEditText,
+                        nicknameEditText, pictureUploaded, mediaUri)) {
+                    Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     finish(); // close the current activity
                 }

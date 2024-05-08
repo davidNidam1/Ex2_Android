@@ -27,14 +27,14 @@
             if(getIntent().getExtras() != null) {
                 int id = getIntent().getIntExtra("id", 0);
                 post = Feed.postsViewModel.getPost(id);
-                editTxt.setText(post.getContent());
-                postPic.setImageBitmap(Utilities.base64ToBitmap(post.getPostPath()));
+                editTxt.setText(post.getText());
+                postPic.setImageBitmap(Utilities.base64ToBitmap(post.getPicture()));
             }
 
             Button saveBtn = findViewById(R.id.buttonSave);
             saveBtn.setOnClickListener(v -> {
                 if (post != null) {
-                    post.setContent(editTxt.getText().toString());
+                    post.setText(editTxt.getText().toString());
                     Feed.postsViewModel.update(post);
                     finish();
                 }

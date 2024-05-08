@@ -10,26 +10,25 @@
 
         @PrimaryKey(autoGenerate = true)
         private int id;
-        private String username;
-        private String timePublished;
-        private String content;
+        private String publisher;
+        private String date;
+        private String text;
         private int likes;
     //    private List<Comment> comments;
-        private String profilePath;
-        private String postPath;
-        private Drawable profilePic;
+        private String picture;
+        private String profilePic;
         private boolean isLiked;
         private long creationTime;
 
-        public Post(String username, String content, Drawable profilePic, int likes,
-                    String timePublished, String postPath) {
-            this.username = username;
-            this.content = content;
+        public Post(String publisher, String text, String profilePic, int likes,
+                    String date, String picture) {
+            this.publisher = publisher;
+            this.text = text;
             this.profilePic = profilePic;
             this.isLiked = false;
             this.likes = likes;
-            this.timePublished = timePublished;
-            this.postPath = postPath;
+            this.date = date;
+            this.picture = picture;
             this.creationTime = System.currentTimeMillis(); // Set the creation time to current time
         }
 
@@ -60,33 +59,26 @@
         public void setLiked(boolean liked) {
             isLiked = liked;
         }
-        public String getProfilePath() {
-            return profilePath;
+
+        public String getPicture() {
+            return picture;
         }
 
-        public void setProfilePath(String profilePath) {
-            this.profilePath = profilePath;
-        }
-
-        public String getPostPath() {
-            return postPath;
-        }
-
-        public void setPostPath(String postPath) {
-            this.postPath = postPath;
+        public void setPicture(String picture) {
+            this.picture = picture;
         }
 
         public int getLikes() {
             return likes;
         }
 
-        public Drawable getProfilePic() {
+        public String getProfilePic() {
             return profilePic;
         }
 
-    //    public void setProfilePic(Drawable profilePic) {
-    //        this.profilePic = profilePic;
-    //    }
+        public void setProfilePic(String profilePic) {
+            this.profilePic = profilePic;
+        }
 
     //    public Drawable getPostPic() {
     //        return postPic;
@@ -96,37 +88,36 @@
     //        this.postPic = postPic;
     //    }
 
-
         public int getId() {
             return id;
         }
 
-        public String getUsername() {
-            return username;
+        public String getPublisher() {
+            return publisher;
         }
 
-        public String getTimePublished() {
-            return timePublished;
+        public String getDate() {
+            return date;
         }
 
-        public String getContent() {
-            return content;
+        public String getText() {
+            return text;
         }
 
         public void setId(int id) {
             this.id = id;
         }
 
-        public void setUsername(String username) {
-            this.username = username;
+        public void setPublisher(String publisher) {
+            this.publisher = publisher;
         }
 
-        public void setTimePublished(String timePublished) {
-            this.timePublished = timePublished;
+        public void setDate(String date) {
+            this.date = date;
         }
 
-        public void setContent(String content) {
-            this.content = content;
+        public void setText(String text) {
+            this.text = text;
         }
 
         public void setLikes(int likes) {

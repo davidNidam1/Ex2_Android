@@ -49,7 +49,7 @@
             long currentTime = System.currentTimeMillis();
             CharSequence timePassed = DateUtils.getRelativeTimeSpanString(post.getCreationTime(),
                     currentTime, DateUtils.SECOND_IN_MILLIS);
-            post.setTimePublished(timePassed.toString());
+            post.setDate(timePassed.toString());
             mRepository.update(post);
         }
 

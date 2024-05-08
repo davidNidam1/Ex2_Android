@@ -62,5 +62,6 @@
     <string name="friends_num">Friends: 1000</string>
     <string name="friend_request_btn">Friend Request</string>
     <string name="send_message_btn">Send Message</string>
-    <string name="BaseUrl">http://10.0.2.2:8080/</string>
+    <string name="BaseUrl">http://172.24.192.1:12345/</string>
+    <string name="friends_count">%1$d friends</string>
 </resources>

@@ -23,7 +23,6 @@
     import com.Facybook_android.app.View.Feed.comments;
     import com.Facybook_android.app.R;
 
-    import java.util.ArrayList;
     import java.util.List;
 
     public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
@@ -37,7 +36,6 @@
             private final TextView timePublished;
             private final ImageView profilePicture;
             private final ImageView postPicture;
-
             private ImageButton likeButton;
 
             private PostViewHolder(View itemView) {
@@ -72,14 +70,15 @@
         public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
            if (posts != null) {
                final Post current = posts.get(position);
-               holder.author.setText(current.getUsername());
-               holder.content.setText(current.getContent());
-               holder.profilePicture.setImageDrawable(current.getProfilePic());
+               holder.author.setText(current.getPublisher());
+               holder.content.setText(current.getText());
                holder.postLikes.setText(current.getLikesString());
-               holder.timePublished.setText(current.getTimePublished());
+               holder.timePublished.setText(current.getDate());
 
-               Bitmap bitmap = Utilities.base64ToBitmap(current.getPostPath());
+               Bitmap bitmap = Utilities.base64ToBitmap(current.getPicture());
                holder.postPicture.setImageBitmap(bitmap);
+               Bitmap bitmap2 = Utilities.base64ToBitmap(current.getProfilePic());
+               holder.profilePicture.setImageBitmap(bitmap2);
 
                // Find the commentBtn and set OnClickListener
                ImageButton commentButton = holder.itemView.findViewById(R.id.commentBtn);

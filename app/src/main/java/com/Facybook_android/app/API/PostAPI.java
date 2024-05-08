@@ -1,6 +1,9 @@
     package com.Facybook_android.app.API;
 
+    import static com.Facybook_android.app.Context.MyApplication.context;
+
     import android.util.Log;
+    import android.widget.Toast;
 
     import androidx.lifecycle.MutableLiveData;
 
@@ -26,7 +29,7 @@
             this.dao = dao;
 
             retrofit = new Retrofit.Builder()
-            .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
+            .baseUrl(context.getString(R.string.BaseUrl))
             .addConverterFactory(GsonConverterFactory.create())
             .build();
             webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -55,7 +58,6 @@
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     // After adding to the server, add to the local database
                     if (response.isSuccessful()) {
-                        Log.e("server", "got response! adding post!");
                         new Thread(() -> {
                             dao.insert(post);
                             postListData.postValue(dao.index());
@@ -66,68 +68,49 @@
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                     // Handle failure
+                    String errorMessage = "Failed to send request";
+                    Log.e("Request Failure", errorMessage, t);
                 }
             });
         }
 
         public void delete(Post post) {
-            Call<Void> call = webServiceAPI.deletePost(post.getId());
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        new Thread(() -> {
-                            dao.delete(post);
-                            postListData.postValue(dao.index());
-                        }).start();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    // Handle failure
-                }
-            });
+//            Call<Void> call = webServiceAPI.deletePost(post.getId());
+//            call.enqueue(new Callback<Void>() {
+//                @Override
+//                public void onResponse(Call<Void> call, Response<Void> response) {
+//                    if (response.isSuccessful()) {
+//                        new Thread(() -> {
+//                            dao.delete(post);
+//                            postListData.postValue(dao.index());
+//                        }).start();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Void> call, Throwable t) {
+//                    // Handle failure
+//                }
+//            });
         }
 
         public void update(Post post) {
-            Call<Void> call = webServiceAPI.updatePost(post.getId(), post);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        new Thread(() -> {
-                            dao.update(post);
-                            postListData.postValue(dao.index());
-                        }).start();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    // Handle failure
-                }
-            });
-        }
-
-        public Post getPost(int id) {
-            // This method should ideally return LiveData<Post> or use a callback to handle asynchronous result
-            final MutableLiveData<Post> liveData = new MutableLiveData<>();
-            Call<Post> call = webServiceAPI.getPostById(id);
-            call.enqueue(new Callback<Post>() {
-                @Override
-                public void onResponse(Call<Post> call, Response<Post> response) {
-                    if (response.isSuccessful()) {
-                        liveData.postValue(response.body());
-                        // Consider inserting or updating the post in the local database if necessary
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Post> call, Throwable t) {
-                    // Handle failure
-                }
-            });
-            return liveData.getValue();  // Note: this is not practical for asynchronous operations
+//            Call<Void> call = webServiceAPI.updatePost(post.getId(), post);
+//            call.enqueue(new Callback<Void>() {
+//                @Override
+//                public void onResponse(Call<Void> call, Response<Void> response) {
+//                    if (response.isSuccessful()) {
+//                        new Thread(() -> {
+//                            dao.update(post);
+//                            postListData.postValue(dao.index());
+//                        }).start();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Void> call, Throwable t) {
+//                    // Handle failure
+//                }
+//            });
         }
     }
