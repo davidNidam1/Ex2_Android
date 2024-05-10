@@ -26,11 +26,14 @@
         private Uri mediaUri;
         private boolean pictureUploaded = false;
         private final SignUpModel model = new SignUpModel();
+        private UsersViewModel usersViewModel;
 
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_sign_up);
+
+            usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
             // Initialize Views
             usernameEditText = findViewById(R.id.edit_text_username);
@@ -49,7 +52,7 @@
             signUpButton.setOnClickListener(v -> {
                 // If all validations pass, transfer the user to the login activity
                 if (model.validateSignUp(usernameEditText, passwordEditText, verifyPasswordEditText,
-                        nicknameEditText, pictureUploaded, mediaUri)) {
+                        nicknameEditText, pictureUploaded, mediaUri, usersViewModel)) {
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     finish(); // close the current activity

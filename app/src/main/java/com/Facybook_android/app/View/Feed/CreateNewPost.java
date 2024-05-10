@@ -30,7 +30,6 @@
         private static final int REQUEST_IMAGE_PICK = 1;
         private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2;
         private static final int REQUEST_IMAGE_CAPTURE = 3;
-
         private EditText editTextPostContent;
         private ImageView imageViewAttachedMedia;
         private Button buttonAttachMedia;

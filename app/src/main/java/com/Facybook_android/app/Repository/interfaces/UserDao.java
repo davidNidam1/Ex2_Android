@@ -4,6 +4,7 @@
     import androidx.room.Delete;
     import androidx.room.Insert;
     import androidx.room.Query;
+    import androidx.room.Update;
 
     import com.Facybook_android.app.Model.entities.Post;
     import com.Facybook_android.app.Model.entities.User;
@@ -24,4 +25,6 @@
         void delete(User... users);
         @Query("DELETE FROM user")
         void deleteAll();
+        @Update
+        void update(User... users);
     }

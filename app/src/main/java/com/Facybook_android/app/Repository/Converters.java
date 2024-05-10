@@ -11,6 +11,7 @@
     import androidx.room.TypeConverter;
 
     import com.Facybook_android.app.Model.entities.Comment;
+    import com.Facybook_android.app.Model.entities.Token;
     import com.google.gson.Gson;
     import com.google.gson.reflect.TypeToken;
 

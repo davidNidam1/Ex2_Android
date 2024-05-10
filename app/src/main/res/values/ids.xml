@@ -53,4 +53,7 @@
     <item name="fragment_container" type="id" />
     <item name="sendButton" type="id" />
     <item name="post_content_edit" type="id" />
+    <item name="logoutTextView" type="id" />
+    <item name="action_delete_user" type="id" />
+    <item name="action_update_user" type="id" />
 </resources>

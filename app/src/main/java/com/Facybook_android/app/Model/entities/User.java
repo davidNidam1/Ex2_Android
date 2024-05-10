@@ -9,8 +9,6 @@
     @Entity
     public class User {
 
-//        @PrimaryKey
-//        private int id;
         @PrimaryKey @NonNull
         private String name;
         private String profilePicture;
@@ -19,8 +17,6 @@
 //        private List<Post> posts;
         private String username;
         private String password;
-
-
         public User(String name, String profilePicture, String username, String password) {
             this.name = name;
             this.profilePicture = profilePicture;
@@ -50,13 +46,6 @@
         public void setPassword(String password) {
             this.password = password;
         }
-
-//        public int getId() {
-//            return id;
-//        }
-//        public void setId(int id) {
-//            this.id = id;
-//        }
 
         public String getUserName() {
             return username;

@@ -2,6 +2,8 @@
 
     import static com.Facybook_android.app.Context.MyApplication.context;
 
+    import android.content.Context;
+    import android.content.SharedPreferences;
     import android.util.Log;
     import android.widget.Toast;
 
@@ -14,6 +16,8 @@
 
     import java.util.List;
 
+    import okhttp3.OkHttpClient;
+    import okhttp3.Request;
     import retrofit2.Call;
     import retrofit2.Callback;
     import retrofit2.Response;
@@ -28,12 +32,32 @@
             this.postListData = postListData;
             this.dao = dao;
 
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(chain -> {
+                        Request originalRequest = chain.request();
+                        String token = getToken();
+                        if (token != null) {
+                            Request.Builder builder = originalRequest.newBuilder()
+                                    .header("Authorization", "Bearer " + token);
+                            Request newRequest = builder.build();
+                            return chain.proceed(newRequest);
+                        }
+                        return chain.proceed(originalRequest);
+                    })
+                    .build();
+
             retrofit = new Retrofit.Builder()
             .baseUrl(context.getString(R.string.BaseUrl))
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
             webServiceAPI = retrofit.create(WebServiceAPI.class);
             }
+
+        private String getToken() {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+            return sharedPreferences.getString("auth_token", null);  // Default to null if the token doesn't exist
+        }
 
             public void get() {
             Call<List<Post>> call = webServiceAPI.getPosts();
@@ -43,7 +67,7 @@
                          new Thread(() -> {
                             dao.deleteAll();
                             dao.insert(response.body());
-                            postListData.postValue(dao.index());
+                            postListData.postValue(response.body());
                             }).start();
                         }
                 @Override
@@ -51,8 +75,8 @@
             });
         }
 
-        public void add(Post post) {
-            Call<Void> call = webServiceAPI.createPost(post);
+        public void add(Post post, String id) {
+            Call<Void> call = webServiceAPI.createPost(id, post);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -61,6 +85,7 @@
                         new Thread(() -> {
                             dao.insert(post);
                             postListData.postValue(dao.index());
+                            Log.e("addPost", "Request Success!");
                         }).start();
                     }
                 }
@@ -74,24 +99,26 @@
             });
         }
 
-        public void delete(Post post) {
-//            Call<Void> call = webServiceAPI.deletePost(post.getId());
-//            call.enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    if (response.isSuccessful()) {
-//                        new Thread(() -> {
-//                            dao.delete(post);
-//                            postListData.postValue(dao.index());
-//                        }).start();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    // Handle failure
-//                }
-//            });
+        public void delete(String publisher, int postId) {
+            Call<Post> call = webServiceAPI.deletePost(publisher, postId);
+            call.enqueue(new Callback<Post>() {
+                @Override
+                public void onResponse(Call<Post> call, Response<Post> response) {
+                    if (response.isSuccessful()) {
+                        new Thread(() -> {
+                            dao.delete(response.body());
+                            postListData.postValue(dao.index());
+                            Log.e("deletePost", "post deleted successfully!");
+                        }).start();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Post> call, Throwable t) {
+                    String errorMessage = "Failed to send request";
+                    Log.e("Request Failure", errorMessage, t);
+                }
+            });
         }
 
         public void update(Post post) {
@@ -112,5 +139,25 @@
 //                    // Handle failure
 //                }
 //            });
+        }
+
+        public void fetchUsersPosts(String userId) {
+            Call<List<Post>> call = webServiceAPI.getUsersPosts(userId);
+            call.enqueue(new Callback<List<Post>>() {
+                @Override
+                public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                    new Thread(() -> {
+                        dao.deleteAll();
+                        dao.insert(response.body());
+                        postListData.postValue(response.body());
+                        Log.e("UserRepository", "Fetched friends' posts successfully");
+                    }).start();
+                }
+                @Override
+                public void onFailure(Call<List<Post>> call, Throwable t) {
+                    // Handle the case where the API call failed to be executed
+                    Log.e("UserRepository", "Failed to fetch friends' posts", t);
+                }
+            });
         }
     }

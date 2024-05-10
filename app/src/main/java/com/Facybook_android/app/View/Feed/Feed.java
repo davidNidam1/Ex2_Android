@@ -1,34 +1,27 @@
     package com.Facybook_android.app.View.Feed;
 
     import android.content.Intent;
+    import android.net.Uri;
     import android.os.Bundle;
-    import android.text.format.DateUtils;
     import android.util.Log;
     import android.widget.ImageButton;
+    import android.widget.ImageView;
 
     import androidx.annotation.Nullable;
     import androidx.appcompat.app.AppCompatActivity;
-    import androidx.lifecycle.ViewModel;
     import androidx.lifecycle.ViewModelProvider;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
-    import androidx.room.Room;
     import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-    import com.Facybook_android.app.Repository.AppDB;
+    import com.Facybook_android.app.Model.entities.User;
     import com.Facybook_android.app.Model.adapters.PostsListAdapter;
-    import com.Facybook_android.app.Model.entities.Post;
     import com.Facybook_android.app.Model.Feed.FeedModel;
-    import com.Facybook_android.app.Repository.interfaces.PostDao;
     import com.Facybook_android.app.R;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
     import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     import java.io.FileNotFoundException;
-    import java.util.ArrayList;
-    import java.util.List;
-    import java.util.Timer;
-    import java.util.TimerTask;
 
     public class Feed extends AppCompatActivity {
         private static final int REQUEST_CREATE_POST = 1001 ;
@@ -36,21 +29,21 @@
         private PostsListAdapter postsAdapter;
         private SwipeRefreshLayout swipeRefreshLayout;
         private FeedModel model = new FeedModel();
-        public static PostsViewModel postsViewModel;
+        private PostsViewModel postsViewModel;
+        private UsersViewModel usersViewModel;
+        private User user;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_feed);
-
             postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
-
+            usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
             shareFragment = new ShareFragment();
 
             setupRecyclerView();
             setupSwipeRefresh();
             setupButtons();
-
             observeViewModel();
         }
 
@@ -58,7 +51,21 @@
             postsViewModel.get().observe(this, posts -> {
                 Log.e("observer", "Observing posts list. Number of posts: " + (posts != null ? posts.size() : "null"));
                 postsAdapter.setPosts(posts);
+                observeUserViewModel();
+                if (user != null) {
+                    postsViewModel.getPosts();
+                }
                 ((SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout)).setRefreshing(false);
+            });
+        }
+
+        public void observeUserViewModel() {
+            usersViewModel.get().observe(this, user -> {
+                this.user = user;
+                if (user != null) {
+                    usersViewModel.getToken(user);
+                    Log.e("user", "user:" + user.getName());
+                }
             });
         }
 
@@ -66,17 +73,20 @@
         protected void onResume() {
             super.onResume();
             postsViewModel.startTimer();
+            if (user != null) {
+                postsViewModel.getPosts();
+            }
         }
 
         @Override
         protected void onPause() {
             super.onPause();
-            postsViewModel.stopTimer();
+//            postsViewModel.stopTimer();
         }
 
         private void setupRecyclerView() {
             RecyclerView lstPosts = findViewById(R.id.lstPosts);
-            postsAdapter = new PostsListAdapter(this, shareFragment);
+            postsAdapter = new PostsListAdapter(this, shareFragment, postsViewModel);
             lstPosts.setAdapter(postsAdapter);
             lstPosts.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -99,10 +109,11 @@
         @Override
         protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == REQUEST_CREATE_POST && resultCode == RESULT_OK && data != null) {
+            if (resultCode == RESULT_OK && data != null &&
+                    requestCode == REQUEST_CREATE_POST) {
                 try {
                     swipeRefreshLayout.setRefreshing(true);
-                    model.addPost(this, data);
+                    model.addPost(postsViewModel, user, data);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -111,6 +122,7 @@
 
         private void setupSwipeRefresh() {
             swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+            swipeRefreshLayout.setRefreshing(true);
             swipeRefreshLayout.setOnRefreshListener(() -> postsViewModel.reload());
         }
     }

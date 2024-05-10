@@ -5,4 +5,8 @@
         <item name="android:textSize">30sp</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Ensure this attribute is defined -->
+        <item name="selectableItemBackgroundBorderless">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
 </resources>

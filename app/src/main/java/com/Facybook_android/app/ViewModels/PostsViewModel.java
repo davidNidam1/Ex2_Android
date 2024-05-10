@@ -61,10 +61,13 @@
         }
 
         public LiveData<List<Post>> get() { return posts; }
-        public Post getPost(int id) {return mRepository.getPost(id); }
-        public void add(Post post) { mRepository.add(post); };
+        public void getPosts() { mRepository.getPosts(); }
+        public void getUsersPosts(String id) { mRepository.getUsersPosts(id); }
+        public void add(Post post, String id) { mRepository.add(post, id); };
         public void reload() { mRepository.reload(); }
         public void update(Post post) { mRepository.update(post); }
-        public void delete(Post post) {mRepository.delete(post); }
-
+        public void delete(String publisher, int postId) {mRepository.delete(publisher, postId); }
+        public Post getPost(int id) {
+            return mRepository.getPost(id);
+        }
     }

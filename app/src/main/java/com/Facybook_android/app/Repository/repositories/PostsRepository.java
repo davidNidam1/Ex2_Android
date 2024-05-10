@@ -25,6 +25,14 @@
             api = new PostAPI(postListData, dao);
         }
 
+        public void getUsersPosts(String id) {
+            api.fetchUsersPosts(id);
+        }
+
+        public Post getPost(int id) {
+            return dao.get(id);
+        }
+
         class PostListData extends MutableLiveData<List<Post>> {
             public PostListData() {
                 super();
@@ -43,11 +51,11 @@
         public LiveData<List<Post>> getAll() {
             return postListData;
         }
-        public void add(final Post post) { api.add(post);}
-        public void delete (final Post post) { api.delete(post); }
+        public void add(final Post post, String id) { api.add(post, id);}
+        public void delete (String publisher, int postId) { api.delete(publisher, postId); }
         public void reload() { api.get(); }
         public void update(Post post) { api.update(post); }
-        public Post getPost(int id) { return dao.get(id); }
+        public void getPosts() { api.get(); }
 
 
     }

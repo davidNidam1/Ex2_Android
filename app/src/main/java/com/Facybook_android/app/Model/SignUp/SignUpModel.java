@@ -2,7 +2,6 @@
 
     import static com.Facybook_android.app.Context.MyApplication.context;
 
-    import android.content.Context;
     import android.net.Uri;
     import android.text.TextUtils;
     import android.util.Log;
@@ -11,22 +10,20 @@
 
     import com.Facybook_android.app.Model.entities.User;
     import com.Facybook_android.app.Model.entities.Utilities;
-    import com.Facybook_android.app.View.Feed.Feed;
-    import com.Facybook_android.app.View.LogIn.MainActivity;
-    import com.Facybook_android.app.View.SignUp.SignUp;
+    import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     import java.io.IOException;
     import java.io.InputStream;
 
-    //import com.example.Facybook_android.Model.entities.User;
-
 
     public class SignUpModel {
+        private UsersViewModel usersViewModel;
         public boolean validateSignUp(EditText usernameEditText, EditText passwordEditText,
                            EditText verifyPasswordEditText, EditText nicknameEditText,
-                           Boolean pictureUploaded, Uri mediaUri) {
+                           Boolean pictureUploaded, Uri mediaUri, UsersViewModel usersViewModel) {
 
             // Retrieve input values
+            this.usersViewModel = usersViewModel;
             String username = usernameEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
             String verifyPassword = verifyPasswordEditText.getText().toString().trim();
@@ -51,19 +48,18 @@
                         Toast.LENGTH_SHORT).show();
                 return false;
             }
-            initNewUser(nickname, username, password, mediaUri, context);
+            initNewUser(nickname, username, password, mediaUri);
             return true;
 
         }
 
-        public void initNewUser(String name, String userName, String password, Uri mediaUri,
-                                Context context) {
+        public void initNewUser(String name, String userName, String password, Uri mediaUri) {
             try {
                 Log.e("step1", "trying to create new user");
                 InputStream inputStream = context.getContentResolver().openInputStream(mediaUri);
                 String profilePicture = Utilities.inputStreamToBase64(inputStream);
                 User user = new User(name, profilePicture, userName, password);
-                MainActivity.usersViewModel.insert(user);
+                usersViewModel.insert(user);
 
             } catch (IOException e) {
                 e.printStackTrace();

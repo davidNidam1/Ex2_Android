@@ -24,7 +24,7 @@
         EditText Password;
         private final LogInModel model = new LogInModel();
         private User user;
-        public static UsersViewModel usersViewModel;
+        private UsersViewModel usersViewModel;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {

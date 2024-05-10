@@ -1,8 +1,11 @@
     package com.Facybook_android.app.Model.adapters;
 
+    import static com.Facybook_android.app.Context.MyApplication.context;
+
     import android.content.Context;
     import android.content.Intent;
     import android.graphics.Bitmap;
+    import android.util.Log;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
@@ -18,16 +21,17 @@
     import com.Facybook_android.app.Model.entities.Utilities;
     import com.Facybook_android.app.Model.entities.Post;
     import com.Facybook_android.app.View.Feed.EditPost;
-    import com.Facybook_android.app.View.Feed.Feed;
     import com.Facybook_android.app.View.Feed.ShareFragment;
     import com.Facybook_android.app.View.Feed.comments;
     import com.Facybook_android.app.R;
+    import com.Facybook_android.app.ViewModels.PostsViewModel;
 
     import java.util.List;
 
     public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
 
         private final ShareFragment shareFragment;
+        private PostsViewModel postsViewModel;
 
         static class PostViewHolder extends RecyclerView.ViewHolder {
             private final TextView author;
@@ -54,9 +58,10 @@
 
         private List<Post> posts;
 
-        public PostsListAdapter(Context context, ShareFragment shareFragment) {
+        public PostsListAdapter(Context context, ShareFragment shareFragment, PostsViewModel postsViewModel) {
             mInflater = LayoutInflater.from(context);
             this.shareFragment = shareFragment;
+            this.postsViewModel = postsViewModel;
         }
 
         @NonNull
@@ -108,8 +113,8 @@
                    String likes = current.getLikesString();
                    likesText.setText(likes);
 
-                   Feed.postsViewModel.update(posts.get(adapterPosition));
-                   Feed.postsViewModel.reload();
+                   postsViewModel.update(posts.get(adapterPosition));
+                   postsViewModel.reload();
                });
 
                // Inside onBindViewHolder method of PostsListAdapter
@@ -136,8 +141,10 @@
 
                ImageButton deleteBtn = holder.itemView.findViewById(R.id.deletePostBtn);
                deleteBtn.setOnClickListener(view -> {
-                   Feed.postsViewModel.delete(posts.get(adapterPosition));
-                   Feed.postsViewModel.reload();
+                   Log.e("delete", "deletebtn pressed");
+                   Post post = posts.get(adapterPosition);
+                   postsViewModel.delete(post.getPublisher(), post.getId());
+//                   postsViewModel.reload();
                });
 
                ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);

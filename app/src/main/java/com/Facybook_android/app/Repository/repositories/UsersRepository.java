@@ -9,6 +9,7 @@ import androidx.room.Room;
 
 import com.Facybook_android.app.API.UserAPI;
 import com.Facybook_android.app.Context.MyApplication;
+import com.Facybook_android.app.Model.entities.Token;
 import com.Facybook_android.app.Model.entities.User;
 import com.Facybook_android.app.Repository.AppDB;
 import com.Facybook_android.app.Repository.interfaces.UserDao;
@@ -53,9 +54,12 @@ public class UsersRepository {
         Log.e("step3", "trying to talk to API");
         userAPI.createUser(user);
     }
-
     public void getUser(String id) {
         userAPI.getUser(id);
     }
+    public void getToken(User user) {
+        userAPI.fetchToken(user);
+    }
+    public void update(String name, String profilePic) { userAPI.updateUser(name, profilePic); }
 
 }
