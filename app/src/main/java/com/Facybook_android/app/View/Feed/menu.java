@@ -65,6 +65,11 @@
 
             TextView deleteProfileLink = findViewById(R.id.delete_profile_link);
             deleteProfileLink.setOnClickListener(view -> showDeleteConfirmationDialog());
+
+            ImageButton btnMenu = findViewById(R.id.btn_menu);
+            btnMenu.setOnClickListener(v -> {
+                finish();
+            });
         }
 
         private void showDeleteConfirmationDialog() {

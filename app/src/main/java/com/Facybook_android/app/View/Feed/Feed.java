@@ -78,6 +78,7 @@
         @Override
         protected void onResume() {
             super.onResume();
+            Log.e("onResume", "active");
             usersViewModel.getUser(LoggedInUser);
             if (user != null) {
                 postsViewModel.reload();

@@ -37,6 +37,8 @@
         private static final int REQUEST_CREATE_POST = 1001 ;
         private TextView username;
         private TextView friendsCounter;
+        private TextView notFriends1;
+        private TextView notFriends2;
         private TextView logoutTextView;
         private ImageView user_profile_picture;
         private User user;
@@ -64,7 +66,6 @@
             postsViewModel.clear();
             usersViewModel.reload();
             usersViewModel.getUser(user2view);
-            postsViewModel.getUsersPosts(user2view);
 
             setViews();
             setupRecyclerView();
@@ -78,6 +79,8 @@
             friendsCounter = findViewById(R.id.friendsCounter);
             user_profile_picture = findViewById(R.id.user_profile_picture);
             logoutTextView = findViewById(R.id.logoutTextView);
+            notFriends1 = findViewById(R.id.not_friends_1);
+            notFriends2 = findViewById(R.id.not_friends_2);
         }
 
         private void setupButtons() {
@@ -136,11 +139,9 @@
         private void observeViewModel() {
             postsViewModel.get().observe(this, posts -> {
                 Log.e("observer", "Observing posts list. Number of posts: " + (posts != null ? posts.size() : "null"));
-                postsAdapter.setPosts(posts);
                 observeUserViewModel();
-                if (user != null) {
-                    postsViewModel.reload(user2view);
-                }
+                assert posts != null;
+                if (!posts.isEmpty()) { postsAdapter.setPosts(posts); }
                 ((SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout)).setRefreshing(false);
             });
         }
@@ -150,6 +151,11 @@
             friendsCounter.setText(getString(R.string.friends_count, user.getFriends().size()));
             Bitmap bitmap = Utilities.base64ToBitmap(user.getProfilePicture());
             user_profile_picture.setImageBitmap(bitmap);
+
+            if (!user.getFriends().contains(LoggedInUser)) {
+                notFriends1.setVisibility(View.VISIBLE);
+                notFriends2.setVisibility(View.VISIBLE);
+            }
         }
 
         public void observeUserViewModel() {
@@ -157,6 +163,7 @@
                 this.user = user;
                 if (user != null) {
                     setUsersDetails();
+                    postsViewModel.reload(user2view);
                     Log.e("user", "user:" + user.getName());
                 }
             });

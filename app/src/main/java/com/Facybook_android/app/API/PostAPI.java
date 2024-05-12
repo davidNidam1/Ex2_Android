@@ -110,6 +110,15 @@
                             postListData.postValue(dao.index());
                             Log.e("deletePost", "post deleted successfully!");
                         }).start();
+                    } else if (response.code() == 404) {
+                        Toast.makeText(context, "Post not found",
+                                Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 500) {
+                        Toast.makeText(context, "Internal Server error",
+                                Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 403) {
+                        Toast.makeText(context, "Unauthorized",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -161,5 +170,12 @@
                     Log.e("UserRepository", "Failed to fetch friends' posts", t);
                 }
             });
+        }
+
+        public void clear() {
+            new Thread (() -> {
+                dao.deleteAll();
+                postListData.postValue(dao.index());
+            }).start();
         }
     }

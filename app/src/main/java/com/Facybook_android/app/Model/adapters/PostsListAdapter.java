@@ -26,6 +26,7 @@
     import com.Facybook_android.app.View.Feed.comments;
     import com.Facybook_android.app.R;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
+    import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     import java.util.Date;
     import java.util.List;
@@ -118,7 +119,7 @@
                final int adapterPosition = holder.getAdapterPosition();
                commentButton.setOnClickListener(view -> {
                    if (adapterPosition != RecyclerView.NO_POSITION && posts != null && adapterPosition < posts.size()) {
-                       int postId = posts.get(adapterPosition).getId();
+                       int postId = posts.get(adapterPosition).getPid();
                        Intent intent = new Intent(view.getContext(), comments.class);
                        intent.putExtra("postId", postId);
                        view.getContext().startActivity(intent);
@@ -171,14 +172,14 @@
                deleteBtn.setOnClickListener(view -> {
                    Log.e("delete", "deletebtn pressed");
                    Post post = posts.get(adapterPosition);
-                   postsViewModel.delete(post.getPublisher(), post.getId());
+                   postsViewModel.delete(post.getPublisher(), post.getPid());
                    postsViewModel.reload();
                });
 
                ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);
                editBtn.setOnClickListener(view -> {
                    Intent intent = new Intent(view.getContext(), EditPost.class);
-                   intent.putExtra("id", posts.get(adapterPosition).getId());
+                   intent.putExtra("id", posts.get(adapterPosition).getPid());
                    view.getContext().startActivity(intent);
                    this.reload();
                });

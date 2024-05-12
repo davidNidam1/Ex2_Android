@@ -58,7 +58,5 @@
         public void reload() { api.get(); }
         public void reload(String id) { api.fetchUsersPosts(id); }
         public void update(Post post) { api.update(post); }
-        public void clear() {
-            new Thread( () -> dao.deleteAll());
-        }
+        public void clear() { api.clear(); }
     }

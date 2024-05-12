@@ -70,7 +70,6 @@
 
         @Override
         protected void onResume() {
-            Log.e("onResume", "active");
             super.onResume();
             // Clear the username and password fields when the activity resumes
             Nickname.setText("");

@@ -60,6 +60,7 @@
                 assert postContent != null;
                 Log.e("postContent", postContent);
                 postsViewModel.add(newPost, publisher);
+                Log.e("newPost", "newPost id:" + newPost.getPid());
                 postsViewModel.reload();
 
             } catch (IOException e) {

@@ -11,7 +11,7 @@
     public class Post {
 
         @PrimaryKey(autoGenerate = true)
-        private int id;
+        private int pid;
         private String publisher;
         private Date date;
         private String text;
@@ -71,8 +71,8 @@
             this.profilePic = profilePic;
         }
 
-        public int getId() {
-            return id;
+        public int getPid() {
+            return pid;
         }
 
         public String getPublisher() {
@@ -87,8 +87,8 @@
             return text;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setPid(int id) {
+            this.pid = id;
         }
 
         public void setPublisher(String publisher) {
