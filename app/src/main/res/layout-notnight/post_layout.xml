@@ -35,7 +35,9 @@
                 android:layout_marginStart="12dp"
                 android:gravity="center_vertical"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/time_published"
@@ -53,7 +55,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/post_content"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageButton
             android:id="@+id/editPostBtn"
@@ -63,7 +67,9 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/edit_btn_description"
-            android:src="@drawable/edit_icon"/>
+            android:src="@drawable/edit_icon"
+            android:clickable="true"
+            android:focusable="true" />
 
         <Space
             android:layout_width="10dp"
@@ -77,7 +83,9 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/delete_btn_description"
-            android:src="@drawable/delete_ico" />
+            android:src="@drawable/delete_ico"
+            android:clickable="true"
+            android:focusable="true"/>
 
     </LinearLayout>
 
@@ -127,6 +135,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="12dp"
+        android:paddingVertical="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

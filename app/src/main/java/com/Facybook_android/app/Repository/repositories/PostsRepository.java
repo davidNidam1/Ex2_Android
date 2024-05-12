@@ -19,7 +19,9 @@
         private PostAPI api;
         public PostsRepository() {
             AppDB db = Room.databaseBuilder(MyApplication.context,
-                            AppDB.class, "PostsDB").build();
+                            AppDB.class, "PostsDB")
+                    .fallbackToDestructiveMigration()
+                    .build();
             dao = db.postDao();
             postListData = new PostListData();
             api = new PostAPI(postListData, dao);
@@ -54,8 +56,9 @@
         public void add(final Post post, String id) { api.add(post, id);}
         public void delete (String publisher, int postId) { api.delete(publisher, postId); }
         public void reload() { api.get(); }
+        public void reload(String id) { api.fetchUsersPosts(id); }
         public void update(Post post) { api.update(post); }
-        public void getPosts() { api.get(); }
-
-
+        public void clear() {
+            new Thread( () -> dao.deleteAll());
+        }
     }

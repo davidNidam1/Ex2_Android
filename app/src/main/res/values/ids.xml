@@ -56,4 +56,6 @@
     <item name="logoutTextView" type="id" />
     <item name="action_delete_user" type="id" />
     <item name="action_update_user" type="id" />
+    <item name="delete_profile_link" type="id" />
+    <item name="no_requests_yet" type="id" />
 </resources>

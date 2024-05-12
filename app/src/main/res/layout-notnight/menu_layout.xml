@@ -200,16 +200,21 @@
             android:shadowColor="#EDE7E7"
             android:text="@string/marketplace" />
 
-        <Button
-            android:id="@+id/btnFriends"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:backgroundTint="#FD223DD5"
-            android:drawableEnd="@drawable/friends_ico"
-            android:padding="16dp"
-            android:shadowColor="#EDE7E7"
-            android:text="@string/friends" />
+        <TextView
+            android:id="@+id/delete_profile_link"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="135dp"
+            android:gravity="center_horizontal"
+            android:text="@string/delete_account"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:textStyle="bold"
+            android:background="?attr/selectableItemBackground" />
+
     </LinearLayout>
 
     </ScrollView>

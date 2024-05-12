@@ -40,6 +40,12 @@
             android:name="com.Facybook_android.app.View.Feed.UserPage"
             android:exported="false" />
         <activity
+            android:name="com.Facybook_android.app.View.Feed.FriendsList"
+            android:exported="false" />
+        <activity
+            android:name="com.Facybook_android.app.View.Feed.FriendReqList"
+            android:exported="false" />
+        <activity
             android:name="com.Facybook_android.app.View.LogIn.MainActivity"
             android:exported="true">
             <intent-filter>

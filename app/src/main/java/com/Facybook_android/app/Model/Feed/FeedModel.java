@@ -6,6 +6,7 @@
     import android.content.Intent;
     import android.graphics.drawable.Drawable;
     import android.net.Uri;
+    import android.os.AsyncTask;
     import android.text.format.DateUtils;
     import android.util.Log;
     import android.widget.EditText;
@@ -53,16 +54,13 @@
                 InputStream inputStream = context.getContentResolver().openInputStream(mediaUri);
                 String postPath = Utilities.inputStreamToBase64(inputStream);
 
-                // Calculate the time difference between current time and post creation time
-                long currentTime = System.currentTimeMillis();
-                CharSequence timePassed = DateUtils.getRelativeTimeSpanString(currentTime, currentTime, DateUtils.SECOND_IN_MILLIS);
-
                 // Create a new Post object with the retrieved data and calculated time
                 Post newPost = new Post(publisher, postContent, profilePic,
-                        0, timePassed.toString(), postPath);
+                        0, postPath);
                 assert postContent != null;
                 Log.e("postContent", postContent);
                 postsViewModel.add(newPost, publisher);
+                postsViewModel.reload();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -90,13 +88,32 @@
             }
         }
 
-        public void changeProfilePic(UsersViewModel usersViewModel, User user, Uri newPic) throws FileNotFoundException {
-            InputStream inputStream = context.getContentResolver().openInputStream(newPic);
-            String profilePath = Utilities.inputStreamToBase64(inputStream);
+        public static void changeProfilePic(UsersViewModel usersViewModel, User user, Uri newPic) {
+            AsyncTask<Uri, Void, User> task = new AsyncTask<Uri, Void, User>() {
+                @Override
+                protected User doInBackground(Uri... uris) {
+                    try {
+                        InputStream inputStream = context.getContentResolver().openInputStream(uris[0]);
+                        user.setProfilePicture(Utilities.inputStreamToBase64(inputStream));
+                        return user;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
 
-            usersViewModel.update(user.getName(), profilePath);
-
+                @Override
+                protected void onPostExecute(User result) {
+                    if (result != null) {
+                        usersViewModel.update(user.getName(), result);
+                    } else {
+                        Log.e("ProfilePicUpdate", "Failed to update profile picture.");
+                    }
+                }
+            };
+            task.execute(newPic);
         }
+
     }
 
 

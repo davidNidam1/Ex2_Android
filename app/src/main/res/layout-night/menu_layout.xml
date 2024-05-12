@@ -109,15 +109,16 @@
 
                 <com.Facybook_android.app.ViewModels.CircularImageView
                     android:id="@+id/user_profile"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:contentDescription="@string/profile_picture"
-                    android:src="@drawable/user_ico"
                     android:scaleType="centerCrop"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:orientation="vertical">
 
                     <TextView
@@ -126,18 +127,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:gravity="center_vertical"
-                        android:text="@string/nickname"
+                        android:layout_marginTop="12dp"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/time_published"
+                        android:id="@+id/view_profile_link"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_marginStart="12dp"
                         android:gravity="center_vertical"
                         android:text="@string/view_profile"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -196,16 +200,21 @@
                 android:shadowColor="#EDE7E7"
                 android:text="@string/marketplace" />
 
-            <Button
-                android:id="@+id/btnFriends"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:backgroundTint="#FD223DD5"
-                android:drawableEnd="@drawable/friends_ico"
-                android:padding="16dp"
-                android:shadowColor="#EDE7E7"
-                android:text="@string/friends" />
+            <TextView
+                android:id="@+id/delete_profile_link"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="135dp"
+                android:gravity="center_horizontal"
+                android:text="@string/delete_account"
+                android:textSize="16sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textStyle="bold"
+                android:background="?attr/selectableItemBackground" />
+
         </LinearLayout>
 
     </ScrollView>

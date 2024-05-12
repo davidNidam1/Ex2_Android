@@ -32,24 +32,32 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
-            observeViewModel();
+            Nickname = findViewById(R.id.edit_text_nickname);
+            Password = findViewById(R.id.Password);
 
+            usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+            usersViewModel.reload();
+            observeViewModel();
+            setupButtons();
+        }
+
+        private void setupButtons() {
             Button btnSignUp = findViewById(R.id.btnSignUp);
             btnSignUp.setOnClickListener(v -> {
                 Intent i =  new Intent(this, SignUp.class);
                 startActivity(i);
             });
 
-            Nickname = findViewById(R.id.edit_text_nickname);
-            Password = findViewById(R.id.Password);
-
             Button btnLogIn = findViewById(R.id.btnLogIn);
             btnLogIn.setOnClickListener(v -> {
                 usersViewModel.getUser(Nickname.getText().toString());
-                if (model.logIn(user, Password)) {
+                if (user != null) {
+                    if (model.logIn(user, Password)) {
                     Intent i =  new Intent(this, Feed.class);
+                    Log.e("user2", user.getName());
+                    i.putExtra("LoggedInUser", user.getName());
                     startActivity(i);
+                    }
                 }
             });
         }
@@ -62,9 +70,13 @@
 
         @Override
         protected void onResume() {
+            Log.e("onResume", "active");
             super.onResume();
             // Clear the username and password fields when the activity resumes
             Nickname.setText("");
             Password.setText("");
+            usersViewModel.reload();
+            observeViewModel();
+            setupButtons();
         }
     }

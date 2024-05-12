@@ -23,7 +23,7 @@ public interface WebServiceAPI {
     @GET("api/users/{id}/posts")
     Call<List<Post>> getUsersPosts(@Path("id") String id);
     @DELETE("api/users/{id}")
-    Call<Void> deleteUser(@Path("id") int id);
+    Call<Void> deleteUser(@Path("id") String id);
     @DELETE("api/users/{id}/posts/{pid}")
     Call<Post> deletePost(@Path("id") String id, @Path("pid") int pid);
     @PUT("api/posts/{id}")
@@ -35,6 +35,10 @@ public interface WebServiceAPI {
     @GET("api/users/{id}")
     Call<User> getUser(@Path("id") String name);
     @PATCH("api/users/{id}")
-    Call<User> updateUser(@Path("id") String name, @Body String profilePicture);
+    Call<User> updateUser(@Path("id") String name, @Body User user);
+    @GET("api/users/{id}/friends")
+    Call<List<String>> getFriends(@Path("id") String id);
+    @POST("api/users/{id}/friends")
+    Call<Void> sendRequest(@Path("id") String id);
 }
 

@@ -22,6 +22,7 @@
     import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     import java.io.FileNotFoundException;
+    import java.util.Objects;
 
     public class Feed extends AppCompatActivity {
         private static final int REQUEST_CREATE_POST = 1001 ;
@@ -32,6 +33,7 @@
         private PostsViewModel postsViewModel;
         private UsersViewModel usersViewModel;
         private User user;
+        private String LoggedInUser;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,10 @@
             postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
             usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
             shareFragment = new ShareFragment();
+
+            LoggedInUser = Objects.requireNonNull(Objects.requireNonNull(getIntent()
+                    .getExtras()).get("LoggedInUser")).toString();
+            usersViewModel.getUser(LoggedInUser);
 
             setupRecyclerView();
             setupSwipeRefresh();
@@ -53,7 +59,7 @@
                 postsAdapter.setPosts(posts);
                 observeUserViewModel();
                 if (user != null) {
-                    postsViewModel.getPosts();
+                    postsViewModel.reload();
                 }
                 ((SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout)).setRefreshing(false);
             });
@@ -72,21 +78,16 @@
         @Override
         protected void onResume() {
             super.onResume();
-            postsViewModel.startTimer();
+            usersViewModel.getUser(LoggedInUser);
             if (user != null) {
-                postsViewModel.getPosts();
+                postsViewModel.reload();
             }
-        }
-
-        @Override
-        protected void onPause() {
-            super.onPause();
-//            postsViewModel.stopTimer();
         }
 
         private void setupRecyclerView() {
             RecyclerView lstPosts = findViewById(R.id.lstPosts);
-            postsAdapter = new PostsListAdapter(this, shareFragment, postsViewModel);
+            postsAdapter = new PostsListAdapter(this, shareFragment, postsViewModel,
+                    LoggedInUser, "feed");
             lstPosts.setAdapter(postsAdapter);
             lstPosts.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -95,9 +96,10 @@
             ImageButton btnMenu = findViewById(R.id.btn_menu);
             btnMenu.setOnClickListener(v -> {
                 Intent i = new Intent(Feed.this, menu.class);
+                i.putExtra("LoggedInUser", LoggedInUser);
                 startActivity(i);
-            });
 
+            });
 
             ImageButton btnAddPost = findViewById(R.id.btn_plus);
             btnAddPost.setOnClickListener(v -> {
@@ -114,6 +116,7 @@
                 try {
                     swipeRefreshLayout.setRefreshing(true);
                     model.addPost(postsViewModel, user, data);
+                    postsViewModel.reload();
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }

@@ -1,15 +1,19 @@
     package com.Facybook_android.app.View.Feed;
 
+    import android.content.DialogInterface;
     import android.content.Intent;
     import android.graphics.Bitmap;
     import android.net.Uri;
     import android.os.Bundle;
     import android.util.Log;
+    import android.view.View;
+    import android.widget.Button;
     import android.widget.ImageButton;
     import android.widget.ImageView;
     import android.widget.TextView;
 
     import androidx.annotation.Nullable;
+    import androidx.appcompat.app.AlertDialog;
     import androidx.appcompat.app.AppCompatActivity;
     import androidx.lifecycle.ViewModelProvider;
     import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,14 +30,18 @@
     import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     import java.io.FileNotFoundException;
+    import java.util.Objects;
 
     public class UserPage extends AppCompatActivity {
         private static final int REQUEST_CODE_PROFILE_PICTURE = 1002;
+        private static final int REQUEST_CREATE_POST = 1001 ;
         private TextView username;
         private TextView friendsCounter;
         private TextView logoutTextView;
         private ImageView user_profile_picture;
         private User user;
+        private String user2view;
+        private String LoggedInUser;
         private PostsListAdapter postsAdapter;
         private ShareFragment shareFragment;
         private SwipeRefreshLayout swipeRefreshLayout;
@@ -48,6 +56,15 @@
             postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
             usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
             shareFragment = new ShareFragment();
+
+            user2view = Objects.requireNonNull(Objects.requireNonNull(getIntent()
+                    .getExtras()).get("user2view")).toString();
+            LoggedInUser = Objects.requireNonNull(Objects.requireNonNull(getIntent()
+                    .getExtras()).get("LoggedInUser")).toString();
+            postsViewModel.clear();
+            usersViewModel.reload();
+            usersViewModel.getUser(user2view);
+            postsViewModel.getUsersPosts(user2view);
 
             setViews();
             setupRecyclerView();
@@ -75,12 +92,43 @@
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, REQUEST_CODE_PROFILE_PICTURE);
             });
-        }
 
+            ImageButton btnMenu = findViewById(R.id.btn_menu);
+            btnMenu.setOnClickListener(v -> {
+                Intent i = new Intent(UserPage.this, menu.class);
+                i.putExtra("LoggedInUser", LoggedInUser);
+                startActivity(i);
+            });
+
+
+            ImageButton btnAddPost = findViewById(R.id.btn_plus);
+            btnAddPost.setOnClickListener(v -> {
+                Intent i = new Intent(UserPage.this, CreateNewPost.class);
+                startActivityForResult(i, REQUEST_CREATE_POST);
+            });
+
+            friendsCounter.setOnClickListener(v -> {
+                Intent i = new Intent(UserPage.this, FriendsList.class);
+                i.putExtra("user2view", user2view);
+                startActivity(i);
+            });
+
+            Button friendReq = findViewById(R.id.friendRequestButton);
+            friendReq.setOnClickListener(v -> {
+                if (user2view.equals(LoggedInUser)) {
+                    Intent i = new Intent(UserPage.this, FriendReqList.class);
+                    i.putExtra("user2view", user2view);
+                    startActivity(i);
+                } else {
+                    usersViewModel.sendRequest(LoggedInUser);
+                }
+            });
+        }
 
         private void setupRecyclerView() {
             RecyclerView lstPosts = findViewById(R.id.lstPosts);
-            postsAdapter = new PostsListAdapter(this, shareFragment, postsViewModel);
+            postsAdapter = new PostsListAdapter(this, shareFragment, postsViewModel,
+                    LoggedInUser, "userPage");
             lstPosts.setAdapter(postsAdapter);
             lstPosts.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -91,14 +139,14 @@
                 postsAdapter.setPosts(posts);
                 observeUserViewModel();
                 if (user != null) {
-                    postsViewModel.getUsersPosts(user.getName());
+                    postsViewModel.reload(user2view);
                 }
                 ((SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout)).setRefreshing(false);
             });
         }
 
         public void setUsersDetails() {
-            username.setText(user.getName());
+            username.setText(user2view);
             friendsCounter.setText(getString(R.string.friends_count, user.getFriends().size()));
             Bitmap bitmap = Utilities.base64ToBitmap(user.getProfilePicture());
             user_profile_picture.setImageBitmap(bitmap);
@@ -117,28 +165,33 @@
         private void setupSwipeRefresh() {
             swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
             swipeRefreshLayout.setRefreshing(true);
-            swipeRefreshLayout.setOnRefreshListener(() -> postsViewModel.reload());
+            swipeRefreshLayout.setOnRefreshListener(() -> postsViewModel.reload(user2view));
         }
 
         @Override
         protected void onResume() {
             super.onResume();
+            usersViewModel.getUser(user2view);
             if (user != null) {
-                postsViewModel.getUsersPosts(user.getName());
+                postsViewModel.reload(user2view);
             }
         }
 
         @Override
         protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK && data != null &&
-                    requestCode == REQUEST_CODE_PROFILE_PICTURE) {
-                swipeRefreshLayout.setRefreshing(true);
-                Uri newPic = data.getData();
-                try {
-                    model.changeProfilePic(usersViewModel, user, newPic);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+            if (resultCode == RESULT_OK && data != null) {
+                if (requestCode == REQUEST_CODE_PROFILE_PICTURE) {
+                    swipeRefreshLayout.setRefreshing(true);
+                    Uri newPic = data.getData();
+                    FeedModel.changeProfilePic(usersViewModel, user, newPic);
+                } else if (requestCode == REQUEST_CREATE_POST) {
+                    try {
+                        swipeRefreshLayout.setRefreshing(true);
+                        model.addPost(postsViewModel, user, data);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }

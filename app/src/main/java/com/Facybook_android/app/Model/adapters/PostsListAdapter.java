@@ -22,22 +22,26 @@
     import com.Facybook_android.app.Model.entities.Post;
     import com.Facybook_android.app.View.Feed.EditPost;
     import com.Facybook_android.app.View.Feed.ShareFragment;
+    import com.Facybook_android.app.View.Feed.UserPage;
     import com.Facybook_android.app.View.Feed.comments;
     import com.Facybook_android.app.R;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
 
+    import java.util.Date;
     import java.util.List;
 
     public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
 
         private final ShareFragment shareFragment;
+        private final String LoggedInUser;
+        private final String Type;
         private PostsViewModel postsViewModel;
 
         static class PostViewHolder extends RecyclerView.ViewHolder {
             private final TextView author;
             private final TextView content;
             private final TextView postLikes;
-            private final TextView timePublished;
+            private final TextView timePassed;
             private final ImageView profilePicture;
             private final ImageView postPicture;
             private ImageButton likeButton;
@@ -49,7 +53,7 @@
                 profilePicture = itemView.findViewById(R.id.user_profile_picture);
                 postPicture = itemView.findViewById(R.id.post_picture);
                 postLikes = itemView.findViewById(R.id.numberLikes);
-                timePublished = itemView.findViewById(R.id.time_published);
+                timePassed = itemView.findViewById(R.id.time_published);
                 likeButton = itemView.findViewById(R.id.likeBtn);
             }
         }
@@ -58,10 +62,13 @@
 
         private List<Post> posts;
 
-        public PostsListAdapter(Context context, ShareFragment shareFragment, PostsViewModel postsViewModel) {
+        public PostsListAdapter(Context context, ShareFragment shareFragment,
+                                PostsViewModel postsViewModel, String LoggedInUser, String Type) {
             mInflater = LayoutInflater.from(context);
             this.shareFragment = shareFragment;
             this.postsViewModel = postsViewModel;
+            this.LoggedInUser = LoggedInUser;
+            this.Type = Type;
         }
 
         @NonNull
@@ -71,6 +78,27 @@
             return new PostViewHolder(itemView);
         }
 
+        public String getTimeElapsed(Date creationDate) {
+            Date now = new Date();
+            long difference = now.getTime() - creationDate.getTime(); // Difference in milliseconds
+
+            long seconds = difference / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            long days = hours / 24;
+
+            if (days > 0) {
+                return days + " days ago";
+            } else if (hours > 0) {
+                return hours + " hours ago";
+            } else if (minutes > 0) {
+                return minutes + " minutes ago";
+            } else {
+                return "Just now";
+            }
+        }
+
+
         @Override
         public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
            if (posts != null) {
@@ -78,7 +106,7 @@
                holder.author.setText(current.getPublisher());
                holder.content.setText(current.getText());
                holder.postLikes.setText(current.getLikesString());
-               holder.timePublished.setText(current.getDate());
+               holder.timePassed.setText(getTimeElapsed(current.getDate()));
 
                Bitmap bitmap = Utilities.base64ToBitmap(current.getPicture());
                holder.postPicture.setImageBitmap(bitmap);
@@ -144,7 +172,7 @@
                    Log.e("delete", "deletebtn pressed");
                    Post post = posts.get(adapterPosition);
                    postsViewModel.delete(post.getPublisher(), post.getId());
-//                   postsViewModel.reload();
+                   postsViewModel.reload();
                });
 
                ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);
@@ -154,6 +182,15 @@
                    view.getContext().startActivity(intent);
                    this.reload();
                });
+
+               if (Type.equals("feed")) {
+                   holder.author.setOnClickListener( v -> {
+                       Intent i = new Intent(v.getContext(), UserPage.class);
+                       i.putExtra("user2view", posts.get(adapterPosition).getPublisher());
+                       i.putExtra("LoggedInUser", this.LoggedInUser);
+                       v.getContext().startActivity(i);
+                   });
+               }
            }
         }
 

@@ -14,7 +14,6 @@
         private String profilePicture;
         private List<String> friends;
         private List<String> friendRequests;
-//        private List<Post> posts;
         private String username;
         private String password;
         public User(String name, String profilePicture, String username, String password) {
@@ -24,7 +23,6 @@
             this.password = password;
             this.friendRequests = new ArrayList<>();
             this.friends = new ArrayList<>();
-//            this.posts = new ArrayList<>();
         }
 
         public List<String> getFriendRequests() {
@@ -78,13 +76,5 @@
         public void setFriends(List<String> friends) {
             this.friends = friends;
         }
-
-//        public List<Post> getPosts() {
-//            return posts;
-//        }
-//
-//        public void setPosts(List<Post> posts) {
-//            this.posts = posts;
-//        }
 
     }

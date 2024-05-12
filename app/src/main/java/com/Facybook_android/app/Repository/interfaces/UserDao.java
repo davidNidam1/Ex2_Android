@@ -3,6 +3,7 @@
     import androidx.room.Dao;
     import androidx.room.Delete;
     import androidx.room.Insert;
+    import androidx.room.OnConflictStrategy;
     import androidx.room.Query;
     import androidx.room.Update;
 
@@ -17,9 +18,7 @@
 //        User get(String name);
         @Query("SELECT * FROM user")
         User index();
-//        @Query("DELETE FROM user")
-//        void deleteAll();
-        @Insert
+        @Insert (onConflict = OnConflictStrategy.REPLACE)
         void insert(User... users);
         @Delete
         void delete(User... users);

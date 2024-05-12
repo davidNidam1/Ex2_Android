@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 import com.Facybook_android.app.Model.entities.User;
 import com.Facybook_android.app.Repository.repositories.UsersRepository;
 
+import java.util.List;
+
 public class UsersViewModel extends ViewModel {
     private UsersRepository mRepository;
     private LiveData<User> userData;
@@ -23,12 +25,10 @@ public class UsersViewModel extends ViewModel {
     public void insert(User user) {
         Log.e("step2", "trying to talk to repository");
         mRepository.createUser(user); }
-    public void getToken(User user) {
-        mRepository.getToken(user);
-    }
-
-//    public void reload() { mRepository.reload(); }
-    public void update(String name, String profile) { mRepository.update(name, profile); }
-//    public void delete(User user) {mRepository.delete(user); }
-
+    public void getToken(User user) { mRepository.getToken(user); }
+    public void update(String name, User user) { mRepository.update(name, user); }
+    public void delete(String id) { mRepository.delete(id); }
+    public void getFriends(String name) { mRepository.getFriends(name); }
+    public void sendRequest(String name) { mRepository.sendRequest(name); }
+    public void reload() { mRepository.reload(); }
 }

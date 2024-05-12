@@ -67,4 +67,8 @@
     <string name="logout">Log out</string>
     <string name="update_user">Update User</string>
     <string name="delete_user">Delete User</string>
+    <string name="delete_account">Delete account</string>
+    <string name="accept">Accept</string>
+    <string name="deny">Deny</string>
+    <string name="no_requests_yet">No requests yet!</string>
 </resources>

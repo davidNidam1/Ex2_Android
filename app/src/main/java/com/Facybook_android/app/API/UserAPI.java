@@ -76,9 +76,7 @@ public class UserAPI {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    new Thread(() -> {
-                        Log.e("Request Success!", "added user successfully!");
-                    }).start();
+                    new Thread(() -> Log.e("Request Success!", "added user successfully!")).start();
                 } else if (response.code() == 409) {
                     Toast.makeText(context, "A user with this name already exists, try a new name",
                             Toast.LENGTH_SHORT).show();
@@ -94,41 +92,25 @@ public class UserAPI {
         });
     }
 
-    //    public void deleteUser(User user) {
-//        Log.e("deleting", "trying to talk to server");
-//        Call<Void> call = userServiceAPI.deleteUser(user.getId()); // Assuming you have an ID for each user
-//        call.enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                // After deleting from the server, remove from the local database
-//                if (response.isSuccessful()) {
-//                    new Thread(() -> {
-//                        dao.delete(user);
-//                        userListData.postValue(dao.index());
-//                        Log.e("Request Success!", "deleted user successfully!");
-//                    }).start();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                // Handle failure
-//                String errorMessage = "Failed to send request";
-//                Log.e("Request Failure", errorMessage, t);
-//            }
-//        });
-//    }
     public void getUser(String id) {
         Call<User> call = userServiceAPI.getUser(id);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                new Thread(() -> {
-                    dao.deleteAll();
-                    dao.insert(response.body());
-                    userData.postValue(dao.index());
-                    Log.e("getUser", "Success!");
-                }).start();
+                if (response.isSuccessful()) {
+                    new Thread(() -> {
+                        dao.deleteAll();
+                        dao.insert(response.body());
+                        userData.postValue(dao.index());
+                        Log.e("getUser", "Success!");
+                    }).start();
+                } else if (response.code() == 404) {
+                    Toast.makeText(context, "User not found",
+                            Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(context, "Internal Server error",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
@@ -158,12 +140,15 @@ public class UserAPI {
         });
     }
 
-    public void updateUser(String name, String profilePic) {
-        Call<User> call = userServiceAPI.updateUser(name, profilePic);
+    public void updateUser(String name, User user) {
+        Log.e("updateUser", "enteredFunc!");
+        Call<User> call = userServiceAPI.updateUser(name, user);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                Log.e("updateUser", "gotResponse!");
                 new Thread(() -> {
+                    Log.e("updateUser", "enteredThread!");
                     dao.update(response.body());
                     userData.postValue(response.body());
                     Log.e("updateUser", "Success!");
@@ -175,6 +160,66 @@ public class UserAPI {
                 Log.e("updateUser", "Failed to send request", t);
             }
         });
+    }
+
+    public void deleteUser(String id) {
+        Call<Void> call = userServiceAPI.deleteUser(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                new Thread(() -> Log.e("Request Success!", "user deleted successfully!")).start();
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle failure
+                String errorMessage = "Failed to send request";
+                Log.e("Request Failure", errorMessage, t);
+            }
+        });
+    }
+
+    public void getFriends(String name) {
+        Call<List<String>> call = userServiceAPI.getFriends(name);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                new Thread(() -> {
+                    User user = dao.index();
+                    user.setFriends(response.body());
+                    dao.update(user);
+                    userData.postValue(dao.index());
+                    Log.e("getUsersFriends", "Success!");
+                }).start();
+            }
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                // Log the failure for debugging purposes
+                Log.e("getUsersFriends", "Failed to send request", t);
+            }
+        });
+    }
+
+    public void sendRequest(String name) {
+        Call<Void> call = userServiceAPI.sendRequest(name);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                new Thread(() -> Log.e("Request Success!", "request sent successfully!")).start();
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle failure
+                String errorMessage = "Failed to send request";
+                Log.e("Request Failure", errorMessage, t);
+            }
+        });
+    }
+
+    public void reload() {
+        new Thread (() -> {
+            dao.deleteAll();
+            userData.postValue(dao.index());
+        }).start();
     }
 }
 

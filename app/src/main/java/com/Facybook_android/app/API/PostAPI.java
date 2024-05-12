@@ -146,12 +146,14 @@
             call.enqueue(new Callback<List<Post>>() {
                 @Override
                 public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                    new Thread(() -> {
-                        dao.deleteAll();
-                        dao.insert(response.body());
-                        postListData.postValue(response.body());
-                        Log.e("UserRepository", "Fetched friends' posts successfully");
-                    }).start();
+                    if (response.isSuccessful()) {
+                        new Thread(() -> {
+                            dao.deleteAll();
+                            dao.insert(response.body());
+                            postListData.postValue(response.body());
+                            Log.e("UserRepository", "Fetched friends' posts successfully");
+                        }).start();
+                    }
                 }
                 @Override
                 public void onFailure(Call<List<Post>> call, Throwable t) {

@@ -5,41 +5,32 @@
     import androidx.room.Entity;
     import androidx.room.PrimaryKey;
 
+    import java.util.Date;
+
     @Entity
     public class Post {
 
         @PrimaryKey(autoGenerate = true)
         private int id;
         private String publisher;
-        private String date;
+        private Date date;
         private String text;
         private int likes;
     //    private List<Comment> comments;
         private String picture;
         private String profilePic;
         private boolean isLiked;
-        private long creationTime;
 
-        public Post(String publisher, String text, String profilePic, int likes,
-                    String date, String picture) {
+        public Post(String publisher, String text, String profilePic, int likes, String picture) {
             this.publisher = publisher;
             this.text = text;
             this.profilePic = profilePic;
             this.isLiked = false;
             this.likes = likes;
-            this.date = date;
+            this.date = new Date();
             this.picture = picture;
-            this.creationTime = System.currentTimeMillis(); // Set the creation time to current time
         }
 
-        // Getter and setter methods for the creation time
-        public long getCreationTime() {
-            return creationTime;
-        }
-
-        public void setCreationTime(long creationTime) {
-            this.creationTime = creationTime;
-        }
     //    public List<Comment> getComments() {
     //        return comments;
     //    }
@@ -80,14 +71,6 @@
             this.profilePic = profilePic;
         }
 
-    //    public Drawable getPostPic() {
-    //        return postPic;
-    //    }
-
-    //    public void setPostPic(Drawable postPic) {
-    //        this.postPic = postPic;
-    //    }
-
         public int getId() {
             return id;
         }
@@ -96,7 +79,7 @@
             return publisher;
         }
 
-        public String getDate() {
+        public Date getDate() {
             return date;
         }
 
@@ -112,7 +95,7 @@
             this.publisher = publisher;
         }
 
-        public void setDate(String date) {
+        public void setDate(Date date) {
             this.date = date;
         }
 

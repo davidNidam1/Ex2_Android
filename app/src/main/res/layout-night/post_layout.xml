@@ -57,11 +57,13 @@
 
         <ImageButton
             android:id="@+id/editPostBtn"
+            android:padding="10dp"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/edit_btn_description"
-            android:src="@drawable/edit_icon" />
+            android:src="@drawable/edit_icon"/>
 
         <Space
             android:layout_width="10dp"
@@ -69,18 +71,21 @@
 
         <ImageButton
             android:id="@+id/deletePostBtn"
+            android:padding="10dp"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/delete_btn_description"
             android:src="@drawable/delete_ico" />
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/post_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginStart="12dp"
         android:padding="10dp"
         android:textAlignment="textStart"
@@ -108,7 +113,7 @@
         android:id="@+id/numberLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
@@ -121,7 +126,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:layout_marginBottom="12dp"
+        android:paddingVertical="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

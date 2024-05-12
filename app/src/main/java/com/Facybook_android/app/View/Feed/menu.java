@@ -1,5 +1,6 @@
     package com.Facybook_android.app.View.Feed;
 
+    import android.content.DialogInterface;
     import android.content.Intent;
     import android.content.Context;
     import android.graphics.Bitmap;
@@ -12,6 +13,7 @@
     import android.widget.TextView;
     import android.widget.Toast;
 
+    import androidx.appcompat.app.AlertDialog;
     import androidx.appcompat.app.AppCompatActivity;
     import androidx.appcompat.widget.PopupMenu;
     import androidx.lifecycle.ViewModelProvider;
@@ -19,7 +21,10 @@
     import com.Facybook_android.app.Model.entities.User;
     import com.Facybook_android.app.Model.entities.Utilities;
     import com.Facybook_android.app.R;
+    import com.Facybook_android.app.View.LogIn.MainActivity;
     import com.Facybook_android.app.ViewModels.UsersViewModel;
+
+    import java.util.Objects;
 
     public class menu extends AppCompatActivity {
 
@@ -28,11 +33,16 @@
         private TextView view_profile_link;
         private User user;
         private UsersViewModel usersViewModel;
+        private String LoggedInUser;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.menu_layout);
             usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+
+            LoggedInUser = Objects.requireNonNull(Objects.requireNonNull(getIntent()
+                    .getExtras()).get("LoggedInUser")).toString();
+            usersViewModel.getUser(LoggedInUser);
 
             setViews();
             observeUserViewModel();
@@ -46,13 +56,41 @@
         }
 
         private void setupButtons() {
-            ImageButton btnSettings = findViewById(R.id.btnSettings);
-            btnSettings.setOnClickListener(v -> showPopupMenu(v));
-
             view_profile_link.setOnClickListener(v -> {
                 Intent i = new Intent(menu.this, UserPage.class);
+                i.putExtra("LoggedInUser", LoggedInUser);
+                i.putExtra("user2view", LoggedInUser);
                 startActivity(i);
             });
+
+            TextView deleteProfileLink = findViewById(R.id.delete_profile_link);
+            deleteProfileLink.setOnClickListener(view -> showDeleteConfirmationDialog());
+        }
+
+        private void showDeleteConfirmationDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Delete Account");
+            builder.setMessage("Are you sure you want to delete this account?");
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked the "Yes" button, so delete the account.
+                    usersViewModel.delete(user.getName());
+                    Intent i = new Intent(menu.this, MainActivity.class);
+                    startActivity(i);
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked the "No" button, dismiss the dialog
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
 
         public void setUserPage() {
@@ -64,38 +102,17 @@
         public void observeUserViewModel() {
             usersViewModel.get().observe(this, user -> {
                 this.user = user;
-                if (user != null) {
+                if (user != null && user.getName().equals(LoggedInUser)) {
                     setUserPage();
                     Log.e("user", "user:" + user.getName());
                 }
             });
         }
 
-
-        private void showPopupMenu(View view) {
-            PopupMenu popup = new PopupMenu(this, view);
-            popup.inflate(R.menu.settings_menu);
-            popup.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.action_update_user) {
-                    updateUser();
-                    return true;
-                } else if (item.getItemId() == R.id.action_delete_user) {
-                    deleteUser();
-                    return true;
-                }
-                return false;
-            });
-            popup.show();
-        }
-
-        private void updateUser() {
-            // Add code to update the user
-            Toast.makeText(this, "Update User Clicked", Toast.LENGTH_SHORT).show();
-        }
-
-        private void deleteUser() {
-            // Add code to delete the user
-            Toast.makeText(this, "Delete User Clicked", Toast.LENGTH_SHORT).show();
+        @Override
+        protected void onResume() {
+            super.onResume();
+            usersViewModel.getUser(LoggedInUser);
         }
 
     }
