@@ -15,11 +15,16 @@
     import com.Facybook_android.app.View.LogIn.MainActivity;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
 
+    import java.util.List;
+
     public class EditPost extends AppCompatActivity {
 
         private EditText editTxt;
         private ImageView postPic;
-        private Post post;
+        private String id;
+        private String pid;
+        private String text;
+        private String picture;
         private PostsViewModel postsViewModel;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -27,31 +32,33 @@
             setContentView(R.layout.edit_post_layout);
             postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
 
+            init();
             setViews();
             setupButtons();
-            setEdit();
         }
 
-        private void setEdit() {
+        private void init() {
             if(getIntent().getExtras() != null) {
-                int id = getIntent().getIntExtra("id", 0);
-                post = postsViewModel.getPost(id);
-                editTxt.setText(post.getText());
-                postPic.setImageBitmap(Utilities.base64ToBitmap(post.getPicture()));
+                this.id = getIntent().getStringExtra("id");
+                this.pid = getIntent().getStringExtra("pid");
+                this.text = getIntent().getStringExtra("text");
+                this.picture = getIntent().getStringExtra("picture");
             }
         }
 
         private void setViews() {
             editTxt = findViewById(R.id.post_content_edit);
             postPic = findViewById(R.id.post_picture);
+            editTxt.setText(text);
+            postPic.setImageBitmap(Utilities.base64ToBitmap(picture));
         }
 
         private void setupButtons() {
             Button saveBtn = findViewById(R.id.buttonSave);
             saveBtn.setOnClickListener(v -> {
-                if (post != null) {
-                    post.setText(editTxt.getText().toString());
-                    postsViewModel.update(post);
+                if (!editTxt.getText().toString().isEmpty()) {
+                    this.text = editTxt.getText().toString();
+                    postsViewModel.update(id, pid, text);
                     finish();
                 }
             });

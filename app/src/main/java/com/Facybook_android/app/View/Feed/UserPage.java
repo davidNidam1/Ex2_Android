@@ -15,6 +15,7 @@
     import androidx.annotation.Nullable;
     import androidx.appcompat.app.AlertDialog;
     import androidx.appcompat.app.AppCompatActivity;
+    import androidx.appcompat.widget.Toolbar;
     import androidx.lifecycle.ViewModelProvider;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +51,7 @@
         private PostsViewModel postsViewModel;
         private UsersViewModel usersViewModel;
         private FeedModel model = new FeedModel();
+        private Button friendReq;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@
             logoutTextView = findViewById(R.id.logoutTextView);
             notFriends1 = findViewById(R.id.not_friends_1);
             notFriends2 = findViewById(R.id.not_friends_2);
+            friendReq = findViewById(R.id.friendRequestButton);
         }
 
         private void setupButtons() {
@@ -113,18 +116,27 @@
             friendsCounter.setOnClickListener(v -> {
                 Intent i = new Intent(UserPage.this, FriendsList.class);
                 i.putExtra("user2view", user2view);
+                i.putExtra("LoggedInUser", user.getName());
                 startActivity(i);
             });
 
-            Button friendReq = findViewById(R.id.friendRequestButton);
             friendReq.setOnClickListener(v -> {
                 if (user2view.equals(LoggedInUser)) {
                     Intent i = new Intent(UserPage.this, FriendReqList.class);
                     i.putExtra("user2view", user2view);
+                    i.putExtra("LoggedInUser", user.getName());
                     startActivity(i);
                 } else {
-                    usersViewModel.sendRequest(LoggedInUser);
+                    usersViewModel.sendRequest(user2view);
+                    friendReq.setText(R.string.pending);
                 }
+            });
+
+            Toolbar facybook = findViewById(R.id.toolbar);
+            facybook.setOnClickListener(v -> {
+                Intent i = new Intent(UserPage.this, Feed.class);
+                i.putExtra("LoggedInUser", user.getName());
+                startActivity(i);
             });
         }
 
@@ -141,20 +153,28 @@
                 Log.e("observer", "Observing posts list. Number of posts: " + (posts != null ? posts.size() : "null"));
                 observeUserViewModel();
                 assert posts != null;
-                if (!posts.isEmpty()) { postsAdapter.setPosts(posts); }
+                if (!posts.isEmpty() && user != null && user.getFriends().contains(LoggedInUser)) {
+                    postsAdapter.setPosts(posts); }
                 ((SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout)).setRefreshing(false);
             });
         }
 
         public void setUsersDetails() {
             username.setText(user2view);
-            friendsCounter.setText(getString(R.string.friends_count, user.getFriends().size()));
+            friendsCounter.setText(getString(R.string.friends_count, user.getFriends().size() - 1));
             Bitmap bitmap = Utilities.base64ToBitmap(user.getProfilePicture());
             user_profile_picture.setImageBitmap(bitmap);
 
-            if (!user.getFriends().contains(LoggedInUser)) {
+            if (!user.getFriends().contains(LoggedInUser) &&
+                    user.getFriendRequests().contains(LoggedInUser)) {
+                notFriends1.setVisibility(View.VISIBLE);
+                friendReq.setText(R.string.pending);
+            } else if (!user.getFriends().contains(LoggedInUser) &&
+                    !user.getFriendRequests().contains(LoggedInUser)) {
                 notFriends1.setVisibility(View.VISIBLE);
                 notFriends2.setVisibility(View.VISIBLE);
+            }else if(user.getFriends().contains(LoggedInUser) && !user2view.equals(LoggedInUser)) {
+                friendReq.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -178,6 +198,7 @@
         @Override
         protected void onResume() {
             super.onResume();
+            usersViewModel.reload();
             usersViewModel.getUser(user2view);
             if (user != null) {
                 postsViewModel.reload(user2view);

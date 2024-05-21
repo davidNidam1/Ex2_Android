@@ -62,7 +62,7 @@
     <string name="friends_num">Friends: 1000</string>
     <string name="friend_request_btn">Friend Request</string>
     <string name="send_message_btn">Send Message</string>
-    <string name="BaseUrl">http://172.24.192.1:12345/</string>
+    <string name="BaseUrl">http://172.29.160.1:12345/</string>
     <string name="friends_count">%1$d friends</string>
     <string name="logout">Log out</string>
     <string name="update_user">Update User</string>
@@ -74,4 +74,11 @@
     <string name="not_friends">This account is private. Send a friend request to see more.</string>
     <string name="not_friends_private">This account is private.</string>
     <string name="not_friends_see_more">Send a friend request to see more.</string>
+    <string name="make_connections">It\'s never too late to make new connections!</string>
+    <string name="friends_now">Accepted!</string>
+    <string name="request_denied">Denied</string>
+    <string name="pending">Pending…</string>
+    <string name="welcome">Welcome!</string>
+    <string name="part_of_our_community">Now you\'re officially part of our community!</string>
+    <string name="to_log_in">To Log In</string>
 </resources>

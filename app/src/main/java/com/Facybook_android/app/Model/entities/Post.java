@@ -2,16 +2,17 @@
 
     import android.graphics.drawable.Drawable;
 
+    import androidx.annotation.NonNull;
     import androidx.room.Entity;
     import androidx.room.PrimaryKey;
 
     import java.util.Date;
+    import java.util.UUID;
 
     @Entity
     public class Post {
-
-        @PrimaryKey(autoGenerate = true)
-        private int pid;
+        @PrimaryKey @NonNull
+        private String pid;
         private String publisher;
         private Date date;
         private String text;
@@ -29,6 +30,7 @@
             this.likes = likes;
             this.date = new Date();
             this.picture = picture;
+            this.pid = "default";
         }
 
     //    public List<Comment> getComments() {
@@ -71,7 +73,8 @@
             this.profilePic = profilePic;
         }
 
-        public int getPid() {
+        @NonNull
+        public String getPid() {
             return pid;
         }
 
@@ -87,7 +90,7 @@
             return text;
         }
 
-        public void setPid(int id) {
+        public void setPid(@NonNull String id) {
             this.pid = id;
         }
 

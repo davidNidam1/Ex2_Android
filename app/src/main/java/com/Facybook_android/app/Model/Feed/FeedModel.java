@@ -31,6 +31,7 @@
     import java.io.FileNotFoundException;
     import java.io.IOException;
     import java.io.InputStream;
+    import java.util.UUID;
 
     public class FeedModel {
         public void addPost(PostsViewModel postsViewModel, User user, @Nullable Intent data) throws FileNotFoundException {
@@ -60,8 +61,6 @@
                 assert postContent != null;
                 Log.e("postContent", postContent);
                 postsViewModel.add(newPost, publisher);
-                Log.e("newPost", "newPost id:" + newPost.getPid());
-                postsViewModel.reload();
 
             } catch (IOException e) {
                 e.printStackTrace();

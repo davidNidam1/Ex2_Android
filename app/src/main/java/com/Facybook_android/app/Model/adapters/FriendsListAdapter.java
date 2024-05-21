@@ -1,11 +1,15 @@
 package com.Facybook_android.app.Model.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,12 +19,20 @@ import com.Facybook_android.app.Model.entities.Post;
 import com.Facybook_android.app.Model.entities.User;
 import com.Facybook_android.app.Model.entities.Utilities;
 import com.Facybook_android.app.R;
+import com.Facybook_android.app.View.Feed.FriendReqList;
+import com.Facybook_android.app.View.Feed.UserPage;
+import com.Facybook_android.app.ViewModels.UsersViewModel;
 
 import java.util.List;
 
 public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.FriendViewHolder> {
 
-    String type;
+    private String type;
+    private UsersViewModel usersViewModel;
+    private String LoggedInUser;
+    private Button acceptBtn;
+    private Button denyBtn;
+
     class FriendViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         private final ImageView profilePicture;
@@ -29,6 +41,8 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
             super(itemView);
             name = itemView.findViewById(R.id.user_name);
             profilePicture = itemView.findViewById(R.id.user_profile);
+            acceptBtn = itemView.findViewById(R.id.btn_accept);
+            denyBtn = itemView.findViewById(R.id.btn_deny);
         }
     }
 
@@ -36,8 +50,11 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 
     private List<User> UsersL;
 
-    public FriendsListAdapter(Context context, String type) {
+    public FriendsListAdapter(Context context, String type, UsersViewModel usersViewModel,
+                              String user) {
         this.type = type;
+        this.LoggedInUser =user;
+        this.usersViewModel = usersViewModel;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -59,9 +76,28 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
                                  int position) {
         if (UsersL != null) {
             final User current = UsersL.get(position);
+            Log.e("friendRequestDetails", "friendRequestDetails:" + current.getName());
+            Log.e("friendRequestDetails2", "friendRequestFrom:" + UsersL.get(0).getName());
             holder.name.setText(current.getName());
             Bitmap bitmap = Utilities.base64ToBitmap(current.getProfilePicture());
             holder.profilePicture.setImageBitmap(bitmap);
+
+            if (this.type.equals("requests")) {
+                acceptBtn.setOnClickListener(v -> {
+                    User sender = getUsersL().get(holder.getAdapterPosition());
+                    usersViewModel.acceptRequest(LoggedInUser, sender.getName());
+                    denyBtn.setVisibility(View.INVISIBLE);
+                    acceptBtn.setText(R.string.friends_now);
+                });
+
+                denyBtn.setOnClickListener(v -> {
+                    User sender = getUsersL().get(holder.getAdapterPosition());
+                    usersViewModel.denyRequest(LoggedInUser, sender.getName());
+                    denyBtn.setVisibility(View.INVISIBLE);
+                    acceptBtn.setText(R.string.not_friends);
+                });
+
+            }
         }
     }
 
@@ -74,6 +110,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 
     public void setUsersL(List<User> c) {
         UsersL = c;
+        Log.e("friendRequestDetails1", "friendRequestFrom:" + UsersL.get(0).getName());
         notifyDataSetChanged();
     }
 

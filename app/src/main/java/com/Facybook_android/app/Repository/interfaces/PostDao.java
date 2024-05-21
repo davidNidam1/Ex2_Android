@@ -15,7 +15,7 @@
         List<Post> index();
 
         @Query("SELECT * FROM post WHERE pid = :id")
-        Post get(int id);
+        Post get(String id);
 
         // Method to delete all entries from the database
         @Query("DELETE FROM post")

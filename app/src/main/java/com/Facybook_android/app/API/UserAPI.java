@@ -16,6 +16,8 @@ import com.Facybook_android.app.R;
 import com.Facybook_android.app.Repository.interfaces.UserDao;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,6 +32,7 @@ public class UserAPI {
     private UserDao dao;
     Retrofit retrofit;
     WebServiceAPI userServiceAPI;
+    private static final ExecutorService executor = Executors.newFixedThreadPool(4); // Create a thread pool with 4 threads
 
     public UserAPI(MutableLiveData<User> userData, UserDao dao) {
         this.userData = userData;
@@ -76,7 +79,7 @@ public class UserAPI {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    new Thread(() -> Log.e("Request Success!", "added user successfully!")).start();
+                    executor.execute(() -> Log.e("Request Success!", "added user successfully!"));
                 } else if (response.code() == 409) {
                     Toast.makeText(context, "A user with this name already exists, try a new name",
                             Toast.LENGTH_SHORT).show();
@@ -98,12 +101,14 @@ public class UserAPI {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    new Thread(() -> {
-                        dao.deleteAll();
-                        dao.insert(response.body());
-                        userData.postValue(dao.index());
-                        Log.e("getUser", "Success!");
-                    }).start();
+                    executor.execute(() -> {
+                        synchronized (UserAPI.class) {
+                            dao.deleteAll();
+                            dao.insert(response.body());
+                            userData.postValue(dao.index());
+                            Log.e("getUser", "Success!");
+                        }
+                    });
                 } else if (response.code() == 404) {
                     Toast.makeText(context, "User not found",
                             Toast.LENGTH_SHORT).show();
@@ -147,12 +152,14 @@ public class UserAPI {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.e("updateUser", "gotResponse!");
-                new Thread(() -> {
-                    Log.e("updateUser", "enteredThread!");
-                    dao.update(response.body());
-                    userData.postValue(response.body());
-                    Log.e("updateUser", "Success!");
-                }).start();
+                executor.execute(() -> {
+                    synchronized (UserAPI.class) {
+                        Log.e("updateUser", "enteredThread!");
+                        dao.update(response.body());
+                        userData.postValue(response.body());
+                        Log.e("updateUser", "Success!");
+                    }
+                });
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
@@ -167,7 +174,7 @@ public class UserAPI {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                new Thread(() -> Log.e("Request Success!", "user deleted successfully!")).start();
+                executor.execute(() -> Log.e("Request Success!", "user deleted successfully!"));
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
@@ -183,13 +190,15 @@ public class UserAPI {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                new Thread(() -> {
-                    User user = dao.index();
-                    user.setFriends(response.body());
-                    dao.update(user);
-                    userData.postValue(dao.index());
-                    Log.e("getUsersFriends", "Success!");
-                }).start();
+                executor.execute(() -> {
+                    synchronized (UserAPI.class) {
+                        User user = dao.index();
+                        user.setFriends(response.body());
+                        dao.update(user);
+                        userData.postValue(dao.index());
+                        Log.e("getUsersFriends", "Success!");
+                    }
+                });
             }
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
@@ -204,7 +213,7 @@ public class UserAPI {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                new Thread(() -> Log.e("Request Success!", "request sent successfully!")).start();
+                executor.execute(() -> Log.e("Request Success!", "request sent successfully!"));
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
@@ -215,11 +224,53 @@ public class UserAPI {
         });
     }
 
+    public void acceptRequest(String name, String fName) {
+        Call<User> call = userServiceAPI.acceptRequest(name, fName);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                executor.execute(() -> {
+                    Log.e("Request Success!", "request accepted successfully!");
+                    dao.update(response.body());
+                    userData.postValue(dao.index());
+                });
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                // Handle failure
+                String errorMessage = "Failed to send request";
+                Log.e("Request Failure", errorMessage, t);
+            }
+        });
+    }
+
+    public void denyRequest(String name, String fName) {
+        Call<User> call = userServiceAPI.denyRequest(name, fName);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                executor.execute(() -> {
+                    Log.e("Request Success!", "request deleted successfully!");
+                    dao.update(response.body());
+                    userData.postValue(dao.index());
+                });
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                // Handle failure
+                String errorMessage = "Failed to send request";
+                Log.e("Request Failure", errorMessage, t);
+            }
+        });
+    }
+
     public void reload() {
-        new Thread (() -> {
-            dao.deleteAll();
-            userData.postValue(dao.index());
-        }).start();
+        executor.execute(() -> {
+            synchronized (UserAPI.class) {
+                dao.deleteAll();
+                userData.postValue(dao.index());
+            }
+        });
     }
 }
 

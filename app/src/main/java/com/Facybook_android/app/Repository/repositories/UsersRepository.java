@@ -65,4 +65,8 @@ public class UsersRepository {
     public void getFriends(String name) { userAPI.getFriends(name); }
     public void sendRequest(String name) { userAPI.sendRequest(name); }
     public void reload() { userAPI.reload(); }
+    public void acceptRequest(String loggedInUser, String sender) {
+        userAPI.acceptRequest(loggedInUser, sender); }
+    public void denyRequest(String loggedInUser, String sender) {
+        userAPI.denyRequest(loggedInUser, sender); }
 }

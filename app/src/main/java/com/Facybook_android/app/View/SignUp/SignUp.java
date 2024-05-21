@@ -53,7 +53,7 @@
                 // If all validations pass, transfer the user to the login activity
                 if (model.validateSignUp(usernameEditText, passwordEditText, verifyPasswordEditText,
                         nicknameEditText, pictureUploaded, mediaUri, usersViewModel)) {
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent = new Intent(this, Welcome.class);
                     startActivity(intent);
                     finish(); // close the current activity
                 }

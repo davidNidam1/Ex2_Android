@@ -12,6 +12,7 @@
     import android.widget.ImageButton;
     import android.widget.ImageView;
     import android.widget.TextView;
+    import android.widget.Toast;
 
     import androidx.annotation.NonNull;
     import androidx.appcompat.app.AppCompatActivity;
@@ -119,7 +120,7 @@
                final int adapterPosition = holder.getAdapterPosition();
                commentButton.setOnClickListener(view -> {
                    if (adapterPosition != RecyclerView.NO_POSITION && posts != null && adapterPosition < posts.size()) {
-                       int postId = posts.get(adapterPosition).getPid();
+                       String postId = posts.get(adapterPosition).getPid();
                        Intent intent = new Intent(view.getContext(), comments.class);
                        intent.putExtra("postId", postId);
                        view.getContext().startActivity(intent);
@@ -141,8 +142,8 @@
                    current.setLikes(newLike);
                    String likes = current.getLikesString();
                    likesText.setText(likes);
-
-                   postsViewModel.update(posts.get(adapterPosition));
+//
+//                   postsViewModel.update(posts.get(adapterPosition));
                    postsViewModel.reload();
                });
 
@@ -178,10 +179,18 @@
 
                ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);
                editBtn.setOnClickListener(view -> {
-                   Intent intent = new Intent(view.getContext(), EditPost.class);
-                   intent.putExtra("id", posts.get(adapterPosition).getPid());
-                   view.getContext().startActivity(intent);
-                   this.reload();
+                   if (posts.get(adapterPosition).getPublisher().equals(LoggedInUser)) {
+                       Intent intent = new Intent(view.getContext(), EditPost.class);
+                       intent.putExtra("id", posts.get(adapterPosition).getPublisher());
+                       intent.putExtra("pid", posts.get(adapterPosition).getPid());
+                       intent.putExtra("text", posts.get(adapterPosition).getText());
+                       intent.putExtra("picture", posts.get(adapterPosition).getPicture());
+                       view.getContext().startActivity(intent);
+                       this.reload();
+                   } else {
+                       Toast.makeText(context,
+                               "Cannot edit other users' posts", Toast.LENGTH_SHORT).show();
+                   }
                });
 
                if (Type.equals("feed")) {

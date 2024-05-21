@@ -31,4 +31,9 @@ public class UsersViewModel extends ViewModel {
     public void getFriends(String name) { mRepository.getFriends(name); }
     public void sendRequest(String name) { mRepository.sendRequest(name); }
     public void reload() { mRepository.reload(); }
+    public void acceptRequest(String loggedInUser, String sender) {
+        mRepository.acceptRequest(loggedInUser, sender); }
+
+    public void denyRequest(String loggedInUser, String sender) {
+        mRepository.denyRequest(loggedInUser, sender); }
 }

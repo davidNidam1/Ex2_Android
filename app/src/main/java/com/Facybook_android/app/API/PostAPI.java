@@ -4,6 +4,7 @@
 
     import android.content.Context;
     import android.content.SharedPreferences;
+    import android.database.sqlite.SQLiteConstraintException;
     import android.util.Log;
     import android.widget.Toast;
 
@@ -14,10 +15,16 @@
     import com.Facybook_android.app.Context.MyApplication;
     import com.Facybook_android.app.R;
 
-    import java.util.List;
+    import org.json.JSONObject;
 
+    import java.util.List;
+    import java.util.concurrent.ExecutorService;
+    import java.util.concurrent.Executors;
+
+    import okhttp3.MediaType;
     import okhttp3.OkHttpClient;
     import okhttp3.Request;
+    import okhttp3.RequestBody;
     import retrofit2.Call;
     import retrofit2.Callback;
     import retrofit2.Response;
@@ -28,6 +35,8 @@
     private PostDao dao;
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
+    private static final ExecutorService executor = Executors.newFixedThreadPool(4);
+
         public PostAPI(MutableLiveData<List<Post>> postListData, PostDao dao) {
             this.postListData = postListData;
             this.dao = dao;
@@ -64,34 +73,51 @@
             call.enqueue(new Callback<List<Post>>() {
                 @Override
                 public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                         new Thread(() -> {
+                    executor.execute(() -> {
+                        synchronized (PostAPI.class) {
                             dao.deleteAll();
                             dao.insert(response.body());
                             postListData.postValue(response.body());
-                            }).start();
+                            Log.e("UserRepository", "Fetched posts successfully");
                         }
+                    });}
                 @Override
                 public void onFailure(Call<List<Post>> call, Throwable t) {}
             });
         }
 
         public void add(Post post, String id) {
-            Call<Void> call = webServiceAPI.createPost(id, post);
-            call.enqueue(new Callback<Void>() {
+            Call<Post> call = webServiceAPI.createPost(id, post);
+            call.enqueue(new Callback<Post>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(Call<Post> call, Response<Post> response) {
                     // After adding to the server, add to the local database
                     if (response.isSuccessful()) {
-                        new Thread(() -> {
-                            dao.insert(post);
-                            postListData.postValue(dao.index());
-                            Log.e("addPost", "Request Success!");
-                        }).start();
+                        executor.execute(() -> {
+                            synchronized (PostAPI.class) {
+                                try {
+                                    dao.insert(response.body());
+                                    postListData.postValue(dao.index());
+                                    Log.e("addPost", "Request Success!");
+                                } catch (SQLiteConstraintException e) {
+                                    Log.e("Database Error", "UNIQUE constraint failed: Post.pid", e);
+                                }
+                            }
+                        });
+                    } else if (response.code() == 401) {
+                    Toast.makeText(context, "Unauthorized action",
+                            Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 500) {
+                        Toast.makeText(context, "Internal Server error",
+                                Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 404) {
+                        Toast.makeText(context, "User not found",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<Post> call, Throwable t) {
                     // Handle failure
                     String errorMessage = "Failed to send request";
                     Log.e("Request Failure", errorMessage, t);
@@ -99,17 +125,19 @@
             });
         }
 
-        public void delete(String publisher, int postId) {
+        public void delete(String publisher, String postId) {
             Call<Post> call = webServiceAPI.deletePost(publisher, postId);
             call.enqueue(new Callback<Post>() {
                 @Override
                 public void onResponse(Call<Post> call, Response<Post> response) {
                     if (response.isSuccessful()) {
-                        new Thread(() -> {
-                            dao.delete(response.body());
-                            postListData.postValue(dao.index());
-                            Log.e("deletePost", "post deleted successfully!");
-                        }).start();
+                        executor.execute(() -> {
+                            synchronized (PostAPI.class) {
+                                dao.delete(response.body());
+                                postListData.postValue(dao.index());
+                                Log.e("deletePost", "post deleted successfully!");
+                            }
+                        });
                     } else if (response.code() == 404) {
                         Toast.makeText(context, "Post not found",
                                 Toast.LENGTH_SHORT).show();
@@ -130,25 +158,36 @@
             });
         }
 
-        public void update(Post post) {
-//            Call<Void> call = webServiceAPI.updatePost(post.getId(), post);
-//            call.enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    if (response.isSuccessful()) {
-//                        new Thread(() -> {
-//                            dao.update(post);
-//                            postListData.postValue(dao.index());
-//                        }).start();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    // Handle failure
-//                }
-//            });
+        public void update(String id, String pid, String text) {
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("text", text);
+                RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+
+                Call<Post> call = webServiceAPI.updatePost(id, pid, body);
+                call.enqueue(new Callback<Post>() {
+                    @Override
+                    public void onResponse(Call<Post> call, Response<Post> response) {
+                        if (response.isSuccessful()) {
+                            executor.execute(() -> {
+                                synchronized (PostAPI.class) {
+                                    dao.update(response.body());
+                                    postListData.postValue(dao.index());
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Post> call, Throwable t) {
+                        // Handle failure
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
 
         public void fetchUsersPosts(String userId) {
             Call<List<Post>> call = webServiceAPI.getUsersPosts(userId);
@@ -156,12 +195,14 @@
                 @Override
                 public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                     if (response.isSuccessful()) {
-                        new Thread(() -> {
-                            dao.deleteAll();
-                            dao.insert(response.body());
-                            postListData.postValue(response.body());
-                            Log.e("UserRepository", "Fetched friends' posts successfully");
-                        }).start();
+                        executor.execute(() -> {
+                            synchronized (PostAPI.class) {
+                                dao.deleteAll();
+                                dao.insert(response.body());
+                                postListData.postValue(response.body());
+                                Log.e("UserRepository", "Fetched friends' posts successfully");
+                            }
+                        });
                     }
                 }
                 @Override
@@ -173,9 +214,11 @@
         }
 
         public void clear() {
-            new Thread (() -> {
-                dao.deleteAll();
-                postListData.postValue(dao.index());
-            }).start();
+            executor.execute(() -> {
+                synchronized (PostAPI.class) {
+                    dao.deleteAll();
+                    postListData.postValue(dao.index());
+                }
+            });
         }
     }

@@ -16,7 +16,7 @@
         private List<String> friendRequests;
         private String username;
         private String password;
-        public User(String name, String profilePicture, String username, String password) {
+        public User(@NonNull String name, String profilePicture, String username, String password) {
             this.name = name;
             this.profilePicture = profilePicture;
             this.username = username;

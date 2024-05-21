@@ -27,10 +27,7 @@
         public void add(Post post, String id) { mRepository.add(post, id); };
         public void reload() { mRepository.reload(); }
         public void reload(String id) { mRepository.reload(id); }
-        public void update(Post post) { mRepository.update(post); }
-        public void delete(String publisher, int postId) {mRepository.delete(publisher, postId); }
-        public Post getPost(int id) {
-            return mRepository.getPost(id);
-        }
+        public void update(String id, String pid, String text) { mRepository.update(id, pid, text); }
+        public void delete(String publisher, String postId) {mRepository.delete(publisher, postId); }
         public void clear() { mRepository.clear(); }
     }

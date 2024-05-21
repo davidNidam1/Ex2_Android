@@ -60,4 +60,8 @@
     <item name="no_requests_yet" type="id" />
     <item name="not_friends_1" type="id" />
     <item name="not_friends_2" type="id" />
+    <item name="no_friends_yet" type="id" />
+    <item name="btn_deny" type="id" />
+    <item name="btn_accept" type="id" />
+    <item name="login_button" type="id" />
 </resources>
