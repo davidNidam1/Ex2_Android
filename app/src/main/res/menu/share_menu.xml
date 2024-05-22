@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_messenger"
+        android:icon="@drawable/messege_ico"
+        android:title="@string/messenger" />
+    <item
+        android:id="@+id/action_group"
+        android:icon="@drawable/group_ico"
+        android:title="@string/group" />
+    <item
+        android:id="@+id/action_your_story"
+        android:icon="@drawable/story_ico"
+        android:title="@string/your_story" />
+    <item
+        android:id="@+id/action_copy_link"
+        android:icon="@drawable/link_ico"
+        android:title="@string/copy_link" />
+</menu>

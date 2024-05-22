@@ -2,30 +2,41 @@
 
     import android.graphics.drawable.Drawable;
 
+    import androidx.annotation.NonNull;
     import androidx.room.Entity;
     import androidx.room.PrimaryKey;
 
-    @Entity
+    import java.util.UUID;
+@Entity
     public class Comment {
-        @PrimaryKey(autoGenerate = true)
-        private int id;
-        private Drawable pic;
+    @PrimaryKey @NonNull
+        private String cid;
+        private String pic;
         private String content;
         private String userName;
-        private int postId;
+        private String postId;
 
-        public Comment(Drawable pic, String content, String userName, int postId) {
+        public Comment(String pic, String content, String userName, String postId) {
             this.pic = pic;
             this.content = content;
             this.userName = userName;
             this.postId = postId;
+            this.cid = "default";
         }
 
-        public int getPostId() {
+        public String getCid() {
+            return cid;
+        }
+
+        public void setCid(String cid) {
+            this.cid = cid;
+        }
+
+        public String getPostId() {
             return postId;
         }
 
-        public Drawable getPic() {
+        public String getPic() {
             return pic;
         }
 
@@ -33,11 +44,11 @@
             return userName;
         }
 
-        public Drawable getProfilePic() {
+        public String getProfilePic() {
             return pic;
         }
 
-        public void setPic(Drawable pic) {
+        public void setPic(String pic) {
             this.pic = pic;
         }
 
@@ -49,19 +60,15 @@
             this.content = content;
         }
 
-        public String getUsername() {
-            return userName;
-        }
-
         public void setUserName(String userName) {
             this.userName = userName;
         }
 
-        public int getId() {
+        public String getId() {
             return postId;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.postId = id;
         }
     }

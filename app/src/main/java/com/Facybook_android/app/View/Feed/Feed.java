@@ -4,6 +4,7 @@
     import android.net.Uri;
     import android.os.Bundle;
     import android.util.Log;
+    import android.view.View;
     import android.widget.ImageButton;
     import android.widget.ImageView;
 
@@ -18,6 +19,7 @@
     import com.Facybook_android.app.Model.adapters.PostsListAdapter;
     import com.Facybook_android.app.Model.Feed.FeedModel;
     import com.Facybook_android.app.R;
+    import com.Facybook_android.app.View.LogIn.MainActivity;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
     import com.Facybook_android.app.ViewModels.UsersViewModel;
 
@@ -26,7 +28,6 @@
 
     public class Feed extends AppCompatActivity {
         private static final int REQUEST_CREATE_POST = 1001 ;
-        private ShareFragment shareFragment;
         private PostsListAdapter postsAdapter;
         private SwipeRefreshLayout swipeRefreshLayout;
         private FeedModel model = new FeedModel();
@@ -41,7 +42,6 @@
             setContentView(R.layout.activity_feed);
             postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
             usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
-            shareFragment = new ShareFragment();
 
             LoggedInUser = Objects.requireNonNull(Objects.requireNonNull(getIntent()
                     .getExtras()).get("LoggedInUser")).toString();
@@ -87,13 +87,19 @@
 
         private void setupRecyclerView() {
             RecyclerView lstPosts = findViewById(R.id.lstPosts);
-            postsAdapter = new PostsListAdapter(this, shareFragment, postsViewModel,
+            postsAdapter = new PostsListAdapter(this, postsViewModel,
                     LoggedInUser, "feed");
             lstPosts.setAdapter(postsAdapter);
             lstPosts.setLayoutManager(new LinearLayoutManager(this));
         }
 
         private void setupButtons() {
+            View logoutTextView = findViewById(R.id.logoutTextView);
+            logoutTextView.setOnClickListener(v -> {
+                Intent i = new Intent(Feed.this, MainActivity.class);
+                startActivity(i);
+            });
+
             ImageButton btnMenu = findViewById(R.id.btn_menu);
             btnMenu.setOnClickListener(v -> {
                 Intent i = new Intent(Feed.this, menu.class);

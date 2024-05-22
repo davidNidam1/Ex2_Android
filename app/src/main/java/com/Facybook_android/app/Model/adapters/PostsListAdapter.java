@@ -3,6 +3,7 @@
     import static com.Facybook_android.app.Context.MyApplication.context;
 
     import android.content.Context;
+    import android.content.DialogInterface;
     import android.content.Intent;
     import android.graphics.Bitmap;
     import android.util.Log;
@@ -15,26 +16,27 @@
     import android.widget.Toast;
 
     import androidx.annotation.NonNull;
-    import androidx.appcompat.app.AppCompatActivity;
-    import androidx.fragment.app.FragmentManager;
+    import androidx.appcompat.app.AlertDialog;
+    import androidx.appcompat.widget.PopupMenu;
     import androidx.recyclerview.widget.RecyclerView;
 
     import com.Facybook_android.app.Model.entities.Utilities;
     import com.Facybook_android.app.Model.entities.Post;
     import com.Facybook_android.app.View.Feed.EditPost;
-    import com.Facybook_android.app.View.Feed.ShareFragment;
     import com.Facybook_android.app.View.Feed.UserPage;
     import com.Facybook_android.app.View.Feed.comments;
     import com.Facybook_android.app.R;
+    import com.Facybook_android.app.View.Feed.menu;
+    import com.Facybook_android.app.View.LogIn.MainActivity;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
-    import com.Facybook_android.app.ViewModels.UsersViewModel;
 
+    import java.text.SimpleDateFormat;
     import java.util.Date;
     import java.util.List;
+    import java.util.TimeZone;
 
     public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
 
-        private final ShareFragment shareFragment;
         private final String LoggedInUser;
         private final String Type;
         private PostsViewModel postsViewModel;
@@ -64,10 +66,9 @@
 
         private List<Post> posts;
 
-        public PostsListAdapter(Context context, ShareFragment shareFragment,
-                                PostsViewModel postsViewModel, String LoggedInUser, String Type) {
+        public PostsListAdapter(Context context, PostsViewModel postsViewModel, String LoggedInUser,
+                                String Type) {
             mInflater = LayoutInflater.from(context);
-            this.shareFragment = shareFragment;
             this.postsViewModel = postsViewModel;
             this.LoggedInUser = LoggedInUser;
             this.Type = Type;
@@ -82,6 +83,11 @@
 
         public String getTimeElapsed(Date creationDate) {
             Date now = new Date();
+
+            // Log the current time and the creation time
+            System.out.println("Current time: " + now);
+            System.out.println("Creation time: " + creationDate);
+
             long difference = now.getTime() - creationDate.getTime(); // Difference in milliseconds
 
             long seconds = difference / 1000;
@@ -123,14 +129,16 @@
                        String postId = posts.get(adapterPosition).getPid();
                        Intent intent = new Intent(view.getContext(), comments.class);
                        intent.putExtra("postId", postId);
+                       intent.putExtra("LoggedInUser", LoggedInUser);
                        view.getContext().startActivity(intent);
                    }
                });
 
                // Find the likeBtn and set OnClickListener
                TextView likesText = holder.itemView.findViewById(R.id.numberLikes);
-
+               List<String> likes = current.getLikes();
                // Set the drawable resource based on the updated like status
+               current.setLiked(!likes.isEmpty() && likes.contains(LoggedInUser));
                int drawableResource = current.isLiked() ? R.drawable.like_pressed__icon : R.drawable.like_unpressed__ico;
                holder.likeButton.setImageResource(drawableResource);
 
@@ -138,43 +146,69 @@
                    // Toggle the like status
                    current.setLiked(!current.isLiked());
 
-                   int newLike = current.isLiked() ? current.getLikes() + 1: current.getLikes() - 1;
-                   current.setLikes(newLike);
-                   String likes = current.getLikesString();
-                   likesText.setText(likes);
-//
-//                   postsViewModel.update(posts.get(adapterPosition));
+                   if (current.isLiked()) {
+                       likes.add(LoggedInUser);
+                       current.setLikes(likes);
+                   } else {
+                       likes.remove(LoggedInUser);
+                       current.setLikes(likes);
+                   }
+                   postsViewModel.updateLikes(LoggedInUser, current.getPid(), current);
+
+                   String likesS = current.getLikesString();
+                   likesText.setText(likesS);
                    postsViewModel.reload();
                });
 
                // Inside onBindViewHolder method of PostsListAdapter
                ImageButton shareButton = holder.itemView.findViewById(R.id.shareBtn);
                shareButton.setOnClickListener(v -> {
-                   // Get the FragmentManager from the activity
-                   FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                   PopupMenu popupMenu = new PopupMenu(v.getContext(), shareButton);
+                   popupMenu.getMenuInflater().inflate(R.menu.share_menu, popupMenu.getMenu());
 
-                   // Check if the fragment is already added
-                   if (shareFragment.isAdded()) {
-                       // If the fragment is already added, check its current visibility
-                       if (shareFragment.isVisible()) {
-                           // If the fragment is visible, hide it
-                           fragmentManager.beginTransaction().hide(shareFragment).commit();
-                       } else {
-                           // If the fragment is hidden, show it
-                           fragmentManager.beginTransaction().show(shareFragment).commit();
-                       }
-                   } else {
-                       // If the fragment is not added, add it to the container
-                       fragmentManager.beginTransaction().add(R.id.fragment_container, shareFragment).commit();
-                   }
+//                   popupMenu.setOnMenuItemClickListener(menuItem -> {
+//                       switch (menuItem.getItemId()) {
+//                           case R.id.action_messenger:
+//                               Toast.makeText(v.getContext(), "Share via Messenger", Toast.LENGTH_SHORT).show();
+//                               return true;
+//                           case R.id.action_group:
+//                               Toast.makeText(v.getContext(), "Share to Group", Toast.LENGTH_SHORT).show();
+//                               return true;
+//                           case R.id.action_your_story:
+//                               Toast.makeText(v.getContext(), "Share to Your Story", Toast.LENGTH_SHORT).show();
+//                               return true;
+//                           case R.id.action_copy_link:
+//                               Toast.makeText(v.getContext(), "Link Copied", Toast.LENGTH_SHORT).show();
+//                               return true;
+//                           default:
+//                               return false;
+//                       }
+//                   });
+                   popupMenu.show();
                });
 
                ImageButton deleteBtn = holder.itemView.findViewById(R.id.deletePostBtn);
                deleteBtn.setOnClickListener(view -> {
-                   Log.e("delete", "deletebtn pressed");
-                   Post post = posts.get(adapterPosition);
-                   postsViewModel.delete(post.getPublisher(), post.getPid());
-                   postsViewModel.reload();
+                   AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                   builder.setTitle("Delete Post");
+                   builder.setMessage("Are you sure you want to delete this post?");
+
+                   builder.setPositiveButton("Yes", (dialog, id) -> {
+                       Post post = posts.get(adapterPosition);
+                       postsViewModel.delete(post.getPublisher(), post.getPid());
+                       postsViewModel.reload();
+                       Toast.makeText(context,
+                               "Post deleted successfully", Toast.LENGTH_SHORT).show();
+                   });
+                   builder.setNegativeButton("No", (dialog, id) -> {
+                       // User clicked the "No" button, dismiss the dialog
+                       if (dialog != null) {
+                           dialog.dismiss();
+                       }
+                   });
+
+                   AlertDialog alertDialog = builder.create();
+                   alertDialog.show();
                });
 
                ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);

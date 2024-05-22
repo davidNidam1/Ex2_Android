@@ -46,7 +46,6 @@
         private String user2view;
         private String LoggedInUser;
         private PostsListAdapter postsAdapter;
-        private ShareFragment shareFragment;
         private SwipeRefreshLayout swipeRefreshLayout;
         private PostsViewModel postsViewModel;
         private UsersViewModel usersViewModel;
@@ -59,7 +58,6 @@
             setContentView(R.layout.user_page_layout);
             postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
             usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
-            shareFragment = new ShareFragment();
 
             user2view = Objects.requireNonNull(Objects.requireNonNull(getIntent()
                     .getExtras()).get("user2view")).toString();
@@ -142,7 +140,7 @@
 
         private void setupRecyclerView() {
             RecyclerView lstPosts = findViewById(R.id.lstPosts);
-            postsAdapter = new PostsListAdapter(this, shareFragment, postsViewModel,
+            postsAdapter = new PostsListAdapter(this, postsViewModel,
                     LoggedInUser, "userPage");
             lstPosts.setAdapter(postsAdapter);
             lstPosts.setLayoutManager(new LinearLayoutManager(this));

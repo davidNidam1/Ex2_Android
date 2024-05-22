@@ -10,7 +10,9 @@
 
     import androidx.lifecycle.MutableLiveData;
 
+    import com.Facybook_android.app.Model.entities.Comment;
     import com.Facybook_android.app.Model.entities.Post;
+    import com.Facybook_android.app.Model.entities.User;
     import com.Facybook_android.app.Repository.interfaces.PostDao;
     import com.Facybook_android.app.Context.MyApplication;
     import com.Facybook_android.app.R;
@@ -158,13 +160,8 @@
             });
         }
 
-        public void update(String id, String pid, String text) {
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("text", text);
-                RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
-
-                Call<Post> call = webServiceAPI.updatePost(id, pid, body);
+        public void update(String id, String pid, Post post) {
+                Call<Post> call = webServiceAPI.updatePost(id, pid, post);
                 call.enqueue(new Callback<Post>() {
                     @Override
                     public void onResponse(Call<Post> call, Response<Post> response) {
@@ -183,10 +180,30 @@
                         // Handle failure
                     }
                 });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
+
+        public void updateLikes(String id, String pid, Post post) {
+            Call<Post> call = webServiceAPI.updateLikes(id, pid, post);
+            call.enqueue(new Callback<Post>() {
+                @Override
+                public void onResponse(Call<Post> call, Response<Post> response) {
+                    if (response.isSuccessful()) {
+                        executor.execute(() -> {
+                            synchronized (PostAPI.class) {
+                                dao.update(response.body());
+                                postListData.postValue(dao.index());
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Post> call, Throwable t) {
+                    // Handle failure
+                }
+            });
+        }
+
 
 
         public void fetchUsersPosts(String userId) {
@@ -212,7 +229,6 @@
                 }
             });
         }
-
         public void clear() {
             executor.execute(() -> {
                 synchronized (PostAPI.class) {

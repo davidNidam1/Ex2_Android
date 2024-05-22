@@ -6,7 +6,9 @@
     import androidx.room.Entity;
     import androidx.room.PrimaryKey;
 
+    import java.util.ArrayList;
     import java.util.Date;
+    import java.util.List;
     import java.util.UUID;
 
     @Entity
@@ -16,33 +18,34 @@
         private String publisher;
         private Date date;
         private String text;
-        private int likes;
-    //    private List<Comment> comments;
+        private List<String> likes;
+        private List<Comment> comments;
         private String picture;
         private String profilePic;
         private boolean isLiked;
 
-        public Post(String publisher, String text, String profilePic, int likes, String picture) {
+        public Post(String publisher, String text, String profilePic, String picture) {
             this.publisher = publisher;
             this.text = text;
             this.profilePic = profilePic;
             this.isLiked = false;
-            this.likes = likes;
             this.date = new Date();
             this.picture = picture;
+            this.likes = new ArrayList<>();
+            this.comments = new ArrayList<>();
             this.pid = "default";
         }
 
-    //    public List<Comment> getComments() {
-    //        return comments;
-    //    }
-    //
-    //    public void setComments(List<Comment> comments) {
-    //        this.comments = comments;
-    //    }
+        public List<Comment> getComments() {
+            return comments;
+        }
+
+        public void setComments(List<Comment> comments) {
+            this.comments = comments;
+        }
 
         public String getLikesString() {
-            return likes + " " + "likes";
+            return likes.size() + " " + "likes";
         }
 
         public boolean isLiked() {
@@ -61,7 +64,7 @@
             this.picture = picture;
         }
 
-        public int getLikes() {
+        public List<String> getLikes() {
             return likes;
         }
 
@@ -106,7 +109,7 @@
             this.text = text;
         }
 
-        public void setLikes(int likes) {
+        public void setLikes(List<String> likes) {
             this.likes = likes;
         }
 

@@ -25,12 +25,14 @@
     import com.Facybook_android.app.View.Feed.comments;
     import com.Facybook_android.app.R;
     import com.Facybook_android.app.View.LogIn.MainActivity;
+    import com.Facybook_android.app.ViewModels.CommentsViewModel;
     import com.Facybook_android.app.ViewModels.PostsViewModel;
     import com.Facybook_android.app.ViewModels.UsersViewModel;
 
     import java.io.FileNotFoundException;
     import java.io.IOException;
     import java.io.InputStream;
+    import java.util.List;
     import java.util.UUID;
 
     public class FeedModel {
@@ -56,8 +58,7 @@
                 String postPath = Utilities.inputStreamToBase64(inputStream);
 
                 // Create a new Post object with the retrieved data and calculated time
-                Post newPost = new Post(publisher, postContent, profilePic,
-                        0, postPath);
+                Post newPost = new Post(publisher, postContent, profilePic, postPath);
                 assert postContent != null;
                 Log.e("postContent", postContent);
                 postsViewModel.add(newPost, publisher);
@@ -76,15 +77,14 @@
             return true;
         }
 
-        public void addComment(Context context, CommentsListAdapter adapter, EditText comment,
-                               int postId) {
+        public void addComment(String pic, EditText comment, String publisher,
+                               Post post, CommentsViewModel commentsViewModel) {
             String commentText = comment.getText().toString();
-            Drawable profilePic = context.getDrawable(R.drawable.user_ico);
-            Comment e = new Comment(profilePic, commentText, "nickName", postId);
+            Comment e = new Comment(pic, commentText, publisher, post.getPid());
             if (!commentText.isEmpty()) {
-                comments.commentDao.insert(e);
-                adapter.setCommentsL(comments.commentDao.getCommentsForPost(postId));
-                adapter.reload();
+                commentsViewModel.addComment(publisher, post.getPid(), e);
+                comment.setText("");
+                commentsViewModel.getPostsComments(publisher, post.getPid());
             }
         }
 

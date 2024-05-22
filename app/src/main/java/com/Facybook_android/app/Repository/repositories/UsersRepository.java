@@ -42,9 +42,7 @@ public class UsersRepository {
         @Override
         protected void onActive() {
             super.onActive();
-            new Thread(() -> {
-                userData.postValue(userDao.index());
-            }).start();
+            new Thread(() -> userData.postValue(userDao.index())).start();
         }
     }
 

@@ -1,5 +1,6 @@
 package com.Facybook_android.app.API;
 
+import com.Facybook_android.app.Model.entities.Comment;
 import com.Facybook_android.app.Model.entities.Post;
 import com.Facybook_android.app.Model.entities.Token;
 import com.Facybook_android.app.Model.entities.User;
@@ -27,8 +28,18 @@ public interface WebServiceAPI {
     Call<Void> deleteUser(@Path("id") String id);
     @DELETE("api/users/{id}/posts/{pid}")
     Call<Post> deletePost(@Path("id") String id, @Path("pid") String pid);
+    @GET("api/users/{id}/posts/{pid}/comments")
+    Call<List<Comment>> getPostsComments(@Path("id") String id, @Path("pid") String pid);
+    @POST("api/users/{id}/posts/{pid}/comments")
+    Call<Comment> postComment(@Path("id") String id, @Path("pid") String pid, @Body Comment comment);
+    @DELETE("api/users/{id}/posts/{pid}/comments/{cid}")
+    Call<Comment> deleteComment(@Path("id") String id, @Path("pid") String pid, @Path("cid") String cid);
+    @PATCH("api/users/{id}/posts/{pid}/comments")
+    Call<Comment> updateComment(@Path("id") String id, @Path("pid") String pid, @Body Comment comment);
     @PATCH("api/users/{id}/posts/{pid}")
-    Call<Post> updatePost(@Path("id") String id, @Path("pid") String pid, @Body RequestBody body);
+    Call<Post> updatePost(@Path("id") String id, @Path("pid") String pid, @Body Post post);
+    @PATCH("api/users/{id}/posts/{pid}/likes")
+    Call<Post> updateLikes(@Path("id") String id, @Path("pid") String pid, @Body Post post);
     @POST("api/users")
     Call<Void> createUser(@Body User user);
     @POST("api/tokens")

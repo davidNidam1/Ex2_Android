@@ -15,8 +15,8 @@
         @Query("SELECT * FROM comment")
         List<Comment> index();
 
-        @Query("SELECT * FROM comment WHERE id = :id")
-        Comment get(int id);
+        @Query("SELECT * FROM comment WHERE cid = :id")
+        Comment get(String id);
 
         // Method to delete all entries from the database
         @Query("DELETE FROM comment")
@@ -28,6 +28,9 @@
 
         @Insert
         void insert(Comment... comment);
+
+        @Insert
+        void insert(List<Comment> comments);
 
         @Update
         void update(Comment... comment);

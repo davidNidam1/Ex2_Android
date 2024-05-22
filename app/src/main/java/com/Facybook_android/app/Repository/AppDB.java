@@ -11,7 +11,7 @@
     import com.Facybook_android.app.Repository.interfaces.PostDao;
     import com.Facybook_android.app.Repository.interfaces.UserDao;
 
-    @Database(entities = {Post.class, Comment.class, User.class},  version = 40)
+    @Database(entities = {Post.class, User.class, Comment.class},  version = 45)
     @TypeConverters(Converters.class)
     public abstract class AppDB extends RoomDatabase {
         public abstract PostDao postDao();

@@ -75,22 +75,19 @@
         private void showDeleteConfirmationDialog() {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Delete Account");
-            builder.setMessage("Are you sure you want to delete this account?");
+            builder.setMessage("Are you sure you want to delete this account? " +
+                    "if you choose to proceed you will be logged out.");
 
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User clicked the "Yes" button, so delete the account.
-                    usersViewModel.delete(user.getName());
-                    Intent i = new Intent(menu.this, MainActivity.class);
-                    startActivity(i);
-                }
+            builder.setPositiveButton("Yes", (dialog, id) -> {
+                // User clicked the "Yes" button, so delete the account.
+                usersViewModel.delete(user.getName());
+                Intent i = new Intent(menu.this, MainActivity.class);
+                startActivity(i);
             });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User clicked the "No" button, dismiss the dialog
-                    if (dialog != null) {
-                        dialog.dismiss();
-                    }
+            builder.setNegativeButton("No", (dialog, id) -> {
+                // User clicked the "No" button, dismiss the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
                 }
             });
 

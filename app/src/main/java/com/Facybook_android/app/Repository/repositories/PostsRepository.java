@@ -6,6 +6,7 @@
 
     import com.Facybook_android.app.API.PostAPI;
     import com.Facybook_android.app.Context.MyApplication;
+    import com.Facybook_android.app.Model.entities.Comment;
     import com.Facybook_android.app.Model.entities.Post;
     import com.Facybook_android.app.Repository.AppDB;
     import com.Facybook_android.app.Repository.interfaces.PostDao;
@@ -27,10 +28,6 @@
             api = new PostAPI(postListData, dao);
         }
 
-        public void getUsersPosts(String id) {
-            api.fetchUsersPosts(id);
-        }
-
         class PostListData extends MutableLiveData<List<Post>> {
             public PostListData() {
                 super();
@@ -40,19 +37,21 @@
             @Override
             protected void onActive() {
                 super.onActive();
-                new Thread(() -> {
-                    postListData.postValue(dao.index());
-                }).start();
+                new Thread(() -> postListData.postValue(dao.index())).start();
             }
 
         }
         public LiveData<List<Post>> getAll() {
             return postListData;
         }
+        public void getUsersPosts(String id) {
+            api.fetchUsersPosts(id);
+        }
         public void add(final Post post, String id) { api.add(post, id);}
         public void delete (String publisher, String postId) { api.delete(publisher, postId); }
         public void reload() { api.get(); }
         public void reload(String id) { api.fetchUsersPosts(id); }
-        public void update(String id, String pid, String text) { api.update(id, pid, text); }
+        public void update(String id, String pid, Post post) { api.update(id, pid, post); }
+        public void updateLikes(String id, String pid, Post post) { api.updateLikes(id, pid, post); }
         public void clear() { api.clear(); }
     }
