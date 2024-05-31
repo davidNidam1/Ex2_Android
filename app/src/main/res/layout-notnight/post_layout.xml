@@ -57,7 +57,8 @@
         app:layout_constraintBottom_toTopOf="@+id/post_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:visibility="visible">
 
         <ImageButton
             android:id="@+id/editPostBtn"

@@ -115,6 +115,9 @@
                     } else if (response.code() == 404) {
                         Toast.makeText(context, "User not found",
                                 Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 403) {
+                        Toast.makeText(context, "Contains corrupted URL!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -172,6 +175,9 @@
                                     postListData.postValue(dao.index());
                                 }
                             });
+                        } else if (response.code() == 403) {
+                            Toast.makeText(context, "Contains corrupted URL!",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
 

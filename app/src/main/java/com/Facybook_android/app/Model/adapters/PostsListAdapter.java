@@ -12,6 +12,7 @@
     import android.view.ViewGroup;
     import android.widget.ImageButton;
     import android.widget.ImageView;
+    import android.widget.LinearLayout;
     import android.widget.TextView;
     import android.widget.Toast;
 
@@ -189,26 +190,31 @@
 
                ImageButton deleteBtn = holder.itemView.findViewById(R.id.deletePostBtn);
                deleteBtn.setOnClickListener(view -> {
-                   AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                   builder.setTitle("Delete Post");
-                   builder.setMessage("Are you sure you want to delete this post?");
+                   if(LoggedInUser.equals(current.getPublisher())) {
+                       AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                       builder.setTitle("Delete Post");
+                       builder.setMessage("Are you sure you want to delete this post?");
 
-                   builder.setPositiveButton("Yes", (dialog, id) -> {
+                       builder.setPositiveButton("Yes", (dialog, id) -> {
+                           Post post = posts.get(adapterPosition);
+                           postsViewModel.delete(post.getPublisher(), post.getPid());
+                           postsViewModel.reload();
+                           Toast.makeText(context,
+                                   "Post deleted successfully", Toast.LENGTH_SHORT).show();
+                       });
+                       builder.setNegativeButton("No", (dialog, id) -> {
+                           // User clicked the "No" button, dismiss the dialog
+                           if (dialog != null) {
+                               dialog.dismiss();
+                           }
+                       });
+
+                       AlertDialog alertDialog = builder.create();
+                       alertDialog.show();
+                   } else {
                        Post post = posts.get(adapterPosition);
                        postsViewModel.delete(post.getPublisher(), post.getPid());
-                       postsViewModel.reload();
-                       Toast.makeText(context,
-                               "Post deleted successfully", Toast.LENGTH_SHORT).show();
-                   });
-                   builder.setNegativeButton("No", (dialog, id) -> {
-                       // User clicked the "No" button, dismiss the dialog
-                       if (dialog != null) {
-                           dialog.dismiss();
-                       }
-                   });
-
-                   AlertDialog alertDialog = builder.create();
-                   alertDialog.show();
+                   }
                });
 
                ImageButton editBtn = holder.itemView.findViewById(R.id.editPostBtn);
